@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<!--App自定义的css-->
+		<!--<link rel="stylesheet" type="text/css" href="../css/app.css" />-->
+		<style>
+			.mui-table-view.mui-grid-view .mui-table-view-cell {
+				font-size: 17px;
+				display: inline-block;
+				margin-right: -1px;
+				padding: 6px 0 0 10px;
+				text-align: center;
+				vertical-align: middle;
+				background: 0 0;
+			}
+			
+			.mui-card {
+				font-size: 14px;
+				position: relative;
+				overflow: hidden;
+				margin: 5px;
+				border-radius: 1px;
+				background-color: #fff;
+				background-clip: padding-box;
+				box-shadow: 1 1px 1px rgba(0, 0, 0, .2);
+			}
+			
+			.mui-checkbox input[type=checkbox]:checked:before,
+			.mui-radio input[type=radio]:checked:before {
+				color: #FF4B4A;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back" style="color:red;"></a>
+			<h1 class="mui-title">订单确认</h1>
+		</header>
+		<div class="mui-content">
+
+			<div @tap="open_detail('out')"  class="hdj-space-between" style="padding:20px; margin-bottom: 6px;background-color: white;">
+				<div>
+					<p class="hdj-balck hdj-fsize5 hdj-center">
+						<img style="width: 20px; margin-right: 15px;" src="../images/logo11.png">
+						<span>收货人: {{addressinfo.mbaName}}</span>
+						<span style="margin-left: 40px;">{{addressinfo.mbaPhone}}</span>
+					</p>
+					<p class="hdj-fsize5 hdj-center" style="color: #949494;margin-top: 20px;">
+						<img style="margin-right: 15px;width: 20px;" src="../images/logo12.png">
+						<span>{{addressinfo.mbaProvinceName}}</span>
+						<span>{{addressinfo.mbaCityName}}</span>
+						<span>{{addressinfo.mbaOraName}}</span>
+						<span>{{addressinfo.mbaAddress}}</span>
+					</p>
+				</div>
+				<a style="color: gray;">
+					<span class="mui-icon mui-icon-arrowright"></span>
+				</a>
+			</div>
+			<!--商品内容-->
+			<div id="item1" style="padding:20px; margin-bottom: 6px;background-color: white;">
+
+				<div class="hdj-center">
+					<img style="margin-right: 10px;width: 24px;" src="../images/logo13.png">
+					<span class="hdj-balck hdj-fsize2">{{mercName}}</span>
+				</div>
+				<!-------->
+				<div class="hdj-flex" style="margin-top: 10px;">
+					<div class="mui-media-body mui-col-xs-3 mui-col-sm-3">
+							<div class="hdj-img-wrap1" >
+								<img src="../images/demo/v3.jpg" class="hdj-img-cont">
+							</div>
+					</div>
+					<div class="mui-media-body mui-col-xs-9 mui-col-sm-9" style="margin-left: 15px;">
+						<div class="hdj-space-between">
+							<span class="mui-ellipsis hdj-fsize2" style="width:70%;">{{goodsinfo.gsiName}}</span>
+							<span class="hdj-fsize1">¥366</span>
+						</div>
+						<p class="hdj-fsize3 hdj-space-between" >
+							<span>{{gsarContent}}</span>
+							<span style="text-decoration:line-through">¥87</span>
+						</p>
+						<p style="margin-top: 10px; font-size: 14px; color: #949494; display: flex; justify-content: space-between;display: -webkit-flex; -webkit-justify-content: space-between;">
+							<span></span>
+							<span style="color: #000000;">x4</span>
+						</p>
+					</div>
+				</div>
+				<!-------------->
+			</div>
+			<!---------------->
+			<div style="padding:20px; margin-bottom: 6px;background-color: white;">
+				<div style="font-size: 15px; color: #333333;">
+					<span>配送方式</span>
+					<span class="mui-pull-right">默认快递</span>
+				</div>
+				<p style="margin-top: 20px;">
+					<a @tap="open_detail('in')" style="font-size: 14px; color: #949494;">
+						<span>优惠卷</span>
+						<span class="mui-pull-right" v-if="!selectCoupon.cptOrderminmoney">
+		    	  	    	请选择优惠券
+		    	  	    	<span class="mui-icon mui-icon-arrowright"></span>
+						</span>
+						<span class="mui-pull-right" v-if="selectCoupon.cptOrderminmoney">
+		    	  	    	满200减12
+		    	  	    	<span class="mui-icon mui-icon-arrowright"></span>
+						</span>
+					</a>
+				</p>
+				<div  class="mui-input-row mui-radio mui-right" style="font-size: 14px; color: #949494;padding-top: 10px;">
+					<span >
+					        <span>可用积分44</span>
+					        <span style="margin-left: 40%;">积分抵扣¥ 44</span> 
+					</span>
+					<input  type="radio" v-model="usescore" value=1 style="margin-right: -20px;">
+				</div>
+				<p style="font-size: 14px; color: #949494;margin-top: 15px;">
+					<span>快递运费</span>
+					<span class="mui-pull-right">¥78</span>
+				</p>
+				<div style="font-size: 14px; padding-top: 20px; text-align:right;border-top: 1px solid gainsboro;">
+					结算：<span style="margin-left: 13px; color: #f85b4f;font-size:medium;">¥89</span>
+				</div>
+			</div>
+
+			<div style="display: none; padding:20px; margin-bottom: 5px;background-color: white;">
+
+				<p><span>订单编号：</span><span>45555</span></p>
+				<p><span>下单时间：</span><span>2017-10-11 12：34：55</span></p>
+
+			</div>
+
+			<div style="padding:16px; margin-bottom: 5px;background-color: white;">
+				<div style="font-size: 14px;">
+					<span>合计：<span  style="color: #f85b4f;font-size:18px;">¥ 677</span></span>
+					<button id="subOrder" data-loading-text="提交中" style="width: 110px; background-color: #f85b4f; font-size:13px;" @tap="order_create()" class="mui-pull-right mui-btn mui-btn-red">
+		    	 		立即下单
+		    	 	</button>
+
+				</div>
+			</div>
+
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/server.js"></script>
+		<script>
+			var inmoney=null;
+			var outmoney =null;
+			var pay_order =null;
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			mui.ready(function() {
+				/*inmoney = preload("choisecoupon.html");
+			    outmoney = preload("listaddres.html");
+			    pay_order = preload("pay_order.html");*/
+			    
+				vm.mbId = h5_mbinfo.mbId;
+				if(localStorage.getItem("lauchFlag")) {
+					var data = {mbId: vm.mbId};
+					var apiname = "memAddressApi/list" + ".do";
+					mui.post(servername + apiname, data, function(rsp) {
+						// console.log(JSON.stringify(rsp));
+						vm.addressinfo = rsp[0];
+						var odetail=JSON.parse(localStorage.getItem('order_detail'));
+                            get_order(odetail);
+                            if(localStorage.getItem("choiseCouponok")) {
+					                     selectCoupon();
+				                     }
+                            if(localStorage.getItem("choisedAddress")) {
+					                     choisedAddress();
+				                     }
+
+					}, 'json');
+				};
+				
+				/*if(localStorage.getItem("choiseCouponok")) {
+					 choisedAddress(JSON.parse(localStorage.getItem('order_detail')));
+				}*/
+				
+			});
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {
+				    usescore: 0,
+					mercName: '',
+					mbId: '',
+					giNumbe: '',
+					giId: '',
+					odId: '',
+					giPrice: '',
+					alone: '',
+					gsarContent: '',
+					goodsinfo: {"id": "402882035fa0ee27015fa164149e0002",
+            "gsiName": "芭蒂娜短外套冬季白色短款加厚高端大牌品牌羊皮毛大毛领羽绒服女 米白 M",
+            "gsiPrice": 111,
+			"srCount":22,
+			"srSalecount":12,
+            "gsiMarketprice": 331,
+            "group": [{ "mbId": "../images/demo/mm.jpg"},{ "mbId": "../images/demo/mm.jpg"}],
+            "groupCount": 0},
+					calc: {},
+					addressinfo: {"id":"4028ef81600ab4c201600ad8f7db0000","mbaCityName":"青岛市","mbaOraName":"市北区","mbaProvinceName":"山东省","mbaProvince":"370000","mbaAddress":"深圳路888号","mbaCity":"370200","mbaOrg":"370203","mbaName":"joker","mbaPhone":"1528898****","mbaState":1,"mbaDefault":0}
+			,
+					gpoId : '',
+					selectCoupon : {},
+					mercId : ''
+				}
+			});
+			/*----------获取订单数据-*/
+           
+            
+			function get_order(eventdetail) {
+				console.info('接受:'+JSON.stringify(eventdetail))
+				vm.mercName = eventdetail.mercName;
+				vm.mercId = eventdetail.mercId;
+				vm.goodsinfo = eventdetail.ginfo;
+				vm.giId = eventdetail.giId;
+				vm.alone = eventdetail.alone;
+				vm.gsarContent = eventdetail.gsarContent;
+				// vm.giPrice = event.detail.giPrice;
+				vm.giNumbe = eventdetail.giNumbe;
+				vm.gpoId = eventdetail.gpoId;
+				vm.selectCoupon = {};
+				console.info('加入的拼团:'+vm.gpoId);
+				console.log("<--导入货品id-----:" + vm.goodsinfo.id);
+				console.log("会员ID------->" + vm.mbId);
+				console.log("<--选择商品规格id-----:" + vm.giId);
+				console.log("是否单独购买--->" + vm.alone)
+				console.log("地址id" + vm.addressinfo.id);
+				order_calculate();
+			};
+
+			function order_calculate() {
+				//alert(vm.mbId);
+				console.log("--->拼单计算费用");
+				var data = {
+					gsiId: vm.goodsinfo.id,
+					adId: vm.addressinfo.id,
+					count: vm.giNumbe,
+					giId: vm.giId,
+					alone: vm.alone,
+					mbId: vm.mbId,
+					cptId : vm.selectCoupon.cptId?vm.selectCoupon.cptId:''			
+				};
+				console.log(JSON.stringify(data));
+				var apiname = "orderApi/calculate" + ".do";
+				mui.post(servername + apiname, data, function(rsp) {
+					console.log(JSON.stringify(rsp));
+					vm.calc = rsp;
+				}, 'json');
+
+			}
+			//--------------------------	 
+			function order_create() {
+				//mui('#subOrder').button('loading');
+				console.log("确认下单");
+				mui.openWindow('pay_order.html');
+				return;
+				var data = {
+					gsiId: vm.goodsinfo.id,
+					adId: vm.addressinfo.id,
+					count: vm.giNumbe,
+					giId: vm.giId,
+					alone: vm.alone,
+					mbId: vm.mbId,
+					useintegral: false,
+					mbcpId: '',
+					gopId: '',
+					srId : vm.goodsinfo.srId
+				};
+				if(vm.gpoId){
+					data.gopId = vm.gpoId;
+				}
+				if(vm.selectCoupon && vm.selectCoupon.mcId){
+					data.mbcpId = vm.selectCoupon.mcId;
+				}
+				console.log('下单请求:'+JSON.stringify(data));
+				var apiname = "orderApi/upOrder" + ".do";
+				mui.post(servername + apiname, data, function(rsp) {
+					console.log("获取订单id" + JSON.stringify(rsp));
+					//mui.toast(rsp.msg);
+					setTimeout(function() {
+				        mui('#subOrder').button('reset');
+				   }.bind(this), 150);					
+					if(rsp.code == 0) {
+						vm.odId = rsp.odId;
+						order_confim(rsp.odId);
+					}else{
+						mui.toast(rsp.msg,'short');
+					}
+				}, 'json');
+
+			}
+			
+			function order_confim(odId) {
+				console.info('传输:'+odId);
+				var pdata={
+					mercName: vm.mercName,
+					gsiId: vm.goodsinfo.gsiId,
+					gsiName: vm.goodsinfo.gsiName,
+					gsiPrice: vm.goodsinfo.gsiPrice,
+					gsiMarketprice: vm.goodsinfo.gsiMarketprice,
+					gsarContent: vm.gsarContent,
+					giNumbe :  vm.giNumbe,
+					odId: odId,
+					totalMoney: vm.calc.totalMoney - vm.calc.couponMoney,
+					freigMoney:vm.calc.freigMoney
+				};
+				localStorage.setItem("pay_detail",JSON.stringify(pdata));
+			    mui.openWindow('pay_order.html');
+				/*setTimeout(function() {
+					pay_order.show("slide-in-right", 300);
+				}, 150);*/
+			}
+			//document.addEventListener('selectCoupon',function(event){
+			function selectCoupon(){
+				//console.info('pp选择了优惠券:'+JSON.stringify(eventdetail));
+				vm.selectCoupon = JSON.parse(localStorage.getItem('choiseCouponok'));
+				console.info('pp选择了优惠券:--'+JSON.stringify(vm.selectCoupon));
+				// alert("pp"+!vm.selectCoupon.cptOrderminmoney);
+				order_calculate();
+			};
+			
+			
+			//document.addEventListener('choisedAddress',function(event){
+			function choisedAddress(){
+				//console.info('选择了地址:'+JSON.stringify(eventdetail));
+				vm.addressinfo =JSON.parse(localStorage.getItem('choisedAddress')); 
+				order_calculate();
+			};
+			function open_detail(mtype) {
+				//var openw = null;
+				if(mtype == "in") {
+					//openw = inmoney;
+					var cdata={						
+						totalMoney: vm.calc.totalMoney - vm.calc.couponMoney,
+						freigMoney:vm.calc.freigMoney,
+						mercId : vm.mercId,
+						gsiId :vm.goodsinfo.gsiId
+					};
+					localStorage.setItem("choiseCoupon",JSON.stringify(cdata));
+					mui.openWindow('choisecoupon.html');
+				}
+				if(mtype == "out") {					
+					//openw = outmoney;
+					//mui.fire(openw, "choiseAddress", {chosiseModel:true});
+					
+					localStorage.setItem("chosiseModel",'true');
+			        mui.openWindow('listaddres.html');
+				}
+				/*setTimeout(function() {
+					openw.show("slide-in-right", 300);
+				}, 150);*/
+			}
+			/*----*/
+			function scr(){
+			     //alert(vm.usescore);
+			}
+		</script>
+
+	</body>
+
+</html>

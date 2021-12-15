@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" href="../css/hdj.css">
+		<style>
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+    margin: 0;
+    padding: 1px 5px;
+    vertical-align: top;
+    border-right: 0px solid #eee;
+    border-bottom: 0px solid #eee;
+ 
+}
+		</style>
+	</head>
+
+	<body style="background-color: orangered;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"  style="color:red;"></a>
+			<h1 class="mui-title">邀请好友</h1>
+			<a class="mui-icon mui-pull-right"  onclick="sharelist()" ><span style="color: black;font-size: medium;">分享记录</span></a>
+			
+		</header>
+	<div class="mui-content" style="background-color: orangered;">	
+	   <div style="text-align: center; margin: 4vw; background-color: white;padding: 10px;border-radius: 8px;">
+			     <br/><span>邀请好友下载APP送红包 </span> <br/> <br/>             
+	             <img onclick="open_regv()" style="border: 1px solid gainsboro;width: 50vw;padding: 15px;" src="../images/qr.jpg"> 
+	          <div style="background-size: cover; background-image:url(../images/);"> 
+				 <br/><span style="color: orangered;">分享成功 </span><br/> 
+			     <span style="color: orangered;">即可获得20元无门槛送红包</span> 
+			  </div> 
+		</div>
+		<!------------->
+		<div style="margin: 4vw; background-color: white;padding: 10px;border-radius: 8px;">
+			    <div style="text-align: center;padding: 20px;">
+					               -------分享到 -------
+		        </div>
+				<ul  id="share" class="mui-table-view mui-grid-view mui-grid-9" style="background-color: white; border: 0px;">
+		           
+		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" onclick="shareWeixinMessage('WXSceneSession')"><a href="#">
+		                     <img src="../images/fenxiang_weixin.png" style="width: 40%;">
+		                    <div class="mui-media-body">微信好友</div></a></li>
+		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" onclick="shareWeixinMessage('WXSceneTimeline')"><a href="#">
+		                    <img src="../images/fenxiang_pengyouquan.png" style="width: 40%;">
+		                    <div class="mui-media-body">朋友圈</div></a></li>
+		           <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" onclick="shareqqMessage()"><a href="#">
+		                   <img src="../images/fenxiang_qq.png" style="width: 40%;">
+		                    <div class="mui-media-body">QQ</div></a></li>
+		        </ul> 
+				     
+		</div>
+	</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/server.js"></script>
+		<script src="../js/share.js"></script>
+		<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+	
+		function sharelist(){
+			/*var sharelist=preload("sharelist.html")
+			setTimeout(function () {
+					sharelist.show("slide-in-right", 300);
+				},150);*/
+			 mui.openWindow("sharelist.html");	
+		}
+		function open_regv(){
+			 mui.openWindow("../login/regv.html");
+		}
+		//document.getElementById("about").addEventListener('tap',function () {
+			//获得主页面的webview
+			// plus.webview.currentWebview().hide();
+			//触发主页面的gohome事件
+			//mui.fire(main,'gohome');
+		//});
+	</script>
+	</body>
+
+</html>

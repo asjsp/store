@@ -1,0 +1,1335 @@
+
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			[v-cloak] {
+			    display: none;
+			}
+			.title {
+				margin: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+			
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+				margin: 0;
+				padding: 2px 2px;
+				vertical-align: top;
+				border-right: 1px solid #eee;
+				border-bottom: 1px solid #eee;
+			}
+			
+			.mui-table-view:before {
+				height: 0px;
+			}
+			
+			.mui-table-view:after {
+				height: 0px;
+			}
+			
+			.mui-table-view-cell:after {
+				height: 0px;
+			}
+			/*-----------拼单列表------*/
+			
+			#topPopover {
+				
+				width: 90%;
+				
+				
+			}
+			/*-----------加入拼单------*/
+			
+			#spPopover {
+				position: absolute;
+				height: auto;
+				width: 90%;
+				margin-top: -100px;
+			}
+			
+			.mui-popover-arrow {
+				display: none;
+			}
+		</style>
+		<style type="text/css">
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto 4;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			p img {
+				max-width: 100%;
+				height: auto;
+			}
+			[v-cloak] {
+			    display: none;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-icon mui-action-back mui-icon-left-nav mui-pull-left" style="color:#FF4B4A;"></a>
+			<h1 class="mui-title">
+				商品详情
+			</h1>
+			<a id="share" class="mui-pull-right" style="color:red;" href="#sharepop">
+				<img src="../images/share.png" class="hdj-share">
+			</a>
+		</header>
+		<nav class="mui-bar mui-bar-tab" id="bottom">
+			<a class="mui-tab-item" href="main" style="background-color: #fbfbfb;">
+				<img src="../images/bt1.png" class="hdj-btnv">
+				<p class="mui-tab-label hdj-btnf">首页</p>
+			</a>
+			<a class="mui-tab-item" href="#picture" style="background-color: #fbfbfb;">
+				<img src="../images/bt2.png" class="hdj-btnv">
+				<p class="mui-tab-label hdj-btnf">客服</p>
+			</a>
+			<a class="mui-tab-item" href="care" style="background-color: #fbfbfb;">
+				<img :src="careimg" class="hdj-btnv">
+				<p class="mui-tab-label hdj-btnf">收藏</p>
+			</a>
+			<a id='ddg' class="mui-tab-item hdj-btnr2" @tap="gopd(true)" style="width: 1.7%;">
+				<span style="color: white;">¥{{gsiPrice}}</span>
+
+				<p style="color: white;margin: 0;">单独购买</p>
+			</a>
+			<a class="mui-tab-item hdj-btnr" @tap="gopd(false)"  style="width: 2.5%;">
+				<span style="color: white;">¥{{gsiGroupprice}}</span>
+
+				<p style="color: white;margin: 0;">我要拼单</p>
+			</a>
+		</nav>
+
+		<div class="mui-content" v-cloak>
+			<!--------------------------------------------------滑动广告gally--------------------------------------------------------------------------->
+			<div id="slider" class="mui-slider" style="height: 100vw;width: 100vw; overflow: hidden;">
+				<div class="mui-slider-group ">
+					<div class="mui-slider-item" v-for="item in info.goodsBannerEntity">
+						<img src="../images/demo/v3.jpg" style="width: 100%;height: auto;" data-preview-src="" data-preview-group="1">
+					</div>
+				</div>
+				<div class="mui-slider-indicator">
+					<div class="mui-indicator" :class="{'mui-active':(index==0)}" v-for="(item,index) in info.goodsBannerEntity"></div>
+				</div>
+			</div>
+			<!----商品信息------------------------------------------------------------------------------------>
+			<ul class="mui-table-view" id="tops">
+				<li class="mui-table-view-cell hdj-fsize1 hdj-balck">
+					<div class="mui-ellipsis" style="padding-top: 2px;">{{goodsinfo.gsiName}}</div>
+					<div class="hdj-fsizea hdj-red" style="margin-top: 12px;">¥ {{goodsinfo.gsiPrice}}</div>
+					<div  class="hdj-fsize4 hdj-gray3">{{info.gsilntro}}</div>
+					<p style="margin-top: 8px" style="">
+						<span v-for="item in info.bgoodsServers" type="button" class="mui-btn mui-btn-danger mui-btn-outlined" style="font-size: 11.5px;padding:1px;margin-right: 8px;">
+							{{item.gsName}}
+						</span>
+					</p>
+					
+				</li>
+
+			</ul>
+			<!----------拼单-->
+			<ul class="mui-table-view" style="margin-top: 1px;">
+				<li class="mui-table-view-cell">
+					<a href="#topPopover" style="display: flex;align-items: center;justify-content: space-between;display: -webkit-flex;-webkit-align-items: center;-webkit-justify-content: space-between;">
+						<span>
+							<img  src="../images/demo/mm.jpg" v-for="gp in info.groupOrder"  class="hdj-head" >
+                        </span>
+						<span class="hdj-fsize2 hdj-gray">
+							  <span >{{info.groupCount}}</span>人正在拼单
+						<span class="mui-icon mui-icon-arrowright"></span>
+						</span>
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view" style="margin-top: 1px;">
+				<li v-for="item in groupOrder" class="mui-table-view-cell  mui-media">
+					<div class="hdj-space-between">
+						<div class="hdj-center">
+							<img class="hdj-head1" src="../images/demo/mm.jpg">
+							<span style="margin-left: 8px;padding: 4px">
+                             	<div class="hdj-balck hdj-fsize2">
+                             		{{item.mbPetname}}
+                             		<span style="margin-left: 20px;" class="hdj-fsize3 hdj-gray">
+                             			还差
+                             			<span  class="hdj-red">6</span> 人
+							</span>
+						</div>
+						<div style="display: flex; background: gainsboro;width: 120px;height: 7px;border-radius: 20px;margin-top: 10px;">
+							<div v-bind:style="{ width: (item.gpoCompletenum/item.gpoNeednum)*100+'%',}" style="background: #Fe5858;height: 7px;border-radius: 20px;"></div>
+						</div>
+						</span>
+					</div>
+					<div @tap="add_gpo(item)"  style="margin-right: 5px;" class="hdj-btn1">
+						加入拼单
+					</div>
+		           </div>
+		        </li>
+		</ul>
+		<!--------------评价------------>
+		<ul class="mui-table-view" style="margin-top: 5px;">
+			<li class="mui-table-view-cell">
+				<a @tap="open_pj(info.id)" class=" hdj-balck hdj-fsize1">
+					<span class="hdj-left">商品评价 ({{pjCount}})</span>
+					<span class="hdj-gray mui-pull-right mui-icon mui-icon-arrowright"></span>
+				</a>
+
+			</li>
+			<li @tap="open_pj(info.id)" v-for="item in pjinfo" class="mui-table-view-cell" style="margin-bottom: 10px;">
+				<div class="hdj-space-between">
+					<p class="hdj-center">
+						<img class="hdj-head" src="../images/demo/mm.jpg">
+						<span class="hdj-balck  hdj-fsize2" style="margin-left: 10px;">昵称</span>
+					</p>
+					<span>
+							<i v-for="x in 5"  class="hdj-fsize2 mui-icon mui-icon-star-filled"  v-bind:style="{color: ctcolor(x>item.cmtScore),}">
+								
+							</i>
+						</span>
+				</div>
+				<div style="padding-left: 40px;padding-top: 10px;">
+					<p class="hdj-balck hdj-fsize5" style="padding-bottom: 10px;color: #555555;">{{unescape(item.cmtContent)}}</p>
+					<ul  class="mui-table-view mui-grid-view">
+							<li  @tap="preimg(item.pictures,key)" v-for="(mg,key) of item.pictures" class="mui-table-view-cell  mui-col-xs-4 mui-col-sm-4" style="margin: 0px;padding: 1px;">
+								<div class="hdj-img-wrap1" >
+						           <img src="../images/demo/v2.jpg" class="hdj-img-cont" >
+				                </div>
+							</li>
+					</ul>
+					<!--<div class="hdj-grid">
+						<div v-for="mg of item.pictures" style="width: 120px; height: 120px;overflow: hidden;margin-bottom: 2px; margin-right: 2px;">
+							<img :src="getserverimg(mg.id,10)" style="height:auto;width:100%;">
+						</div>
+					</div>-->
+					
+				</div>
+			</li>
+			<div  style="text-align: center;padding: 10px;" class="mui-button-row">
+				
+				<span @tap="open_pj(info.id)" class="mui-btn mui-btn-outlined" style="width: 110px;font-size: 12px; ">查看全部评价</span>
+				
+			</div>
+		</ul>
+		<!--------------店铺----------->
+		<ul class="mui-table-view" style="margin-top: 5px;">
+			<li class="mui-table-view-cell">
+				<a @tap="open_dp(info.bMerchantEntity)" class="hdj-space-between hdj-balck hdj-fsize1">
+					<span class="hdj-left">店铺信息</span>
+				</a>
+			</li>
+			<li class="mui-table-view-cell" id="dianpu" @tap="open_dp(info.bMerchantEntity)">
+				<div class="hdj-dp hdj-space-between">
+					<div class="hdj-center">
+						<div class="hdj-img-wrap" style="border: 1px solid #EEEEEE;border-radius: 3px;padding: 2px;">
+							<img style="width: 100%;" src="../images/logo13.png">
+						</div>
+						<div style="margin-left: 15px;">
+							<p class="hdj-balck hdj-fsize1">test店铺</p>
+							<p class="hdj-fsize3 hdj-gray" style="margin-top: 10px;">销售总量：4567</p>
+						</div>
+					</div>
+					<p class="hdj-btn-red-outlined">
+						进入店铺
+					</p>
+				</div>
+			</li>
+		</ul>
+		<!--------------商品信息----------->
+		<ul class="mui-table-view" style="margin-top: 5px;">
+			<li class="mui-table-view-cell">
+				<a href="#topPopover" class="hdj-space-between hdj-balck hdj-fsize1">
+					<span class="hdj-left">商品详情</span>
+				</a>
+			</li>
+		</ul>
+
+		<div style="margin: 0;padding: 0;">
+			<img v-for="item in 1" src="../images/demo/productdetail.jpg" style="margin: 0;padding: 0; width: 100vw;height: auto;">
+		</div>
+		<br/>
+		</div>
+		<div id="pop">
+			<div id="pd" class="mui-popover mui-popover-action mui-popover-bottom">
+				<div style="font-size: 16px; color: #333333; display:flex;align-items: flex-start; padding:10px;padding-bottom:5px; background-color: white;">
+
+					<div style="width: 94px;height: 94px;overflow: hidden;">
+						<img src="../images/demo/v3.jpg" style="width:100%;height:auto">
+					</div>
+
+					<div style="margin-left: 15px;">
+						<div class="mui-ellipsis-2">
+							{{info.gsiName}}
+						</div>
+						<p style="color:red">¥{{nowPrice}}</p>
+						<p style="font-size: 13px; color: #bababa;">{{intrMsg}}</p>
+
+					</div>
+					<!------------->
+				</div>
+				<div id="goodsattr" style="font-size: 14px; padding:20px; padding-top: 0; padding-bottom:2px;background-color: white;">
+					<!----------------->
+					<p v-for="item in info.goodsAttr" style="color: black;">
+						{{item.gsaName}}
+						<br>
+						<button id="{{rt.id}}" v-on:click="act(rt,item)" :disabled="rt.isDisabled" v-bind:class="{ 'mui-btn-red' : rt.isClick}" @tap="selectgoodattr(rt)" v-for="rt in item.relations" class="mui-btn" style="margin: 5px;">
+		    	 		{{rt.gsarContent}}
+		    	 	</button>
+
+					</p>
+					<!------------------------>
+				</div>
+				<div style="padding:20px;padding-top: 0;background-color: white;">
+					<!---------------------->
+					<p style="color: black;">数量:</p>
+					<div id='buyCount' class="mui-numbox" data-numbox-step='1' data-numbox-min='0' data-numbox-max='10'>
+						<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+						<input v-model="numbe" class="mui-input-numbox" type="number" />
+						<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+					</div>
+				</div>
+				<div style="font-size: 15px; border-top: 1px solid gainsboro; background-color: white;padding: 10px;text-align: center;">
+					<a id="okpd" @tap="addpd()" class="mui-btn mui-btn-red " style="padding-right: 30px; padding-left: 30px;">
+						确认
+					</a>
+
+				</div>
+			</div>
+			<!--弹出菜单-->
+			<div id="spPopover" class="mui-popover">
+				
+                
+                	<a href="#spPopover" >
+                		<p class="hdj-clsbtn" style="margin: 0px;" >x </p>
+                	</a>
+               
+                
+				<p style="margin: 0;padding: 0; text-align: center;border-bottom: 2px solid #d2d2d2;margin-top: -20px;padding-bottom: 10px; font-size: 16px;  color:#333333">加入拼单</p>
+
+				<div style="text-align: center;" >
+					
+					<img class="hdj-head1"  src="../images/demo/mm.jpg" style="margin-top: 15px;">
+					<br>
+					<span class="hdj-balck hdj-fsize5">{{gpoPetname}}</span>
+					<p style="margin-left: 8px;padding: 4px">
+						<span style="color: gray;">还差 <span style="color: #fe4545;">3</span> 人</span>
+						<span style="margin-left: 8px; color: #ff1d1d;font-size: 12px;" > 00:12:05</span>
+					</p>
+					<div class="hdj-balck hdj-fsize1">确定加入 <span> Mary </span>的拼单</div>
+					<div style="margin: 20px;">
+						<p @tap="jrpd()" style="padding: 6px;  border-radius: 30px;" class="mui-btn mui-btn-block mui-btn-red hdj-redbg hdj-fsize2">
+							加入拼单
+						</p>
+					</div>
+
+				</div>
+
+			</div>
+			<!--弹出菜单-->
+			<div id="topPopover" style="height:auto;" class="mui-popover">				 
+					<p style="text-align: center;border-bottom: 2px solid #d2d2d2;padding: 15px;color:#333333;font-size: 16px;">
+					      正在拼单
+				   </p>
+			      <!-- <div class="mui-scroll">	-->
+				<ul class="mui-table-view">
+					<li v-for="(item,index) in info.groupOrder" class="mui-table-view-cell hdj-space-between">
+						<div class="hdj-center">
+							<img class="hdj-head1" src="../images/demo/mm.jpg">
+							<div style="margin-left: 8px;padding: 4px">
+                           	  <p class="hdj-fsize5">
+                           		<span class="hdj-balck">{{item.mbPetname}}</span>
+                           		<span class="hdj-gray3" style="margin-left: 8px;">
+                           	                  还差 <span class="hdj-red">{{item.gpoNeednum-item.gpoCompletenum}}</span> 人
+                           	   </span>  
+							  </p>
+							  <p style="color: #ff1d1d;font-size: 12px;" >  
+							  	  <!-- {{converthour(item.gpoExpire)}} -->
+								  00:12:05
+							  </p>
+							</div>
+						</div>
+						<div @tap="add_gpo(item)"  style="border-radius:20px;padding: 4px 16px;" class="hdj-fsize3 hdj-redbg mui-btn mui-btn-red">
+							加入拼单
+						</div>
+					</li>
+				</ul>
+				   <!-- </div>-->
+				   <p  style="text-align: center;border-top: 1px solid gainsboro;padding-top: 20px;color: #9c9c9c;font-size: 13px;">
+					         最多显示5条
+				   </p>
+				   <a href="#topPopover" >
+                		  <p class="hdj-clsbtn2" style="margin: 0px;" >x </p>
+                  </a>
+			    
+		    </div>
+		</div>  
+		
+		<ul  id="sharepop" class="mui-popover mui-popover-action mui-popover-bottom mui-table-view mui-grid-view " style="background-color: white;padding: 20px; ">
+		           
+		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" >
+		            <a onclick="shareWeixinMessage('WXSceneSession')">
+		                    <img src="../images/fenxiang_weixin.png" style="width: 40%;">
+		                    <div class="mui-media-body hdj-balck hdj-fsize3">微信好友</div>
+		            </a>
+		            </li>
+		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" >
+		            	<a onclick="shareWeixinMessage('WXSceneTimeline')">
+		                    <img src="../images/fenxiang_pengyouquan.png" style="width: 40%;">
+		                    <div class="mui-media-body hdj-balck hdj-fsize3">朋友圈</div>
+		            	</a>
+		            </li>
+		           <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" >
+		           	<a href="" onclick="shareqqMessage()">
+		                   <img src="../images/fenxiang_qq.png" style="width: 40%;">
+		                    <div class="mui-media-body hdj-balck hdj-fsize3">QQ</div>
+		           	</a>
+		           </li>
+		</ul> 
+	</body>
+
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/mui.zoom.js"></script>
+	<script src="../js/mui.previewimage.js"></script>
+	<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/server.js"></script>
+	<script>
+		var pjview_detail = null;
+		var dpview_detail = null;
+		var ordervw_detail = null;
+		mui.init({
+			swipeBack: true, //启用右滑关闭功能
+			beforeback: function(){
+				clearInterval(vp.timer);//关闭前执行
+				return true;
+			}
+		});
+		mui.plusReady(function() {
+			pjview_detail = preload("pingjia.html");
+			dpview_detail = preload("dianpu.html");
+			ordervw_detail = preload("mdetail.html");
+			vm.mbId = plus.storage.getItem("mbId");
+		});
+		function getDefaultData() {
+			return {
+				mbId: '',
+				goodsinfo: {},
+				/*商品基本信息*/
+				info: {},
+				/*商品详情*/
+				groupOrder: [],
+				pjinfo: [],
+				/*--评价详情--*/
+				pjCount: 0,
+				groupId : ''
+			}
+		}
+		var chioseAttr = []; //选择的属性
+		var unchioseAttr = []; //没有选择的属性
+		var selectAttrs = []; //选中的属性
+		var allAttrs = []; //所有的数组
+		var inventories = []; //库存中有的数组
+		var vm = new Vue({
+			el: '.mui-content',
+			data: getDefaultData(),
+			methods: {
+				resetData: function() { //重置数据
+					Object.assign(this.$data, getDefaultData());
+				}
+			}
+		});
+		var vb = new Vue({
+			el: '#bottom',
+			data: {
+				gsiPrice: 0.0,
+				gsiGroupprice: 0.0,
+				alone: false,
+				careimg: "../images/bt3.png"
+			}
+		});
+		var vp = new Vue({
+			el: '#pop',
+			data: {
+				numbe: 1,
+				giPrice: '',
+				/*商品选择价格*/
+				giCount: null,
+				/*总库存*/
+				giId: '',
+				/*商品选择编号id--提交giId*/
+				giGsino: '',
+				/*商品选择编号*/
+				gsarContent: '',
+				/*商品选择属性规格颜色尺码等等*/
+				mmbId: '',
+				/*弹出选择属性*/
+				gpoExpire: '',
+				gpoNeednum: '',
+				gpoPetname:'',
+				gpoCompletenum: '',
+				gpoExpire: '',
+				gpoId : '',
+				gpoElemId : '',
+				info: {},
+				/*商品详情*/
+				goodsAttr: [],
+				/*商品属性 */
+				intrMsg: '',
+				/* 选择的介绍 */
+				nowPrice: '' ,/*产品当前价格*/
+				restTimeData : [],
+				timer : null
+				
+			}
+		});
+		
+		
+		//alert("<--导入货品id-----:" + localStorage.getItem('goods_info'));
+		
+		getgoodsinfo();
+		
+		function getgoodsinfo() {
+			//mui('.mui-content').scroll().scrollTo(0,0);			
+			initData();
+			
+			vm.goodsinfo=JSON.parse(localStorage.getItem('goods_info'));
+			//vm.goodsinfo = event.detail.goodsinfo; /*获取商品基本信息*/
+			console.log("<--导入货品id-----:" + vm.goodsinfo.id);
+			getgoodsdetail(); /*获取商品详细信息*/
+			pjtest(); /*获取商品评价信息*/
+			
+			//alert(h5_mbinfo);
+			if(h5_mbinfo){
+				vm.mbId=h5_mbinfo.mbId;
+			}
+		};
+
+		function initData() {
+			vm.groupId = '';
+			chioseAttr = []; //选择的属性
+			unchioseAttr = []; //没有选择的属性
+			selectAttrs = []; //选中的属性
+			allAttrs = []; //所有的数组
+			inventories = []; //库存中有的数组
+			mui('#pd').popover('hide');
+		}
+
+		function act0() {
+			mui(".mui-slider").slider();
+			var gallery = mui('.mui-slider');
+			gallery.slider().gotoItem(0);
+			mui.previewImage();
+		}
+		function restGroup(){
+			group = vm.info.groupOrder;
+			var nowData = new Date().getTime();
+			mui.each(group,function(index,item){				
+				var time = formatSeconds((item.gpoExpire - nowData)/1000);				
+				var elem = document.getElementById('now_'+item.id);
+				if(elem){
+					elem.innerHTML = time;					
+				}
+				var Joelem = document.getElementById('join_'+item.id);
+				if(Joelem){
+					Joelem.innerHTML = time;					
+				}
+			})
+		}
+		function PrefixInteger(num, n) {
+            return (Array(n).join(0) + num).slice(-n);
+        }
+		function formatSeconds(value) { 
+			var theTime = parseInt(value);// 秒 
+			var theTime1 = 0;// 分 
+			var theTime2 = 0;// 小时 
+			// alert(theTime); 
+			if(theTime > 60) { 
+			theTime1 = parseInt(theTime/60); 
+			theTime = parseInt(theTime%60); 
+			// alert(theTime1+"-"+theTime); 
+			if(theTime1 > 60) { 
+			theTime2 = parseInt(theTime1/60); 
+			theTime1 = parseInt(theTime1%60); 
+			} 
+			} 
+			var result = ""+PrefixInteger(parseInt(theTime),2); 
+			result = ""+PrefixInteger(parseInt(theTime1),2)+":"+result; 
+			result = ""+PrefixInteger(parseInt(theTime2),2)+":"+result; 
+			return result; 
+		} 
+		function getgoodsdetail() {
+			var data = {
+				gsiId: vm.goodsinfo.id
+			};
+			if(vm.mbId) {
+				data.mbId = vm.mbId;
+			}
+			// alert(JSON.stringify(data));         
+			var apiname = "goodsInfoApi/info" + ".do";
+			console.log("请求:" + servername + apiname + "?gsiId=" + vm.goodsinfo.id);
+			mui.getJSON("../json/productdetail.json",  function(rsp) {
+				//console.log(JSON.stringify(rsp));
+				if(rsp) {
+					mui.each(rsp.goodsAttr, function(index, item) {
+						mui.each(item.relations, function(idex, i) {
+							i.isClick = false;
+							i.isDisabled = false;
+						})
+					});
+					vm.info = rsp;
+					console.log("商品详情:---所属商户信息------->"+JSON.stringify(vm.info.bMerchantEntity));
+					vb.gsiGroupprice = rsp.gsiGroupprice;
+					vb.gsiPrice = rsp.gsiPrice;
+					if(!rsp.concerned) { //没有关注
+						vb.careimg = '../images/bt4.png'
+					}
+					vm.groupOrder = [];					
+					var nowData = new Date().getTime();
+					mui.each(rsp.groupOrder,function(index,item){
+						item.nowid = 'now_'+item.id;
+						if(index>2){
+							return false;
+						}
+						vm.groupOrder.push(rsp.groupOrder[index]);												
+						console.info(index);
+					})
+					console.info('时间:'+JSON.stringify(vp.restTimeData))
+					restGroup();
+					vp.timer = setInterval(restGroup,1000); //开始执行定时器
+					vp.info = rsp;
+					// console.log("获取商品详情id"+vm.info.id);selectgoodattr
+					setTimeout(act0, 600)
+					//mui('#topPopover').scroll();
+					//mui.previewImage();
+					// var gar=document.getElementById("goodsattr");
+					setTimeout(function() {
+						//gar.children[0].children[1].click();
+						//gar.children[1].children[1].click();
+						goodsinit(); /*--*/
+					}, 100)
+
+					// gar.children[0].children[1].classList.add("mui-btn-red"); 
+				}
+
+				// console.log("商品详情:---后台类目类型ID------->"+vm.info.gstId);
+				//console.log("商品详情:---商品Banner图------->" + JSON.stringify(vm.info.goodsBannerEntity));
+                console.log("商品详情:----活动------>"+vm.info.gsilntro)
+				/* console.log("商品详情:----商户ID------>"+vm.info.mercId);
+				 console.log("商品详情:---后台类目类型ID------->"+vm.info.gstId); 
+						           
+				 console.log("商品详情:---出售类型------->"+vm.info.gsiType);
+				 console.log("商品详情:---是否关注------->"+vm.info.concerned);
+				 
+				 console.log("商品详情:---所属商户信息------->"+JSON.stringify(vm.info.bMerchantEntity)); 
+				 
+				  console.log("商品详情:---商品Banner图------->"+JSON.stringify(vm.info.goodsBannerEntity));
+				  console.log("商品详情:----商品名称------>"+vm.info.gsiName);
+				   console.log("商品详情:----产品介绍------>"+vm.info.gsiIntro);
+				  console.log("商品详情:--商品提供的服务-------->"+JSON.stringify(vm.info.bgoodsServers));
+				  
+				 console.log("商品详情:---商品详情图------->"+JSON.stringify(vm.info.goodsPictureEntitys));
+				 
+				 console.log("商品详情:---商品现用团数量------>"+vm.info.groupCount);
+				 
+						           
+				 console.log("商品详情:---团属性------->"+JSON.stringify(vm.info.groupOrder));
+				  
+				 console.log("商品详情:---拍卖信息------->"+vm.info.reestTimeInfo);
+				  */
+
+				//console.log("商品详情:----商品属性名称------>"+JSON.stringify(vm.info.goodsAttr));
+				// console.log("商品详情:---商品的库存------>"+JSON.stringify(vm.info.goodsInventories));
+				//console.log("商品详情:---团属性------->" + JSON.stringify(vm.info.groupOrder));
+
+			});
+		}
+		//评价----------
+
+		function pjtest() {
+			console.log("获取商品评价信息" + vm.goodsinfo.id);
+			var data = {
+				gsiId: vm.goodsinfo.id,
+				page: 1,
+				rows: 2
+			};
+			// alert(JSON.stringify(data));         
+			var apiname = "commentApi/list" + ".do";
+			// console.log(servername+apiname+"?gsiId="+vm.goodsinfo.id);
+			mui.getJSON('../json/pjinfo.json', function(rsp) {
+					vm.pjinfo = rsp.rows;
+					vm.pjCount = rsp.totalCount;
+			});
+		}
+		//监听自定义事件，获取新闻详情
+		function back() {
+			//plus.webview.currentWebview().close();
+			mui.back();
+		};
+
+		function clicked(id) {
+			//alert(id);
+			plus.webview.open(id, id, {}, "slide-in-right");
+
+		};
+
+		
+
+		function open_pj(item) {
+			//alert(item);
+			//触发子窗口变更新闻详情
+			/*mui.fire(pjview_detail, 'pj_detail', {
+				pid: item
+			});
+			setTimeout(function() {
+				pjview_detail.show("slide-in-right", 300);
+			}, 150);*/
+			localStorage.setItem("pjid",item);
+			mui.openWindow("pingjia.html")
+		};
+
+		function open_dp(item) {
+			console.log("商户ID" + item.id);
+			/*mui.fire(dpview_detail, 'dp_detail', {
+				dpid: item.id
+			});
+			setTimeout(function() {
+				dpview_detail.show("slide-in-right", 300);
+			}, 150);*/
+			localStorage.setItem("mercid",item.id);
+			mui.openWindow("dianpu.html");
+		};
+
+		
+		/*---------------------------------------*/
+		mui('.mui-bar-tab').on('tap', 'a', function(e) {
+			var targetTab = this.getAttribute('href');
+			var tid = this.getAttribute('id');
+			//alert(targetTab);
+			if(targetTab == "main") {
+				//var h = plus.webview.getLaunchWebview();
+				//h.show();
+				//触发主页面的gohome事件
+				//mui.fire(h, 'gohome');
+				mui.openWindow("../index.html");
+			}
+			if(targetTab == "#pd") {
+				//alert(vm.pid);
+				//alert(vm.mbId);
+				//console.log("货品id"+vm.pid+"会员id"+vm.mbId)
+				if(!vm.mbId) {
+					mui.openWindow("../login/login.html");
+					return;
+				}
+				if(tid == "ddg") {
+					vb.alone = true;
+					console.log('单独购买' + vb.alone);
+					vp.nowPrice = vp.info.gsiPrice;
+				} else {
+					vb.alone = false;
+					vp.nowPrice = vp.info.gsiGroupprice; //组团购买
+				}
+				calculPrice();
+				//floatWebview();
+				//dgoum();
+			}
+			if(targetTab == "care") {
+				if(vb.careimg == "../images/bt4.png") {
+					addcare();
+				} else {
+					removecare();
+				}
+			}
+
+		});
+		//-------------加入购物车------------------------	
+		function activedom(dome, ind) {
+			var c = dome.children;
+			console.log(dome.className + "--" + c.length)
+			for(i = 0; i < c.length; i++) {
+				//  console.log(c[i].className+"--"+i);
+				//console.log(c[i].nodeName+"--"+c[i].innerHTML) ;
+				c[i].classList.remove("mui-active");
+				// console.log(c[i].className+"--"+i);
+			};
+			c[ind].classList.add("mui-active");
+			console.log(c[ind].className + "--" + ind)
+		}
+		Array.prototype.remove = function(val) {
+			var index = this.indexOf(val);
+			if(index > -1) {
+				this.splice(index, 1);
+			}
+		};
+
+		function act(e, item) {
+			var isClick = e.isClick;
+			mui.each(item.relations, function(index, item) {
+				if(selectAttrs.indexOf(item.id) != -1) {
+					//			vp.nowPrice = vp.nowPrice - (vb.alone?e.gsarPrice:e.gsarGroupprice);
+					selectAttrs.remove(item.id);
+				}
+			})
+			e.isClick = !isClick;
+			if(e.isClick) {
+				//		vp.nowPrice = vp.nowPrice+ (vb.alone?e.gsarPrice:e.gsarGroupprice);
+				selectAttrs.push(e.id);
+			}
+			showIntroMsg(e.isClick, e, item);
+			inventories = calculinventories(); // 计算哪些可以点击
+			closeNoInventBt(); //关闭其他按钮
+			calculPrice(); //平衡选择和未选择的计算价格
+			console.log("可以选的:" + JSON.stringify(inventories))
+			return;
+			var cp = e.parentNode.children;
+			for(i = 0; i < cp.length; i++) {
+				cp[i].classList.remove("mui-btn-red");
+			};
+			e.classList.add("mui-btn-red");
+			//---------------------------------------
+		}
+		/**
+		 * 计算选择属性的价格 
+		 */
+		function calculPrice() {
+			vp.nowPrice = vb.alone ? vp.info.gsiPrice : vp.info.gsiGroupprice;
+			mui.each(chioseAttr, function(index, attr) {
+				mui.each(attr.relations, function(index, i) {
+					if(selectAttrs.indexOf(i.id) != -1) {
+						vp.nowPrice = vp.nowPrice + (vb.alone ? i.gsarPrice : i.gsarGroupprice);
+						console.info("alone" + vp.alone + "属性:" + i.gsarContent + " 加价:" + (vb.alone ? i.gsarPrice : i.gsarGroupprice));
+					}
+				})
+			})
+		}
+
+		function showIntroMsg(isClick, e, item) {
+			if(isClick) { //添加
+				chioseAttr.push(item);
+				mui.each(unchioseAttr, function(index, attr) {
+					if(attr.id == item.id) {
+						unchioseAttr.splice(index, 1);
+						return false;
+					}
+				})
+			} else {
+				unchioseAttr.push(item);
+				mui.each(chioseAttr, function(index, attr) {
+					if(attr.id == item.id) {
+						chioseAttr.splice(index, 1);
+						return false;
+					}
+				})
+			}
+			if(unchioseAttr.length > 0) {
+				//还要选择
+				vp.intrMsg = "请选择:" + unchioseAttr[0].gsaName;
+			} else {
+				//显示选择
+				var intrMsg = "";
+				mui.each(vp.info.goodsAttr, function(index, item) {
+					mui.each(item.relations, function(index, i) {
+						if(i.isClick) {
+							intrMsg = intrMsg + " " + i.gsarContent;
+						}
+					})
+					vp.intrMsg = intrMsg;
+				})
+			}
+		}
+		isContained = function(a, b){
+			if(!(a instanceof Array) || !(b instanceof Array)) return false;
+			if(a.length < b.length) return false;
+			var aStr = a.toString();
+			for(var i = 0, len = b.length; i < len; i++) {
+				if(aStr.indexOf(b[i]) == -1) return false;
+			}
+			return true;
+		}
+
+		function calculinventories() {
+			var localInventories = [];
+			var goodsInventories = vm.info.goodsInventories;
+			mui.each(goodsInventories, function(index, item) {
+				if(item.giCount > 0 && isContained(item.gsarIds, selectAttrs)) {
+					mui.each(item.gsarIds, function(index, item) {
+						localInventories.push(item);
+					})
+				}
+			})
+			return localInventories;
+		}
+
+		function closeNoInventBt() { //关闭没有库存的属性
+			mui.each(vp.info.goodsAttr, function(index, value) {
+				mui.each(value.relations, function(index, item) {
+					if(inventories.indexOf(item.id) == -1) {
+						item.isDisabled = true;
+					} else {
+						item.isDisabled = false;
+					}
+				})
+			})
+		}
+
+		function goodsinit() {
+			unchioseAttr = vm.info.goodsAttr.slice(0);
+			var goodsInventories = vm.info.goodsInventories;
+			vp.intrMsg = "请选择:" + unchioseAttr[0].gsaName;
+			mui.each(goodsInventories, function(index, item) {
+				item.gsarIds = [];
+				if(item.giCount > 0) {
+					mui.each(item.attrs, function(index, i) {
+						item.gsarIds[index] = i.gsarId;
+						if(inventories.indexOf(i.gsarId) == -1) {
+							inventories.push(i.gsarId);
+						}
+					})
+				}
+			})
+			closeNoInventBt();
+			console.log('可以展示的属性:' + JSON.stringify(inventories))
+			//去除不可选择
+			return;
+			var ga = vm.info.goodsAttr[0].relations;
+			for(x in ga) {
+				var item = ga[x];
+				//   console.log("查找:-----"+item.gsarContent+"---gsaId---:"+item.gsaId+"--id--:"+item.id); 
+				var rs = selectgoodattr(item, x);
+				console.log("是否找到？" + rs);
+				if(rs) {
+					return;
+				}
+
+			}
+		}
+
+		function selectgoodattr(item, gnd) {
+			return; //老方法
+			var okpd = document.getElementById("okpd");
+			var rs = false;
+			console.log(gnd);
+			console.log("查找:-----" + item.gsarContent + "---gsaId---:" + item.gsaId + "--id--:" + item.id);
+			var gaid = item.gsaId;
+			var gid = item.id;
+			var df = vm.info.goodsInventories;
+			for(x in df) {
+				var ginv = df[x];
+				console.log(JSON.stringify(ginv));
+				var att = ginv.attrs;
+				for(y in att) {
+					var st = att[y];
+					if(st.gsarId == gid && st.gsaId == gaid && ginv.giCount > 0) {
+						okpd.disabled = "";
+						console.log("---找到了---gsarContent-" + st.gsarContent + "--" + st.gsarId + "-库存-" + ginv.giCount);
+						console.log("---货号-" + ginv.giGsino);
+						console.log("---id-" + ginv.id);
+						vp.giId = ginv.id;
+						vp.giGsino = ginv.giGsino;
+						vp.giCount = ginv.giCount;
+						console.log(y);
+						var st1;
+						//------------
+						if(y == 1) {
+							st1 = ginv.attrs[0];
+						} else {
+							st1 = ginv.attrs[1];
+						}
+						//----- 属性选择初始化-------------
+						console.log("--另一个属性---gsarContent-" + st1.gsarContent + "-gsarId-" + st1.gsarId + "--gsaId" + st1.gsaId);
+						vp.gsarContent = st.gsarContent + "  " + st1.gsarContent;
+						var gar = document.getElementById("goodsattr");
+						if(gnd != null) {
+							gnd++;
+							console.log("获取激活btn:" + gnd);
+							gar.children[0].children[gnd].click();
+						}
+						var nextgnd = getnextgnd(st1.gsarId, st1.gsaId);
+						console.log("--另一个属性---gsarContent-激活按钮" + st1.gsarContent + nextgnd);
+						gar.children[1].children[nextgnd].click();
+						rs = true;
+						return rs;
+					} else {
+						console.log("无货")
+						vp.giId = null;
+						vp.giGsino = null;
+						vp.giCount = 0;
+						okpd.disabled = "disabled";
+					}
+				}
+
+			}
+		}
+
+		function getnextgnd(gaid, gid) {
+			var gnd;
+			console.log(gaid + "--" + gid);
+			var ga = vm.info.goodsAttr[1].relations;
+			for(x in ga) {
+				var st = ga[x];
+				// console.log("反向查找：尺码"+JSON.stringify(st));
+				//   console.log("查找:-----"+item.gsarContent+"---gsaId---:"+item.gsaId+"--id--:"+item.id); 
+				console.log("查找:" + st.gsaId + "--" + st.id)
+				if(st.gsaId === gid && st.id === gaid) {
+					//alert("ok")
+					//console.log(x);
+					gnd = x;
+					gnd++
+					return gnd;
+				}
+
+			}
+		}
+
+		function convert(items) {
+			var newItems = [];
+			items.forEach(function(item) {
+				newItems.push({
+
+				});
+			});
+			return newItems;
+		}
+		//判断是否相等
+		function calculGiId() {
+			var find = null;
+			if(vp.info.goodsInventories.length<=1){
+				find = vp.info.goodsInventories[0];
+				return find;
+			}
+			mui.each(vp.info.goodsInventories, function(index, invent) {
+				if(invent.attrs.length == selectAttrs.length) {
+					var isRight = true;
+					mui.each(invent.attrs, function(index, attr) {
+						if(selectAttrs.indexOf(attr.gsarId) == -1) { //有未找到的属性
+							isRight = false;
+							return false;
+						}
+					});
+					if(isRight) {
+						find = invent;
+						return false;
+					}
+				}
+			})
+			return find;
+		}
+		function add_gpo(item) {						 			
+			console.log("加入拼单 -团队组id" + item.id);
+			mui('#spPopover').popover('toggle',document.getElementById("bottom"));
+			vp.mmbId = item.mbId;
+			vp.gpoId = item.id;
+			vp.gpoPetname = item.mbPetname;
+			vp.gpoNeednum = item.gpoNeednum;
+			vp.gpoCompletenum = item.gpoCompletenum;
+			vp.gpoExpire = item.gpoExpire;
+			vp.gpoElemId = 'join_'+item.id;
+			restGroup();
+			//mui('#spPopover').popover('toggle');			
+			
+		};
+
+		function jrpd() {
+			console.log("加入拼单 -团队组id:"+vp.gpoId);
+			//mui('#spPopover').popover('toggle');
+			gopd(false,vp.gpoId);
+		}
+
+		//var ordervw_detail = preload("mdetail.html");
+		function gopd(alone,gpoId){
+			if(!vm.mbId) {
+					mui.openWindow("../login/login.html");
+					return;
+			}			
+			if(alone) {
+				vb.alone = true;
+				vp.gpoId = '';
+				vp.nowPrice = vp.info.gsiPrice;
+			} else {
+				if(gpoId){
+					vp.gpoId = gpoId;
+				}else{
+					vp.gpoId = '';
+				}
+				vb.alone = false;
+				vp.nowPrice = vp.info.gsiGroupprice; //组团购买
+			}
+			//这里是直接购买,暂时关闭
+//			if(vp.info.goodsInventories.length<=1){
+//				addpd();
+//				return ;
+//			}
+			
+			calculPrice();
+			mui('#pd').popover('show');
+		}
+		
+		function addpd() {
+			if(vp.intrMsg.indexOf("请选择") != -1) {
+				mui.toast(vp.intrMsg, 'short');
+				return;
+			}
+			vp.numbe = mui('#buyCount').numbox().getValue();
+			var invent = calculGiId(); //计算货号
+			console.info('找到库存:' + JSON.stringify(invent));
+			if(!invent) {
+				mui.toast('库存不足!', 'short');
+				return;
+			}
+			console.info('购买数量:' + vp.numbe)
+			if(invent.giCount < vp.numbe) {
+				mui.toast('库存不足!仅剩' + invent.giCount + '件了', 'short');
+				return;
+			}
+			mui('#pd').popover('hide');
+			mui('#spPopover').popover('hide');
+			mui('#topPopover').popover('hide');
+			vp.giId = invent.id;
+			console.log("货号id" + vp.giId);
+			console.log("购买数量：" + vp.numbe);
+			
+			var odata={
+				ginfo: vm.goodsinfo,
+				mercName: vm.info.bMerchantEntity.mercName,
+				mercId : vm.info.bMerchantEntity.id,
+				giId: invent.id,
+				gsarContent: vp.intrMsg,
+				giNumbe: vp.numbe,
+				alone: vb.alone,
+				gpoId : vp.gpoId,
+				srId : vm.info.srId
+				/*giPrice:vp.giPrice*/
+			};
+			localStorage.setItem("order_detail",JSON.stringify(odata));
+			//localStorage.removeItem()
+			localStorage.removeItem("choisedAddress");
+			localStorage.removeItem("choiseCouponok");
+			
+			mui.openWindow('mdetail.html');
+			/*setTimeout(function() {
+				ordervw_detail.show("slide-in-right", 300);
+			}, 150);*/
+
+		}
+
+		function addcare() {
+			console.log("添加关注");
+			var data = {
+				mbId: vm.mbId,
+				gsiId: vm.goodsinfo.id
+			};
+			//alert(JSON.stringify(data));
+			console.log(JSON.stringify(data));
+			var apiname = "goodsConernApi/concern" + ".do";
+			console.log(servername + apiname + "?mbId=" + vm.mbId + "&gsiId=" + vm.goodsinfo.id);
+			mui.post(servername + apiname, data, function(rsp) {
+				console.log(JSON.stringify(rsp));
+				mui.toast(rsp.msg);
+				if(rsp.code == 0) {
+					vb.careimg = "../images/bt3.png";
+				}
+
+			}, 'json');
+
+		}
+
+		function removecare() {
+			console.log("取消关注");
+			var data = {
+				mbId: vm.mbId,
+				gsiId: vm.goodsinfo.id
+			};
+			var apiname = "goodsConernApi/unconcern" + ".do";
+			console.log(servername + apiname + JSON.stringify(data));
+			mui.post(servername + apiname, data, function(rsp) {
+				console.log(JSON.stringify(rsp));
+				mui.toast(rsp.msg);
+				if(rsp.code == 0) {
+					vb.careimg = "../images/bt4.png";
+				}
+
+			}, 'json');
+
+		}
+	</script>
+	<script src="../js/share.js"></script>
+
+</html>

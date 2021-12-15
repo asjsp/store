@@ -1,0 +1,23 @@
+{
+  "rows": [
+    {
+      "time": 0, 
+      "periods": 13,
+      "gsiId": "0000000060167660016016e6979a02a8", 
+      "gsiName": "拍卖商品1", 
+      "gsiMarketprice": 10000.0, 
+      "gsiNowprice": 1200.0, 
+      "myPrice": 1200.0 
+    }
+  ],
+  "firstResult": 0,
+  "attach": null,
+  "pageSize": 10,
+  "totalCount": 1,
+  "previousPage": 1,
+  "nextPage": 1,
+  "lastPage": true,
+  "totalPage": 1,
+  "firstPage": true,
+  "pageNo": 1
+}

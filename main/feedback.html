@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en" class="feedback">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>产品评价</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/hdj.css" />
+		<!--<link rel="stylesheet" type="text/css" href="../css/feedback.css" />-->
+		<style>
+			.mui-table-view-cell:after {
+              height: 0px;
+            }
+            .mui-table-view-cell:before {
+              height: 0px;
+            }
+           .mui-table-view:before {
+              height: 0px;
+            }
+            .mui-table-view:after {
+              height: 0px;
+            }
+            #picture {
+			width: 100%;
+			    left: 0%;
+				right: 0%;
+				margin:0;
+			
+			}
+
+		</style>
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FF4B4A;"></a>
+			
+			<h1 class="mui-title">评价</h1>
+		</header>
+		<nav class="mui-bar mui-bar-tab" style="background-color: white;">
+			<div style="padding: 20px;padding-top: 10px;">
+			<button id='comm' onclick="comment()" data-loading-text="提交中"  type="button"  class="mui-btn mui-btn-block mui-btn-red hdj-redbg" style="color: white;border-radius: 50px;">
+				完成评价
+			</button>
+			</div>
+		</nav>
+		<div class="mui-content" style="background-color: white;">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+		    	<div class="hdj-center" style="margin: 0px;">
+					<img style="margin-right: 10px;width: 7vw;" src="../images/logo13.png">
+					<span class="hdj-balck hdj-fsize2">{{orderinfo.mercName}}</span>
+				</div>
+		    	 <!-------->    
+		    	 <div  class="hdj-flex" style="margin-top: 10px;">
+		    	    <div class="mui-media-body mui-col-xs-3 mui-col-sm-3" >
+							<div class="hdj-img-wrap1" >
+								<img :src="getserverimg(orderinfo.gsiId,6)" class="hdj-img-cont">
+							</div>
+					</div>
+					<div class="mui-media-body mui-col-xs-9 mui-col-sm-9" style="margin-left: 15px;margin-right: 5px;">
+										<div class="hdj-space-between">
+											<span class="mui-ellipsis hdj-fsize3" style="width: 70%;">{{orderinfo.gsiName}}</span>
+											<span class="hdj-fsize1">¥ {{orderinfo.boOrderprice}}</span>
+										</div>
+										<div class="hdj-space-between" style="margin-bottom: 0;">
+											<span class="hdj-fsize3 hdj-gray">{{orderinfo.giContent}}</span>
+											<span class="hdj-fsize3  hdj-gray" style="text-decoration:line-through">¥ {{orderinfo.gsiMarketprice}}</span>
+										</div>
+										<div class="hdj-gray hdj-fsize5 mui-pull-right" style="text-align:right">
+											结算：<span class="hdj-red hdj-fsize0">¥ {{orderinfo.boActprice}}</span>
+										</div>
+									
+					</div>
+                 
+                </div>
+					    
+			    </li>
+				<li class="mui-table-view-cell">
+					<textarea id='question' v-model="cmtContent" style="margin: 0; border: 1px solid gainsboro;padding: 8px;height: 100px;" class="hdj-balck hdj-fsize2" placeholder="感觉很好，很喜欢...">
+					
+				    </textarea>
+				</li>
+				<li class="mui-table-view-cell">
+				   <a class="mui-navigate" href="#picture">
+				   <p  style="width: 15vw; border: 1px solid gainsboro;border-radius: 5px;text-align: center;">
+					  <span class="mui-icon mui-icon-camera" style="color: red;"></span>
+				   </p>
+				   </a>
+				</li>
+			</ul>
+			
+			<img id="head-img1" src="" style="width: 5vw;" class="mui-hidden">
+			
+			<ul id='image-list' class="mui-table-view mui-grid-view mui-content-padded">
+				<li  v-for="(item,index) in pictures" class="mui-table-view-cell  mui-col-xs-3 mui-col-sm-3" style="margin: 0px;padding: 1px;">
+					<div class="hdj-img-wrap1" >
+						<img :src="item" class="hdj-img-cont" >
+				    </div>
+				    <div @tap="delt(index)" class="hdj-imglabel-del" >x</div>
+				</li>
+				<!--测试：<img id="test" src="" style="width: 10vw;" class="">-->
+			</ul>
+			
+			<div class="mui-content-padded" >
+				<div class="mui-inline">评分</div>
+				<div class="icons mui-inline" style="margin-left: 6px;" id='icons'>
+					<i  v-for="item in 5" @tap="act(item)" data-index="1" style="color: gainsboro;" class="mui-icon  mui-icon-star-filled"></i>
+					
+				</div>
+			</div>
+		</div>
+		
+		
+	    <input type="file" name="cam" capture="camera"  accept="image/*"  id="cam" onchange="readURL(this)" style="display:none;" />
+        <input type="file" name="file"  accept="image/png,image/jpg,image/jpeg"  id="file" onchange="readURL(this)" style="display:none;" />
+      
+	    <div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<p onclick="getImage()" class="hdj-balck hdj-fsize2">拍照</p>
+				</li>
+				<li class="mui-table-view-cell">
+					<p onclick="galleryImg()" class="hdj-balck hdj-fsize2">从手机相册选择</p>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a href="#picture"><span style="color: black;">取消</span></a>
+				</li>
+			</ul>
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	    <script src="../js/server.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui('.mui-scroll-wrapper').scroll();
+		//mui.plusReady(function() {
+			//	vm.mbId=plus.storage.getItem("mbId");
+				
+				//var lauchFlag = plus.storage.getItem("lauchFlag");
+		//});
+		var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					mbId:'',
+					cmtContent:'',
+					base64:null,
+					pictures:[],
+					cmtScore:1,
+					orderinfo:{}
+					}
+				});
+		//document.addEventListener('feedback', function(event) {
+			  vm.mbId = h5_mbinfo.mbId;
+			  vm.orderinfo = JSON.parse(localStorage.getItem("orderinfo"));
+			   console.log("查看订单"+ JSON.stringify(vm.orderinfo));
+		//});
+		function act(n){
+          	var cp=document.getElementById('icons').children;
+	        for (i=0; i<cp.length; i++){
+		            cp[i].style.color='gainsboro';
+	            };
+	         //-----------------------------   
+	         for (j=0; j<n; j++){
+		            cp[j].style.color='red';
+	            };
+	        vm.cmtScore=n;
+	         }
+		function conves(arr){
+			var str='';
+			
+			for(x in arr){
+				var sta=arr[x].substring(arr[x].indexOf(",") + 1);
+				str+=sta+'|';
+				//str=arr[x];
+			}
+			
+			return str
+			
+		}
+		 function comment(){
+	    	      //vm.cmtContent=escape(vm.cmtContent);
+	    	     // console.log(vm.cmtContent);conves(vm.pictures)
+	    	     mui('#comm').button('loading');
+	    	      var data ={ 
+	    	      	mbId: vm.mbId,
+	    	      	boId:vm.orderinfo.id,
+	    	      	cmtContent:escape(vm.cmtContent),
+	    	      	cmtScore:vm.cmtScore,
+	    	      	pictures:conves(vm.pictures)
+	    	      };
+						 var apiname="commentApi/comment"+".do";
+						console.log("商品评论"+JSON.stringify(data));
+						console.log(servername+apiname+"?mbId="+vm.mbId);
+						 mui.post(servername+apiname,data, function(rsp) {
+						           console.log("商品评论"+JSON.stringify(rsp));
+						            setTimeout(function() {
+				                         mui('#comm').button('reset');
+				                    }.bind(this), 150);	
+				                    
+						           if(rsp.code==0){
+						           	    mui.toast(rsp.msg)
+						           	    setTimeout(function() {
+								                     mui.back()
+							                   }, 1000);
+						            	
+						           }
+		                          },'json');
+	    }
+		 //-------------------------------
+		 //更换头像
+		 function getImage() {
+		            mui('#picture').popover('toggle');
+		            document.getElementById("cam").click();
+		}
+		 function galleryImg() {
+			mui('#picture').popover('toggle');
+			document.getElementById("file").click();
+		};
+		 function readURL(input) {
+           if (input.files && input.files[0]) {
+           var reader = new FileReader();
+           reader.onload = function (e) {
+           // document.getElementById("head-img1").src= e.target.result;
+          // alert(e.target.result)
+          // setTimeout(function() {
+								   //getbase64()
+								   vm.pictures.push(e.target.result);
+							    //}, 500);
+           }
+          reader.readAsDataURL(input.files[0]);
+            }
+        }
+		 
+		function delt(intex) {
+			//alert('删除'+intex);
+			vm.pictures.splice(intex,1);
+		}
+		 
+		
+		function changeToop(){
+                 var file = document.getElementById("file");
+                 if(file.value==''){
+                  //设置默认图片
+                  defaultImg();
+                  }else{
+                        document.getElementById("head-img1").src = getFileUrl("file");
+                        setTimeout(function() {
+								   getbase64()
+							    }, 500);
+                     }
+        }
+		//获取input[file]图片的url Important
+        function getFileUrl(fileId) { 
+            var url; 
+            var file = document.getElementById(fileId);
+            var agent = navigator.userAgent;
+            if (agent.indexOf("MSIE")>=1) {
+              url = file.value; 
+            } else if(agent.indexOf("Firefox")>0) { 
+            url = window.URL.createObjectURL(file.files.item(0)); 
+            } else if(agent.indexOf("Chrome")>0) {
+            url = window.URL.createObjectURL(file.files.item(0)); 
+             } 
+             return url; 
+        } 
+        
+		function defaultImg() {
+			 document.getElementById("head-img1").src='../images/logo11.png';
+		}
+		
+		document.getElementById("head-img1").addEventListener('tap', function(e) {
+			e.stopPropagation();
+		});
+		//----base64-------------
+		//getbase64();
+		var heads64='data:image/png;base64,'
+		function getbase64(){
+          var url = "../images/ax.png";//这是站内的一张图片资源，采用的相对路径
+              url= document.getElementById("head-img1").src
+                convertImgToBase64(url, function(base64Img){
+        //转化后的base64
+      //alert(base64Img);
+        //console.log(base64Img);
+                    vm.pictures.push(base64Img);
+                   // vm.base64=base64Img.substring(base64Img.indexOf(",") + 1);
+                    //vm.base64=base64Img;
+                    //document.getElementById("test").src =  vm.pictures[0];
+                    //alert(vm.pictures.length);
+                    });             
+          }
+		
+/*reader.result.substring(reader.result.indexOf(",") + 1)*/
+
+/*var AllowImgFileSize = 2100000;    //上传图片最大值(单位字节)（ 2 M = 2097152 B ）
+    if (AllowImgFileSize != 0 && AllowImgFileSize < reader.result.length) {
+      alert( '上传失败，请上传不大于2M的图片！');
+      return;
+    }*/
+    //实现将项目的图片转化成base64
+    function convertImgToBase64(url, callback, outputFormat){
+       var canvas = document.createElement('CANVAS'),
+    　　ctx = canvas.getContext('2d'),
+    　　img = new Image;
+    　　img.crossOrigin = 'Anonymous';
+    　　img.onload = function(){
+        　　canvas.height = img.height;
+        　　canvas.width = img.width;
+        　　ctx.drawImage(img,0,0);
+        　　var dataURL = canvas.toDataURL(outputFormat || 'image/png');
+        　　callback.call(this, dataURL);
+        　　canvas = null; 
+        };
+    　　img.src = url;
+    }
+		//-----------------
+		</script>
+	</body>
+
+</html>

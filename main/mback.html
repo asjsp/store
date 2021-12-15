@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en" class="feedback">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>问题反馈</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/hdj.css" />
+		<link rel="stylesheet" type="text/css" href="../css/feedback.css" />
+		<style>
+			.mui-table-view:before {
+				height: 0px;
+			}
+			
+			.mui-table-view:after {
+				height: 0px;
+			}
+			
+			.mui-table-view-cell:after {
+				height: 0px;
+			}
+			
+		</style>
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FF4B4A;"></a>
+
+			<h1 class="mui-title">退款/售后详情</h1>
+		</header>
+		<nav class="mui-bar mui-bar-tab" style="background-color: white;">
+            <div style="padding: 20px;padding-top: 10px;">
+			     <button onclick="refselect()" id="submit"  class="mui-btn mui-btn-block mui-btn-outlined mui-btn-red hdj-fsize2" style="border-radius: 6px;">
+				                     撤销申请
+			    </button>
+			</div>
+			<!--<div onclick="refselect()" id="submit" style="text-align: center;color: white;margin: 4vw; background-color: #FF4B4A;padding: 10px;border-radius: 50px;">
+				撤销申请
+			</div>-->
+
+		</nav>
+		<div class="mui-content" style="background-color: white;">
+			<div style="text-align: center;color: red;margin: 10px;" >
+				<img style="margin-bottom: -5px; margin-right: 10px;width: 24px;" :src="'../images/sh'+info.rnState+'.png'">
+				<span>{{converts(info.rnState)}}</span>
+			</div>
+			<ul v-if="tong" style="background-color: #fff5f5;padding: 8px;">
+				<li class="mui-table-view-cell ">
+					<a class="mui-navigate-right" style="color: red;" onclick="add_wuliu()">
+						<img style="margin-bottom: -5px; margin-right: 5px;width: 24px;" src="../images/wuliured.png">
+						<span>点击填写物流信息</span>
+					</a>
+				</li>
+			</ul>
+			<div class="mui-table-view" v-if="fou" >
+				<div style="background-color: #fff5f5; margin: 20px;padding: 10px;">拒绝原因：{{info.vetoReason}}</div>
+			</div>
+			<div class="mui-table-view" style="border-bottom: 1px solid gainsboro;border-top: 1px solid gainsboro;">
+				<div class="mui-table-view-cell hdj-center" style="padding-bottom: 2px;">
+					<img style="margin-right: 5px;width: 24px;" src="../images/logo13.png">
+					<span>{{bOrderEntity.mercName}}</span>
+				</div>
+				<div class="mui-table-view-cell" >
+					<img style="width: 20vw;margin-right: 15px; float: left;" :src="getserverimg(bOrderEntity.gsiId,6)">
+					<div style="margin-left: 15px;">
+						<div class="mui-ellipsis">{{bOrderEntity.gsiName}}</div>
+						<p>{{bOrderEntity.giContent}}</p>
+						<span class="hdj-balck"> ¥{{bOrderEntity.boActprice}}</span>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="mui-table-view-cell">退款类型：<span>{{convert(info.rnType)}}</span></div>
+			<div class="mui-table-view-cell">退款金额：<span>{{info.rnMoney}}</span></div>
+			<div class="mui-table-view-cell">退款原因：<span>{{convertr(info.rnResource)}}</span></div>
+			<div class="mui-table-view-cell">订单编号：<span>{{bOrderEntity.boOrder}}</span></div>
+			<div class="mui-table-view-cell" style="margin-bottom: 30px;">
+				申请时间：<span>{{convertdate(info.createDate)}}</span>
+
+			</div>
+
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/server.js"></script>
+		<script type="text/javascript">
+			var order_detail = null;
+			var paysucess_view = null;
+			mui.init();
+			mui('.mui-scroll-wrapper').scroll();
+			/*mui.plusReady(function() {
+				order_detail = preload("order_detail.html");
+				paysucess_view = preload("mbackwl.html");
+				vm.mbId = plus.storage.getItem("mbId");
+				
+			});*/
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					tong: false,
+					fou: false,
+					info: {},
+					mbId: '',
+					bOrderEntity: {}
+				}
+			});
+			//document.addEventListener('refundorder_detail', 
+			vm.mbId = h5_mbinfo.mbId;
+			refundorder();
+			function refundorder() {
+				var info=JSON.parse(localStorage.getItem("backinfo"));
+				vm.info = info.bRefundEntity;
+				vm.bOrderEntity = info;
+				//vm.bOrderEntity = event.detail.info
+				var bt = document.getElementById("submit");
+				console.info('退款信息:'+JSON.stringify(vm.info));
+				console.info('订单信息:'+JSON.stringify(vm.bOrderEntity))
+				if(vm.info.rnState == 1) {
+					vm.tong = false;
+					vm.fou = false;
+					bt.innerHTML = "撤销申请"
+				}
+				if(vm.info.rnState == 2) {
+					vm.tong = true;
+					vm.fou = false;
+					bt.innerHTML = "撤销申请"
+				}
+				if(vm.info.rnState == 4) {
+					vm.tong = false;
+					vm.fou = false;
+					bt.innerHTML = "撤销申请"
+				}
+				if(vm.info.rnState == 3) {
+					vm.fou = true;
+					vm.tong = false;
+					bt.innerHTML = "重新申请"
+				}
+				if(vm.info.rnState == 5) {
+					bt.style.display = "none";
+					vm.fou = false;
+					vm.tong = false;
+				} 
+			};
+			/*数据字典转换------------*/
+			/*退款类型*/
+			function convert(item) {
+				var str = '';
+				if(item == 1) {
+					str = "退款不退货"
+				}
+				if(item == 2) {
+					str = "退货"
+				}
+				return str;
+			}
+			/*售后状态*/
+			function converts(item) {
+				var str = '';
+				if(item == 0) {
+					str = ""
+				}
+				if(item == 1) {
+					str = "等待卖家处理"
+				}
+				if(item == 2) {
+					str = "商家同意"
+				}
+				if(item == 3) {
+					str = "商家否决"
+				}
+				if(item == 4) {
+					str = "等待卖家放款"
+				}
+				if(item == 5) {
+					str = "退款完成"
+				}
+				return str;
+			}
+			/*退款原因*/
+			function convertr(item) {
+				var str = '';
+				if(item == 1) {
+					str = "无理由退换货"
+				}
+				if(item == 2) {
+					str = "退运费"
+				}
+				if(item == 3) {
+					str = "与描述不符"
+				}
+				if(item == 4) {
+					str = "质量问题"
+				}
+				return str;
+			}
+			/*物流--------*/
+			//var paysucess_view = preload("mbackwl.html");
+			function add_wuliu() {
+				var wdata={
+					order: vm.bOrderEntity.boOrder,
+					lgsId: vm.bOrderEntity.lgsId,
+					reId: vm.info.id
+				};
+				/*setTimeout(function() {
+					paysucess_view.show("slide-in-right", 300);
+				}, 150);*/
+				localStorage.setItem("wlinfo", JSON.stringify(wdata));
+				mui.openWindow("mbackwl.html");
+			};
+
+			function refselect() {
+				if(vm.info.rnState == 3) {
+					console.log('重新申请');
+					/*var paysucess_view = preload("mbacksq.html");
+					mui.fire(paysucess_view, 'get_boId', {
+						boId: vm.bOrderEntity
+					});
+					setTimeout(function() {
+						paysucess_view.show("slide-in-right", 300);
+					}, 150);*/
+					mui.openWindow("mbacksq.html");
+
+				} else {
+					cencelrefund() /*取消申请*/
+				}
+			}
+			//order_detail = preload("order_detail.html");
+			function cencelrefund() {
+				var  btnArray=["确认","取消"];
+				mui.confirm('确认取消退款?', '惠当家',btnArray,function(v) {
+					if(v.index == 0) {
+						var data = {
+							reId: vm.info.id,
+							mbId: vm.mbId
+						};
+						console.log(JSON.stringify(data))
+						var apiname = "refundApi/cencelrefund" + ".do";
+						mui.post(servername + apiname, data, function(rsp) {
+							mui.toast(rsp.msg);
+							if(rsp.code == 0) {
+								//mui.fire(order_detail, 'update', {});
+								mui.back();								
+							}
+						}, 'json');
+					}
+				})
+			}
+		</script>
+	</body>
+
+</html>

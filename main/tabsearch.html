@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<!--App自定义的css-->
+
+		<style>
+			.mui-row.mui-fullscreen>[class*="mui-col-"] {
+				height: 100%;
+			}
+			
+			.mui-col-xs-3,
+			.mui-control-content {
+				overflow-y: auto;
+				height: 100%;
+			}
+			
+			.mui-segmented-control .mui-control-item {
+				line-height: 50px;
+				width: 100%;
+				background-color: #FFFFFF;
+			}
+			
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+				background-color: #fff;
+				color: #ff3732;
+				border-left: 3px solid #ff4c4a;
+			}
+			
+			.mui-segmented-control.mui-segmented-control-inverted.mui-segmented-control-vertical .mui-control-item,
+			.mui-segmented-control.mui-segmented-control-inverted.mui-segmented-control-vertical .mui-control-item.mui-active {
+				border-bottom: 1px solid white;
+			}
+			
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+				margin: 0;
+				padding: 1px 5px;
+				vertical-align: top;
+				border-right: 0px solid #eee;
+				border-bottom: 0px solid #eee;
+			}
+			
+			.mui-table-view:after {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				height: 0px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc;
+			}
+		</style>
+	</head>
+
+	<body style="background: white;">
+		<header class="mui-bar mui-bar-nav" style="justify-content: flex-end;">
+			<!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>-->
+			<div class="mui-input-row mui-search" onclick="clicked('search.html')">
+				<input disabled=true type="search" class="mui-input-clear" placeholder="搜索类别" style="background-color: white;border: 1px solid #cacaca;">
+			</div>
+		</header>
+		<div class="mui-content mui-row mui-fullscreen" style="background: #FFFFFF;">
+			<div class="mui-col-xs-3">
+				<div id="segmentedControls" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-vertical">
+				</div>
+			</div>
+			<div id="segmentedControlContents" class="mui-col-xs-9" style=" background: white;border-left: 0px solid #c8c7cc;">
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/server.js"></script>
+		<script>
+			var controls = document.getElementById("segmentedControls");
+			var contents = document.getElementById("segmentedControlContents");
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			//mui.getJSON(servername + "foregroundApi/searchlist.do", function(rsp) {
+				rsp=[
+    {
+        "name": "美妆",
+        "id": "00000000603f043501603f585cca0010", 
+        "child": [
+            {
+                "name": "面膜",
+                "id": "00000000603f043501603f5a12c00021",
+                "child": null
+            },
+			{
+			    "name": "口红",
+			    "id": "00000000603f043501603f5a12c00021",
+			    "child": null
+			},
+			{
+			    "name": "眼霜",
+			    "id": "00000000603f043501603f5a12c00021",
+			    "child": null
+			},
+			{
+			    "name": "面膜",
+			    "id": "00000000603f043501603f5a12c00021",
+			    "child": null
+			},
+			{
+			    "name": "面膜",
+			    "id": "00000000603f043501603f5a12c00021",
+			    "child": null
+			},
+			{
+			    "name": "面膜",
+			    "id": "00000000603f043501603f5a12c00021",
+			    "child": null
+			},
+			{
+			    "name": "口红",
+			    "id": "00000000603f043501603f5a12c00021",
+			    "child": null
+			},
+			{
+			    "name": "眼霜",
+			    "id": "00000000603f043501603f5a12c00021",
+			    "child": null
+			},
+        ]
+    },
+    {
+        "name": "手机",
+        "id": "00000000603f043501603f5895910013",
+        "child": []
+    },
+    {
+        "name": "鞋包",
+        "id": "00000000603f043501603f58c3760016",
+        "child": []
+    },
+    {
+        "name": "美食",
+        "id": "00000000603f043501603f58efa50019",
+        "child": []
+    },
+    {
+        "name": "珠宝",
+        "id": "00000000603f043501603f5918cc001b",
+        "child": []
+    },
+    {
+        "name": "数码",
+        "id": "00000000603f043501603f593f9f001d",
+        "child": []
+    },
+    {
+        "name": "家纺",
+        "id": "00000000603f043501603f596c91001f",
+        "child": []
+    },
+	{
+	    "name": "美食",
+	    "id": "00000000603f043501603f58efa50019",
+	    "child": []
+	},
+	{
+	    "name": "珠宝",
+	    "id": "00000000603f043501603f5918cc001b",
+	    "child": []
+	},
+	{
+	    "name": "数码",
+	    "id": "00000000603f043501603f593f9f001d",
+	    "child": []
+	},
+	{
+	    "name": "家纺",
+	    "id": "00000000603f043501603f596c91001f",
+	    "child": []
+	}
+]
+
+				console.log(JSON.stringify(rsp));
+				addleft(rsp);
+				addright(rsp);
+				controls.querySelector('.mui-control-item').classList.add('mui-active');
+				contents.querySelector('.mui-control-content').classList.add('mui-active');
+			//});
+			/*------打开新页面----------*/
+			function clicked(id) {
+				//alert(id);
+				//plus.webview.open(id, id, {}, "slide-in-right");
+				mui.openWindow(id);
+			};
+			//adview = preload("sdpd_search.html");
+			function open_search(id, pid) {
+				
+				localStorage.setItem("sid",id);
+				mui.openWindow("sdpd_search.html");
+				//adview = preload("sdpd_search.html");
+				/*mui.fire(adview, 'sdpd_search', {
+					id: id
+				});
+				setTimeout(function() {
+					adview.show("slide-in-right", 300);
+				}, 150);*/
+
+				/* console.log(id+"parent--"+pid);
+			    var sdpdview_detail =preload("sdpd.html");
+			      
+			    mui.fire(sdpdview_detail, 'search_info', {
+				    child_id:id,
+				    parent_id:pid
+				});*/
+				/*setTimeout(function () {
+						sdpdview_detail.show("slide-in-right", 300);
+					},150);*/
+			};
+
+			/*----------------------------------*/
+			function addleft(menuData) {
+				var html = [];
+				var x;
+				for(x in menuData) {
+					var tts = menuData[x].name;
+					html.push('<a class="mui-control-item hdj-black hdj-fsize5"; href="#content' + x + '">' + tts + '</a>');
+				}
+				controls.innerHTML = html.join('');
+			}
+			/*-------------------------*/
+			function addright(menuData) {
+				var html = [];
+				for(x in menuData) {
+					var tms = menuData[x].name;
+					var pid = menuData[x].id;
+					html.push('<div id="content' + x + '" class="mui-control-content">');
+
+					html.push('<ul class="mui-table-view mui-grid-view ">');
+					html.push('<ul class="mui-row " style="background-color: white;"><h5 class="mui-col-xs-10" style="margin-top: 20px; border-top: 1px solid #c8c7cc;height:20px;"> </h5>');
+					html.push('<h5 class="mui-col-xs-2 " style="margin-top: 14px;">' + tms + '</h5></ul>');
+
+					var contchild = menuData[x].child;
+					var y;
+					for(y in contchild) {
+
+						var cid = contchild[y].id;
+						//	console.log(cid);
+						//	console.log(getserverimg(cid,9));
+						var childname = contchild[y].name;
+						var imgsrc = '../images/demo/sj2'+y+'.jpg';
+						var cls = "open_search('" + cid + "','" + pid + "')";
+						//var imgsrc=''
+						html.push('<li  class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" style="background-color: white;">' +
+							'<a href="#">' +
+							'<img style="padding: 10px;" class="mui-media-object" src=' + imgsrc + '>' +
+							'<div ><p class="hdj-fsize4 hdj-black">' + childname + '</p></div>' +
+							'</a>' +
+							'</li>');
+					}
+
+					html.push('</ul></div>');
+				}
+				contents.innerHTML = html.join('');
+			}
+		</script>
+
+	</body>
+
+</html>

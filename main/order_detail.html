@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<!--App自定义的css-->
+		<!--<link rel="stylesheet" type="text/css" href="../css/app.css" />-->
+		<style>
+			.mui-table-view.mui-grid-view .mui-table-view-cell {
+				font-size: 17px;
+				display: inline-block;
+				margin-right: -1px;
+				padding: 6px 0 0 10px;
+				text-align: center;
+				vertical-align: middle;
+				background: 0 0;
+			}
+			
+			.mui-card {
+				font-size: 14px;
+				position: relative;
+				overflow: hidden;
+				margin: 5px;
+				border-radius: 1px;
+				background-color: #fff;
+				background-clip: padding-box;
+				box-shadow: 1 1px 1px rgba(0, 0, 0, .2);
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back" style="color:red;"></a>
+			<h1 class="mui-title">订单详情</h1>
+		</header>
+		<div class="mui-content">
+			<div style="padding:20px; margin-bottom: 6px;background-color: white;display: -webkit-flex;  -webkit-justify-content: space-between; -webkit-align-items:center;display: flex;justify-content: space-between;align-items: center;">
+				<div>
+					<p style="font-size: 15px; color: #333333; display: -webkit-flex;  -webkit-align-items:center;display: flex;align-items: center;">
+						<img style="width: 20px; margin-right: 15px;" src="../images/logo11.png">
+						<span>{{orderinfo.boReceivename}}</span>
+						<span style="margin-left: 40px;">{{orderinfo.boReceviephone}}</span>
+					</p>
+					<p style="font-size: 14px; color: #949494;display: -webkit-flex;   -webkit-align-items:center;display: flex;align-items: center;margin-top: 20px;">
+						<img style="margin-right: 15px;width: 20px;" src="../images/logo12.png"> {{orderinfo.boProvinceName}}{{orderinfo.boCityName}}{{orderinfo.boOrgName}}{{orderinfo.boRecevieaddress}}
+					</p>
+				</div>
+				<!--<a style="color: gray;">
+		        	<span class="mui-icon mui-icon-arrowright"></span>
+		        </a>-->
+			</div>
+			<!--商品内容-->
+			<div id="item1" style="padding:20px; margin-bottom: 6px;background-color: white;">
+				<div class="hdj-center">
+					<img style="margin-right: 10px;width: 24px;" src="../images/logo13.png">
+					<span class="hdj-balck hdj-fsize2">{{orderinfo.mercName}}</span>
+				</div>
+				<!-------->
+				<div class="hdj-flex" style="margin-top: 10px;">
+					<div class="mui-media-body mui-col-xs-3 mui-col-sm-3">
+							<div class="hdj-img-wrap1" >
+								<img src="../images/demo/m1.jpg" class="hdj-img-cont">
+							</div>
+					</div>
+					<div class="mui-media-body mui-col-xs-9 mui-col-sm-9" style="margin-left: 15px;">
+						<div class="hdj-space-between">
+								<span class="mui-ellipsis hdj-fsize2" style="width: 70%;">{{orderinfo.gsiName}}</span>
+								<span class="hdj-fsize1">¥ {{orderinfo.boOrderprice}}</span>
+						</div>
+						<p class="hdj-fsize3 hdj-space-between" >
+								<span>{{orderinfo.giContent}}</span>
+								<span style="text-decoration:line-through">¥ {{orderinfo.gsiMarketprice}}</span>
+						</p>
+						<button @tap="open_paysucess()" id="refund" class="mui-btn mui-btn-danger mui-btn-outlined" 
+							:class="{'mui-hidden':!btShow}" style="color: #f85b4f; width: 64px; font-size: 13px; padding: 2px;">
+                        	{{btShow}}
+                        </button>
+
+					</div>
+				</div>
+				<!-------------->
+			</div>
+			<!---------------->
+			<div style="padding:20px; margin-bottom: 6px;background-color: white;">
+				<div style="font-size: 15px; color: #333333;">
+					<span>配送方式</span>
+					<span class="mui-pull-right">默认快递</span>
+				</div>
+				<p style="margin-top: 20px;">
+					<a @tap="open_detail('in')" style="font-size: 14px; color: #949494;">
+						<span>优惠卷</span>
+						<span class="mui-pull-right">
+		    	  	    	¥{{nvl(orderinfo.boCouponprice,0)}}
+		    	  	    	<!--<span class="mui-icon mui-icon-arrowright"></span>-->
+						</span>
+					</a>
+				</p>
+				<p style="font-size: 14px; color: #949494;margin-top: 15px;">
+					<span>可用积分{{orderinfo.boIntegral}}</span>
+					<span class="mui-pull-right">积分抵扣¥{{orderinfo.boIntegralmoney}}</span>
+				</p>
+				<p style="font-size: 14px; color: #949494;margin-top: 15px;">
+					<span>快递运费</span>
+					<span class="mui-pull-right">¥{{orderinfo.boFreight}}</span>
+				</p>
+				<div style="font-size: 14px; padding-top: 20px; text-align:right;border-top: 1px solid gainsboro;">
+					结算：<span style="margin-left: 13px; color: #f85b4f;font-size:medium;">¥6{{orderinfo.boActprice}}</span>
+				</div>
+			</div>
+			<div style="font-size: 14px; color: #999999;  padding:20px; margin-bottom: 5px;background-color: white;">
+				<p><span>订单编号：</span><span>{{orderinfo.boOrder}}</span></p>
+				<p><span>下单时间：</span><span>{{convertdate(orderinfo.boUporderdate)}}</span></p>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/server.js"></script>
+		<script>
+			var mbacksq_view = null;
+			var mback_view = null;
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					mbId: '',
+					orderinfo: {},
+					btShow:undefined,
+				}
+			});
+			
+			/*mui.plusReady(function() {
+				
+				mbacksq_view = preload("mbacksq.html");
+			    mback_view = preload("mback.html");
+			    
+				vm.mbId = plus.storage.getItem("mbId");
+				
+			});*/
+			//document.addEventListener('update', function(event) {				
+				//initData();							
+			//});
+		//	document.addEventListener('order_detail', function(event) {
+				
+				vm.mbId = h5_mbinfo.mbId;
+				vm.orderinfo =JSON.parse(localStorage.getItem("orderinfo"));
+				initData();					
+			//});
+			function initData(){
+				var data = {
+					mbId: vm.mbId,
+					boId: vm.orderinfo.id
+				}
+				var apiname = "orderApi/findById" + ".do";
+				console.log('请求:'+apiname+"           "+JSON.stringify(data));
+				mui.post('../json/orderlist.json', function(rsp) {
+					vm.orderinfo = rsp.rows[0];
+					console.log('返回:'+JSON.stringify(rsp))
+					if(vm.orderinfo.boState == 2 || vm.orderinfo.boState == 3 || vm.orderinfo.boState == 4){ //退款按钮
+						vm.btShow = '退款';
+						if(vm.orderinfo.bRefundEntity != null ){
+							if(vm.orderinfo.bRefundEntity.rnState != 0){
+								vm.btShow = '退款中';
+							} 
+						}
+					}
+					if(vm.orderinfo.bRefundEntity && vm.orderinfo.bRefundEntity.rnState==3){
+						vm.btShow == '退款被拒绝';
+					}
+					console.log("查看订单" + JSON.stringify(vm.orderinfo));
+				}, 'json');		
+			}
+			//mbacksq_view = preload("mbacksq.html");
+			//mback_view = preload("mback.html");
+			function open_paysucess() {
+				localStorage.setItem("backinfo", JSON.stringify(vm.orderinfo));
+				if(vm.btShow == '退款'){
+					//
+			        mui.openWindow("mbacksq.html");
+					/*mui.fire(mbacksq_view, 'get_boId', {
+						boId: vm.orderinfo
+					});
+					setTimeout(function() {
+						mbacksq_view.show("slide-in-right", 300);
+					}, 150);*/
+				}else if(vm.btShow == '退款中'){
+					//localStorage.setItem("backinfo", JSON.stringify(vm.orderinfo));
+			        mui.openWindow("mback.html");
+					/*mui.fire(mback_view, 'refundorder_detail', {
+						info: vm.orderinfo 
+					}); 
+					setTimeout(function() {
+						mback_view.show("slide-in-right", 300);
+					}, 150);*/
+				}
+			};
+
+			function back() {
+				plus.webview.currentWebview().close();
+			};
+		</script>
+
+	</body>
+
+</html>

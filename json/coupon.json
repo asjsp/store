@@ -1,0 +1,30 @@
+[{
+	"id": "4028ef815f95020f015f9528606e000a",
+	"cptAlluse": 1,
+	"cptName": "双11优惠券",
+	"cptState": 1,
+	"cptMoney": 10.0,
+	"mercId": "402882035f968d74015f969badbb0001",
+	"cptCount": 100,
+	"cptUseend": 1511245566000,
+	"cptSendcount": 0,
+	"cptGrantbegin": 1510035958000,
+	"cptGrantend": 1513923960000,
+	"cptUsebegin": 1510035963000,
+	"cptOrderminmoney": 100.0
+},
+{
+	"id": "4028ef815f95020f015f9528606e000a",
+	"cptAlluse": 1,
+	"cptName": "618优惠券",
+	"cptState": 1,
+	"cptMoney": 60.0,
+	"mercId": "402882035f968d74015f969badbb0001",
+	"cptCount": 100,
+	"cptUseend": 1511245566000,
+	"cptSendcount": 0,
+	"cptGrantbegin": 1510035958000,
+	"cptGrantend": 1513923960000,
+	"cptUsebegin": 1510035963000,
+	"cptOrderminmoney": 100.0
+}]

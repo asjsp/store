@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en" class="feedback">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>问题反馈</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<!--<link rel="stylesheet" type="text/css" href="../css/feedback.css" />-->
+		<link rel="stylesheet" href="../css/hdj.css">
+		<style>
+			.mui-btn {
+				font-size: 15px;
+				padding: 8px;
+				margin: 3px;
+			}
+			.mui-popover-arrow{
+				display: none;
+			}
+			.mui-popover {
+				
+				width: 80%;
+				left: 10%;
+				right: 10%;
+				margin: 0 auto;
+			}
+			.mui-checkbox input[type=checkbox]:checked:before, .mui-radio input[type=radio]:checked:before {
+                 color: #FF4B4A;
+            }
+            .mui-table-view:before {
+				    height: 0px;
+				}
+			.mui-table-view-cell:before {
+				    height: 0px;
+				}
+		</style>
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FF4B4A;"></a>
+			
+			<h1 class="mui-title">申请退款</h1>
+		</header>
+		<div class="mui-content" style="background-color: white;">
+			<ul class="mui-table-view">
+			      <li class="mui-table-view-cell">
+			                     <a class="mui-navigate-right" href="#topPopover">
+			                     	<span>
+			                     		退款类型<span style="color: red;">*</span>
+			                     	</span>
+			                     	<span class="mui-badge mui-badge-red">{{convert(rnType)}}</span>
+			                     </a> 
+			      </li>
+			</ul>
+			<ul class="mui-table-view">
+			        <li class="mui-table-view-cell">
+			        	 <a class="mui-navigate-right" href="#mPopover">
+			                     <span>
+			                     	退款原因<span style="color: red;">*</span>
+			                     </span>         
+			                     <span class="mui-badge mui-badge-red">{{convertr(rnResource)}}</span>
+			              </a>                  
+			        </li>
+			</ul>
+			<ul class="mui-table-view">
+			        <li class="mui-table-view-cell">
+			                              退款金额<span style="color: red;">*</span>
+			           <br>  <br>              
+
+			          <input v-model="rnMoney"  type="number" style="border: 1px solid #EFEFF4;border-radius: 8px;background-color: #EEEEEE;" placeholder="请输入金额">
+				                 
+			        </li>
+			</ul>
+			<ul class="mui-table-view">
+			        <li class="mui-table-view-cell">
+			                              退款说明<span style="color: red;">*</span>
+			           <br> <br>
+				      <div class="row mui-input-row " >
+				              <textarea v-model="rnIntro" id='question' style="height: 80px;  background-color: #EEEEEE;border-radius: 8px; border: 1px solid gainsboro;" class="mui-input-clear" placeholder="请填写退款说明...">
+				              	
+				              </textarea>
+			           </div>         
+			        </li>
+			</ul>
+			<ul class="mui-table-view">
+			        <li class="mui-table-view-cell">
+			         <div class="mui-input-row">
+						<label>联系电话</label>
+						<input v-model="rnPhoennum" type="text" placeholder="请输入电话">
+					</div>
+			        </li>
+			</ul>
+			<div style="padding: 20px;">
+				  <div onclick="refund()" id='rf' class="mui-btn mui-btn-block mui-btn-red hdj-redbg" style="color: white;border-radius: 8px;">
+			     	提交申请
+			      </div>
+			</div>
+			
+			
+		<form id="topPopover" style="height: 20vh;" class="mui-input-group mui-popover ">
+			        <br>
+					<div class="mui-input-row mui-radio">
+						<label>退款不退货</label>
+						<input v-model="rnType" value="1" type="radio">
+					</div>
+					<div class="mui-input-row mui-radio" :class="{'mui-hidden':boinfo.boState==2}" >
+						<label>退货</label>
+						<input v-model="rnType" value="2" type="radio">
+					</div>
+		</form>
+		<form id="mPopover" style="height: 55vh;" class="mui-input-group mui-popover">
+			         <br>
+					<div class="mui-input-row mui-radio">
+						<label>无理由退换货</label>
+						<input v-model="rnResource" value="1" type="radio">
+					</div>
+					<div class="mui-input-row mui-radio">
+						<label>退运费</label>
+						<input v-model="rnResource" value="2" type="radio">
+					</div>
+					<div class="mui-input-row mui-radio">
+						<label>与描述不符</label>
+						<input v-model="rnResource" value="3" type="radio">
+					</div>
+					<div class="mui-input-row mui-radio">
+						<label>质量问题</label>
+						<input v-model="rnResource" value="4" type="radio">
+					</div>
+					<div class="mui-input-row mui-radio">
+						<label>漏发</label>
+						<input v-model="rnResource" value="5" type="radio">
+					</div>
+					<div class="mui-input-row mui-radio">
+						<label>破损</label>
+						<input v-model="rnResource" value="6" type="radio">
+					</div>
+					<div class="mui-input-row mui-radio">
+						<label>假冒产品</label>
+						<input v-model="rnResource" value="7" type="radio">
+					</div>
+					<br>
+					<br>
+					
+		</form>
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	    <script src="../js/server.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui('.mui-scroll-wrapper').scroll();
+			
+			//document.addEventListener('get_boId', 
+			//vm.mbId = h5_mbinfo.mbId;
+			
+			function get_boId() {
+				var boId=JSON.parse(localStorage.getItem("backinfo"));
+				cleanData();
+				console.info('申请退款订单信息:'+JSON.stringify(boId))
+			    vm.boId = boId.id;
+			    vm.boinfo = boId;
+			    vm.rnMoney = boId.boActprice;
+			 };	
+			 function cleanData(){
+			 	vm.rnType=1;
+                vm.rnResource=1;
+                vm.rnMoney=null;
+                vm.rnIntro=null;
+                vm.rnState=0;
+                vm.rnPhoennum=null;
+                vm.boId='';
+                vm.mbId='';
+                vm.mbId = h5_mbinfo.mbId;
+			 }
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {
+			             rnType:1,
+                         rnResource:1,
+                         rnMoney:null,
+                         rnIntro:null,
+                         rnState:0,
+                         rnPhoennum:null,
+                         boId:'',
+                         mbId:h5_mbinfo.mbId,
+                         boinfo : null
+					}
+				});
+			get_boId();	
+			//order_detail = preload("order_detail.html");
+			function refund(){
+						if(!vm.rnPhoennum){
+							mui.toast('请填写手机号');	
+							return ;
+						}
+						if(!vm.rnMoney){
+							mui.toast('请填写退款金额');
+							return ;
+						}
+						 mui('#rf').button('loading');
+				         var data ={
+				         	     rnType:vm.rnType,
+                                 rnResource:vm.rnResource,
+                                 rnMoney:vm.rnMoney,
+                                 rnIntro:vm.rnIntro,
+                                 rnState:vm.rnState,
+                                 rnPhoennum:vm.rnPhoennum,
+                                 boId:vm.boId,
+                                 mbId:vm.mbId
+				                   };
+				         console.log(JSON.stringify(data))
+						 var apiname="refundApi/refund"+".do";
+						 mui.post(servername+apiname,data, function(rsp) {
+						                console.log(JSON.stringify(rsp));
+						                setTimeout(function() {
+				                          mui('#rf').button('reset');
+				                         }.bind(this), 150);	
+						                mui.toast(rsp.msg);
+						               	if(rsp.code == 0) {
+											//mui.fire(order_detail, 'update', {});
+											mui.back();		
+											//mui.openWindow("order_detail.html");
+										}
+						                  
+		                          },'json');
+		                          
+			}
+			/*数据字典转换------------*/
+			/*退款类型*/
+			function convert(item){
+				var str='';
+				if(item==1){str="退款不退货"}
+				if(item==2){str="退货"}
+				return str;
+			}
+			/*退款原因*/
+			function convertr(item){
+				var str='';
+				if(item==1){str="无理由退换货"};
+				if(item==2){str="退运费"};
+				if(item==3){str="与描述不符"};
+				if(item==4){str="质量问题"};
+				if(item==5){str="漏发"};
+				if(item==6){str="破损"};
+				if(item==7){str="假冒产品"};
+				return str;
+			}
+			/*function open_paysucess() {
+		         var paysucess_view =preload("mback.html");
+				setTimeout(function () {
+					paysucess_view.show("slide-in-right", 300);
+				},150);
+            };*/	
+		</script>
+	</body>
+
+</html>

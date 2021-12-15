@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<style>
+			.mui-table-view:before {
+				height: 0px;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;color: #EEEEEE;">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"  style="color:red;"></a>
+			<h1 class="mui-title">限时秒杀</h1>
+		</header>
+		<div id="list" class="mui-content mui-scroll-wrapper" style="background-color: white;">
+           <div class="mui-scroll">
+           	   <ul class="mui-table-view " style="background-color: white;">
+           	   	
+			<div style="text-align: center;padding: 20px;">
+				<div style="width: 50%; margin: auto; color: red;font-size: 18px;padding-bottom: 10px;  background-size:100% 100%;   background-image: url(../images/zhengzaifengqiang.png);">
+					<span>{{tim.sklBegintime}}</span>{{tim.now == 1?'正在疯抢':'即将开始'}}
+				</div>
+				<span style="padding: 5px 15px; color: #ff3c3c;border: 1px solid #ff5858;border-radius: 20px;">
+				<span>距离结束：{{tim.sklEndtime}}</span>
+				</span>
+			</div>
+			<p v-if="seen" style="text-align: center;">
+
+				暂无内容
+			</p>
+			<!---------------------->
+			
+				
+					<!--列表信息流 开始-->
+					
+
+						<li @tap="open_goods(item)" v-for="item in goodsList" class="mui-table-view-cell  mui-row hdj-flex">
+
+							<div class="mui-media-body mui-col-xs-5 mui-col-sm-5">
+								<div class="hdj-img-wrap1" style="border-radius: 5px;">
+									<img src="../images/demo/t2.jpg" class="hdj-img-cont" style="border-radius: 5px;">
+								</div>
+
+							</div>
+							<div class="mui-media-body mui-col-xs-7 mui-col-sm-7" style=" margin-left: 15px;">
+								<div class="mui-ellipsis-2 hdj-balck hdj-fsize2">{{item.gsiName}}</div>
+								<div style="margin: 5px; display: flex;display: -webkit-flex; background: gainsboro;width: 95%;height: 14px;border-radius: 20px;">
+									<div :style="{width: parseInt((item.srSalecount/item.srCount)*100)+'%'}" style="height: 14px;padding-bottom: 2px; align-self: center; background: #ff4e4e; border-radius: 20px;color: white;text-align: center;font-size: 10px;">
+										<!-- {{parseInt((item.srSalecount/item.srCount)*100)}}% -->
+									</div>
+								</div>
+								<p class="hdj-fsize3" style="padding-top: 6px; color: #878787;">共{{item.srCount}}件,已抢{{item.srSalecount}}件</p>
+								<p style="padding-top: 6px;">
+									<span class="mui-pull-left hdj-red hdj-fsize1">¥{{item.gsiPrice}}</span>
+									<span class="hdj-fsize5" style="color: #6f6f6f; text-decoration:line-through; margin-left: 10px">¥{{item.gsiMarketprice}}</span>
+								</p>
+								<div class="mui-btn mui-btn-red" style="width: 90px;margin-top: 6px;background-color: #ff4040;">
+									马上抢
+								</div>
+							</div>
+
+						</li>
+					</ul>
+				</div>
+			
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/server.js"></script>
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: '#list',
+					down: {
+						style: 'circle',
+						color: '#FF4B4A',
+						offset: '60px',
+						auto: true,
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			//getCurrent();
+			var count = 1;
+			var totalCount;
+			document.addEventListener('xsms',function(){
+				getCurrent();
+				count=1;
+			})
+			
+
+			function pullupRefresh() {
+				count++;
+				setTimeout(function() {
+					mui('#list').pullRefresh().endPullupToRefresh((count * 4 > totalCount)); //参数为true代表没有更多数据了。
+					callgoodslist(count * 4);
+				}, 1000);
+			}
+
+			function pulldownRefresh() {
+				if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+					plus.nativeUI.toast('似乎已断开与互联网的连接', {
+						verticalAlign: 'top'
+					});
+					return;
+				}
+				//callgoodslist(count * 4);
+				getCurrent();
+			}
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					seen: false,
+					tim: {},
+					goodsList: []
+				}
+			});
+
+			function back() {
+				plus.webview.currentWebview().close();
+			};
+			/*-------进入商品详情---传递----mercId-----*/
+			/*var pdview_detail =  preload("productdetail.html");
+			function open_goods(item) {
+				console.info(JSON.stringify(item));
+				pdview_detail =  preload("productdetail.html");
+				mui.fire(pdview_detail, 'goods_info', {
+					goodsinfo: item
+				});
+				setTimeout(function() {
+					pdview_detail.show("slide-in-right", 300);
+				}, 150);
+			}*/
+
+			function getCurrent() {
+				/*43.	获取全部秒杀时间段             secondkillApi/list                 */
+				//41.	获取现在进行的秒杀       secondkillApi/getCurrent
+				//mui.getJSON(servername + "secondkillApi/getCurrent.do", function(rsp) {
+					rsp={"id":"402880e75f8bf741015f8c0167d30001","sklEndtime":"12:00","sklState":1,"sklBegintime":"00:00"};
+					console.log('请求当前的时间:'+JSON.stringify(rsp));
+					if(rsp) {
+						vm.tim = rsp;
+						callgoodslist(count * 4);
+
+					}
+				//});
+			}
+
+			function callgoodslist(rw) {
+				var data = {
+					sklId: vm.tim.id,
+					page: 1,
+					rows: rw,
+					nextDate :vm.tim.nextDate
+				};
+				var apiname = "secondkillApi/goodsList" + ".do";
+				console.log(servername+apiname+"?sklId="+vm.tim.id+"&page=1&rows=4&nextDate="+vm.tim.nextDate);
+				mui.getJSON('../json/goodslist.json', function(rsp) {
+					mui('#list').pullRefresh().endPulldownToRefresh();
+					console.log(JSON.stringify(rsp));
+					if(rsp.rows && rsp.rows.length > 0) {
+						vm.goodsList = rsp.rows;
+						totalCount = rsp.totalCount;
+					} else {
+						vm.seen = true
+					}
+
+				});
+			}
+		</script>
+	</body>
+
+</html>

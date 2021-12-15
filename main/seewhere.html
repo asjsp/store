@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+	    <style>
+	    	.meta-info{
+	    		background-color: ;
+	    	}
+	    	
+	    </style>
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back()" style="color:#FF4B4A;"></a>
+			<h1 class="mui-title">物流信息</h1>
+		</header>
+	<div class="mui-content" >	
+	       <!-- <img  style="width: 6vw;margin-right: 10px;" src="../images/lst.png" >-->
+	        <p v-if="seen" style="text-align: center;">
+			          暂无内容
+		    </p>
+		    <div  id="list" class="hdj-balck hdj-fsize2">
+		    	
+		    	<div style="background-color: white;padding: 20px;">
+		    	   <div><span class="hdj-gray">承担公司：</span>{{offerList.company}}</div>
+	               <div style="margin-top: 10px;">
+	               	<span class="hdj-gray">运单编号：</span>
+	               	{{offerList.no}}
+	               	<!--<span class="mui-btn hdj-gray" style="width: 40px; padding: 2px;margin-left: 10px;padding-left: 6px;padding-right: 6px;">复制</span>-->
+	               </div>
+	            </div> 
+	            
+	            <div style="background-color: white;margin-top: 5px;padding: 20px;">
+				  <div >物流信息</div>
+				  <br>
+		    	  <div v-for="(item, index) in markarr"  style="margin: 0; margin-left: 10px;padding: 0; padding-left: 10px; border-left: 2px solid gainsboro;">
+		    	  	  <p  v-bind:style="{backgroundColor: ctcolor(index>0),}"   style="z-index: 3;  position: relative; left: -18px; top:0px;border: 2px solid white; margin: 0; padding: 0; width: 15px;height: 15px;border-radius: 50%;"></p>
+		    	  	  <p class="hdj-balck hdj-fsize2"  style="margin-left: 8px;padding: 4px;margin: 0;">{{item.remark}}</p>
+                      <p  class="hdj-gray hdj-fsize4" style="margin-left: 8px;padding: 4px;margin: 0;">{{item.datetime}}</p>
+				  </div>
+				</div> 
+				  
+		    </div>
+	</div>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/server.js"></script>
+	<script>
+		mui.init({
+			pullRefresh: {
+			   container: '#list',
+			   down: {
+						style: 'circle',
+						color:'#ff4c4a',
+						offset: '60px',
+						auto: false,
+						callback: pulldownRefresh
+					}
+				}
+		});
+		//mui.plusReady(function() {
+				//vm.mbId=plus.storage.getItem("mbId");
+				//var lauchFlag = plus.storage.getItem("lauchFlag");
+		//});
+		
+		var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					seen:false,
+					id:'',
+					mbId: h5_mbinfo.mbId,
+					offerList:{},
+					markarr:[]
+					}
+				});
+		function pulldownRefresh() {
+			if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+								plus.nativeUI.toast('似乎已断开与互联网的连接', {
+									verticalAlign: 'top'
+								});
+								return;
+						}
+			//mui('#list').pullRefresh().endPulldown();
+			
+	        //getofferlist()
+		}
+		//document.addEventListener('sw_detail', function(event) {
+			    vm.id = localStorage.getItem("pid");
+			    console.log("<--导入订单id-----:"+vm.id);
+			    //getofferlist();
+				vm.offerList={
+  "company": "韵达", 
+  "details": [ 
+    {
+      "datetime": "2017-12-14 11:05:01", 
+      "remark": "快件在 通达公司菜鸟天津仓服务部 进行揽件扫描"  
+    },
+    {
+      "datetime": "2017-12-14 14:42:47",
+      "remark": "快件在 通达公司菜鸟天津仓服务部 进行揽件扫描"
+    }
+  ],
+  "no": "3935996304089",
+  "code": 0,
+  "msg": "成功"
+}
+				 vm.markarr= vm.offerList.details;
+			//});		
+		 /*---------82.	获取竞拍列表-----------*/
+		function getofferlist(){
+			             var data ={mbId: vm.mbId, odId:vm.id};
+						 var apiname="orderApi/orderlogistics"+".do";
+						  console.log(servername+apiname+"?mbId="+vm.mbId+"&odId="+vm.id);
+						 mui.getJSON(servername+apiname,data, function(rsp) {
+						 	        mui('#list').pullRefresh().endPulldownToRefresh();
+						             console.log("物流列表"+JSON.stringify(rsp));
+						             mui.toast(rsp.msg)
+						             if(rsp.code==0){
+						            	    vm.offerList=rsp;
+						            	     vm.markarr= rsp.details;
+						            	     console.log(vm.markarr[0].datetime)
+						              } 
+		                          });
+					    };
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+	
+	</head>
+
+	<body  style="background-color: rgba(0,0,0,0.8);">
+		
+	
+	   
+        <div  class="mui-content" style="width: 100vw;border-radius: 20px;background-color:white;">
+        	<div style="text-align: center; border-radius: 20px 20px 0px 0px; width: 100%; height: 56vh; padding: 40px;background-color: #FF4B4A;">
+        		 <img v-if="seen" src="../images/hongb.png" style="width: 100%;">
+        		  <img v-if="!seen" src="../images/qiandao.png" style="width: 30%;">
+        		 <div v-if="!seen" style="color: white;font-size: 16px;padding-top: 5px;">签到领取盟币</div>
+        		 
+        	</div>
+        	
+        	<div onclick="back(this)"  style="text-align: center;color: white;margin: 25px; background-color: #FF4B4A;padding: 8px;border-radius: 50px;">
+			       确定
+		     </div>	
+		     <p style="height: 5px;"></p>
+        </div>
+		
+		
+	
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/server.js"></script>
+		<script>
+			mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		mui.plusReady(function() {
+				vm.mbId=plus.storage.getItem("mbId");
+				
+				//var lauchFlag = plus.storage.getItem("lauchFlag");
+		});
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					mbId: '',
+					seen:false
+					}
+				});
+		function qd(){
+			var data ={ mbId: vm.mbId};
+						 var apiname="mbSignApi/sign"+".do";
+						 console.log(servername+apiname+"?mbId="+vm.mbId);
+						 mui.post(servername+apiname,data, function(rsp) {
+						              console.log(JSON.stringify(rsp));
+						              vm.seen=true;
+						              setTimeout(function(){
+						              	    mui.back();
+						              },'2000')
+						             
+		                          },'json');
+		}
+			function back(obj){
+				
+				qd();
+			//plus.webview.currentWebview().close();
+			//mui.back();
+		}
+		</script>
+		
+	</body>
+
+</html>

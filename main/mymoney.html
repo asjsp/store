@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<!--App自定义的css-->
+		<style>
+			.mui-control-content {
+				background-color: white;
+				min-height: 120px;
+			}
+			.mui-table-view:before {
+				height: 0px;
+			}
+			
+			.mui-table-view:after {
+				height: 0px;
+			}
+			
+			.mui-table-view-cell:after {
+				height: 0px;
+			}
+			
+		</style>
+
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back  mui-icon mui-icon-left-nav mui-pull-left" style="color:#FF4B4A;"></a>
+			<h1 class="mui-title">我的钱包</h1>
+		</header>
+		<div class="mui-content mui-scroll-wrapper" style="background-color: white;" id="list">
+		  <div class="mui-scroll">
+            <ul class="mui-table-view mui-table-view-chevron">
+			
+			<div style="background: linear-gradient(to right, #ff8d22, #fe4334);">
+				<div style="color: white;text-align: center;padding: 20px;">
+					<span class="hdj-fsize5">可用余额</span>
+					</br>
+					</br>
+					<h1>
+						<span style="font-size:23px">¥</span>
+						
+						<span style="font-size:33px">{{mbBalance}}</span>
+					</h1>
+				</div>
+				<div style="background-color: rgba(255,255,255,0.2);width: 100%;padding: 10px;">
+					<div class="hdj-space-around" style="color: white;">
+						<span @tap="open_detail('in')" class="hdj-fsize1" style="color:white ;">充值</span>
+						<span style="font-size: 22px;">|</span>
+						<span  @tap="open_detail('out')" class="hdj-fsize1" style="color:white ;">提现</span>
+					</div>
+				</div>
+			</div>
+			<!-------->
+			
+			<div style="margin: 20px;margin-bottom: 30px;margin-top: 30px; background: linear-gradient(to right, #ff8d22, #fe4334);padding: 2px;border-radius: 50px;box-shadow: 2px 2px 2px 2px #E8E8E8;">
+				<div class="hdj-space-between" style="padding: 6px;color: white;">
+					<span class="hdj-fsize1" style="margin-left: 30px;text-align: center;">{{mbAlliance}}<br>盟币</span>
+					<span class="hdj-fsize1" style="text-align: center;">{{mbFavourable}}<br>汇币</span>
+					<p @tap="open_detail('jh')" class="hdj-fsize1" style="margin: 0px; padding: 12px 20px; background: linear-gradient(to right, #ff8d22, #fe4334); border: 1px solid white; color: white;border-radius: 40px;">
+						去转币
+					</p>
+				</div>
+			</div>
+			<!------------->
+			<div class="hdj-shadow" style="margin: 20px; background-color: white;padding: 10px;border-radius: 8px;">
+				<div id="segmentedControl" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-negative">
+					<a class="mui-control-item mui-active hdj-fsize2" href="#item1" style="color: #464646;">充值记录</a>
+					<a class="mui-control-item hdj-fsize2" href="#item2" style="color: #464646;">提现记录</a>
+				</div>
+				<div id="item1" class="mui-control-content mui-active">
+
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell" v-for="item in gettlewater">
+							<span class="mui-pull-left hdj-fsize5" style="color: #555555;">
+								充值 {{item.rgMoney}}元
+							</span>
+							<span class="mui-pull-right hdj-fsize5" style="color: #848484;">
+								{{convertdate(item.rgDate)}}
+							</span>
+						</li>
+					</ul>
+
+				</div>
+				<div id="item2" class="mui-control-content">
+					<!--<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">-->
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell" v-for="item in settlewater">
+									<span class="mui-pull-left hdj-fsize5" style="color: #555555;">
+										提现 {{item.msfMoney}}元
+									</span>
+									<span class="mui-pull-right hdj-fsize5" style="color: #848484;">{{convertdate(item.msfApplydate)}}</span>
+								</li>
+							</ul>
+					<!--	</div>
+					</div>-->
+				</div>
+				<!---->
+				<div style="text-align: center;">
+					<span class="mui-icon mui-icon-arrowdown" style="color: gainsboro;"></span>
+				</div>
+			</div>
+		
+		
+		    </ul>		
+		  </div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/server.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: '#list',
+					down: {
+						style: 'circle',
+						color: '#FF4B4A',
+						offset: '60px',
+						auto: true,
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			var count = 1;
+			var recharge_count;
+			var settlewater_count;
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				count++;
+				setTimeout(function() {
+					mui('#list').pullRefresh().endPullupToRefresh((count * 3 > recharge_count)); //参数为true代表没有更多数据了。
+					getrecharge(count * 3);
+                    getsettlewater(count * 3)
+				}, 500);
+			}
+          
+           // document.addEventListener('refresh', function(e){//执行刷新
+                 //     pulldownRefresh()
+                 //   });
+			function pulldownRefresh() {
+				if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+					plus.nativeUI.toast('似乎已断开与互联网的连接', {
+						verticalAlign: 'top'
+					});
+					return;
+				}
+				getCurrent();
+
+			}
+			mui.ready(function() {
+				//预加载详情页
+				vm.mbId = h5_mbinfo.mbId;
+				//var lauchFlag = plus.storage.getItem("lauchFlag");
+				//向服务端请求会员信息
+				/*if(localStorage.getItem("lauchFlag")){
+
+				};*/
+
+			});
+
+			function getDefaultData() {
+				return {
+					mbId: '',
+					mbAlliance: null,
+					mbFavourable: null,
+					mbBalance: null,
+					settlewater: [], //--38.	会员提现流水------------
+					gettlewater: [] //-----充值流水---------
+				}
+			}
+			var vm = new Vue({
+				el: '.mui-content',
+				data: getDefaultData(),
+			});
+			vm.mbId = h5_mbinfo.mbId;
+			//---------------充值流水----------------	
+			function getrecharge(rw) {
+				var data = {
+					mbId: vm.mbId,
+					page: 1,
+					rows: rw
+				};
+				var apiname = "rechargeApi/list" + ".do";
+				//mui.post(servername + apiname, data, function(rsp) {
+					rsp={
+  "firstResult": 0,
+  "rows": [
+    {
+      "id": "40289fe4603e82ee01603ec5fb2d0005",
+      "mbId": "4028ef815fdcbc7c015fdd085b8d0004",
+      "rgOrder": "20171210121210477409600",
+      "rgMoney": 10.0, 
+      "rgDate": 1512881650000,
+      "rgPresent": null,
+      "rgState": 2,
+      "rgTranid": null,
+      "rgPaytype": 1
+    }
+  ],
+  "attach": null,
+  "pageSize": 20,
+  "totalCount": 1,
+  "previousPage": 1,
+  "lastPage": true,
+  "nextPage": 1,
+  "pageNo": 1,
+  "firstPage": true,
+  "totalPage": 1
+};
+					mui('#list').pullRefresh().endPulldownToRefresh();
+					console.log("充值流水" + rsp.rows.length + "---" + JSON.stringify(rsp));
+					if(rsp.rows && rsp.rows.length > 0) {
+						
+						//var sar= rsp.rows;
+						   // sar=sar.reverse()
+						vm.gettlewater=rsp.rows;
+						localStorage.setItem('mm',JSON.stringify(rsp));
+						
+						recharge_count = rsp.totalCount;
+						
+					}
+				//}, 'json');
+			}
+
+			function getsettlewater(rw) {
+				var data = {
+					mbId: vm.mbId,
+					page: 1,
+					rows: rw
+				};
+				var apiname = "mbSettleApi/settlewater" + ".do";
+				//mui.post(servername + apiname, data, function(rsp) {
+					rsp={
+						"rows":[
+							{"id":"40289fe4600d58af01600d8794160004","msfApplydate":1512055477000,"msfPassdate":null,"msfRefuse":null,"msfState":1,"msfPerson":null,"msfMoney":"300.0","msfFee":"0.0"},
+							{"id":"40289fe4600d58af01600d88c7460005","msfApplydate":1512055555000,"msfPassdate":null,"msfRefuse":null,"msfState":1,"msfPerson":null,"msfMoney":"300.0","msfFee":"0.0"},
+							{"id":"40289fe4600d58af01600d88da990006","msfApplydate":1512055560000,"msfPassdate":null,"msfRefuse":null,"msfState":1,"msfPerson":null,"msfMoney":"300.0","msfFee":"0.0"},
+							],
+							"firstResult":0,
+							"attach":null,
+							"pageSize":10,
+							"totalCount":3,
+							"previousPage":1,
+							"lastPage":true,
+							"firstPage":true,
+							"totalPage":1,
+							"nextPage":1,
+							"pageNo":1,
+							};
+					console.log("提现流水" + rsp.rows.length + "---" + JSON.stringify(rsp));
+					if(rsp.rows && rsp.rows.length > 0) {
+						vm.settlewater = rsp.rows.reverse();
+						settlewater_count = rsp.totalCount;
+						
+						// mui.init();
+						// mui('.mui-scroll-wrapper').scroll({deceleration: 0.0005});
+					}
+				//}, 'json');
+
+			}
+
+			function getCurrent() {
+				//---15.	获取用账户信息--------------
+				//alert(vm.mbId);
+				var data = {
+					mbId: vm.mbId
+				};
+				var apiname = "memberApi/accountInfo" + ".do";
+				//mui.post('servername + apiname, data', function(rsp) {
+					rsp={"mbAlliance":0.0,"mbFavourable":1000.0,"mbBalance":90.0,"code":0,"msg":""};
+					console.log(JSON.stringify(rsp));
+					if(rsp.code == 0) {
+						vm.mbAlliance = rsp.mbAlliance; //盟币
+						vm.mbFavourable = rsp.mbFavourable; //惠币
+						vm.mbBalance = rsp.mbBalance; //余额
+					}
+
+				//}, 'json');
+				/*------------*/
+				getrecharge(count * 3)
+				//--38. 	会员提现流水-------------
+				getsettlewater(count * 3);
+				//--------------------------------------------------------------
+			}
+
+			function open_detail(mtype) {
+				//var inmoney = null; //充值页面
+				//var outmoney = null; //提现页面
+				//var jhmoney = null; //转币页面
+				//inmoney = preload("inmoney.html");
+				//outmoney = preload("outmoney.html");
+				//jhmoney = preload("jhmoney.html");
+				//var smrz = preload("smrz.html"); /*实名认证*/
+				//var openw = null;
+				//alert(mtype);
+				if(mtype == "in") {
+					 mui.openWindow('inmoney.html');
+					//openw = inmoney;
+					//alert(mtype);
+					//localStorage.setItem('mm',JSON.stringify(vm.gettlewater));
+				}
+				if(mtype == "out") {
+					//
+					      if(localStorage.getItem("smrz")){
+					      	   mui.openWindow('outmoney.html'); 
+					      }else{
+					      	   mui.openWindow('smrz.html');
+					      }
+					      
+					//openw=smrz;
+					//openw = outmoney;
+				}
+				if(mtype == "jh") {
+					mui.openWindow('jhmoney.html');
+					/*openw = jhmoney;
+					mui.fire(openw, "jhm", {
+						mb: vm.mbAlliance,
+						ye: vm.mbBalance
+					});*/
+				}
+				/*setTimeout(function() {
+					openw.show("slide-in-right", 300);
+				}, 150);*/
+			}
+		</script>
+	</body>
+
+</html>

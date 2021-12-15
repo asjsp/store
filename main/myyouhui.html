@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+	    <style>
+		    .mui-table-view:before {
+				    height: 0px;
+				}
+			.mui-table-view:after {
+				    height: 0px;
+				}
+			.mui-table-view-cell:after {
+				    height: 0px;
+				}
+	    </style>
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FF4B4A;"></a>
+			<h1 class="mui-title">选择优惠卷</h1>
+		</header>
+		<div id="item1" class="mui-content mui-scroll-wrapper" style="background-color: white;">
+			<div class="mui-scroll" id="pingjia">
+				<ul class="mui-table-view mui-table-view-chevron">
+			<!--------------->
+
+			<div id="segmentedControl" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-negative">
+				<a class="mui-control-item mui-active" @tap="goto(1)" href="#item1">可用</a>
+				<a class="mui-control-item" @tap="goto(2)" href="#item1">使用过</a>
+				<a class="mui-control-item" @tap="goto(3)" href="#item1">已过期</a>
+			</div>
+
+			<div  class="mui-control-content mui-active">
+				
+					<div @tap="open_detail(item)" v-for="item in orderList1" class="mui-table-view hdj-flex" style="margin: 15px;margin-bottom: 8px;">
+						<div style="width: 35%;;height: 100px;padding-right: 5px;"  :style="{'background-color': color}">
+							<div style="color: white; border-left: 3px dotted white; border-right: 1px dashed white;height: 100px">
+								<div style="font-size: 13px; padding: 10px">{{item.cptName}}</div>
+								<div style="text-align: center;padding: 10px">
+									<span style="font-size: 13px;">¥</span>
+									<span style="font-size: 33px">{{item.cptMoney}}</span>
+								</div>
+							</div>
+						</div>
+						<div style="width: 65%;;height: 100px; padding: 15px;padding-top:10px;background-color: #f7f4f4;">
+							<p class="mui-ellipsis hdj-balck hdj-fsize3" style="margin: 0px;">仅限 【{{item.mercName}}旗舰店】</p>
+							<p class="hdj-balck hdj-fsize3" style="padding-top: 5px;">满{{item.cptOrderminmoney}}使用</p>
+							<p class="hdj-gray hdj-fsize3">
+								{{convertyear(item.cptUsebegin)}} - {{convertyear(item.cptUseend)}}
+							</p>
+						</div>
+					</div>
+				
+			</div>
+              </ul>
+           </div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/server.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+
+		<script>
+			//-----------------------
+			mui.init({
+				pullRefresh: {
+					container: '#item1',
+					down: {
+						style: 'circle',
+						color: '#ff4c4a',
+						offset: '60px',
+						auto: true,
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+
+				}
+			});
+			/*mui.plusReady(function() {
+				vm.mbId = plus.storage.getItem("mbId");
+			});*/
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					mbId: '',
+					publicstr: '',
+					orderList1: [],
+					state : null,
+					color : '#ff4b4a'
+				}
+			});
+			vm.mbId = h5_mbinfo.mbId;
+			var count = 1;
+			var totalCount;
+
+			function pullupRefresh() {
+				count++;
+				setTimeout(function() {
+					mui('#item1').pullRefresh().endPullupToRefresh(noData); //参数为true代表没有更多数据了。
+					open_indexTypes(sn, count, 6);
+				}, 1000);
+			}
+
+			function pulldownRefresh() {
+				count = 1;
+				if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+					plus.nativeUI.toast('似乎已断开与互联网的连接', {
+						verticalAlign: 'top'
+					});
+					return;
+				}
+				open_indexTypes(sn, count, 6);
+				//vm.orderList=test;
+			}
+			var sn = 1;
+			var noData = false;
+
+			function goto(n) {
+				if(n==1){
+					vm.color = '#ff4b4a';
+				}else{
+					vm.color = '#c3c3c3';
+				}
+				sn = n;
+				vm.state = sn;
+				count = 1;
+				open_indexTypes(sn, count, 6);
+			}
+			/*-------61.	订单列表------------*/
+			function open_indexTypes(item, page, rows) {
+				
+				var data = {
+					mbId: vm.mbId,
+					page: page,
+					rows: rows
+				};
+				if(item) {
+					data.state = item;
+				}
+				console.info('请求参数:' + JSON.stringify(data))
+				var apiname = "memberCouponApi/getEffectCoupon.do";
+				//console.log(servername+apiname+"?sklId="+vm.tim.id+"&page=1&rows=4");
+				mui.getJSON('../json/coupon.json', function(rsp) {
+					console.log("订单列表" + JSON.stringify(rsp));
+					
+					var len = vm.orderList1.length;
+					mui.each(rsp.rows, function(index, value) {
+						vm.$set(vm.orderList1, len + index, value);
+					})
+					mui('#item1').pullRefresh().endPulldownToRefresh();
+				});
+			}
+			
+		</script>
+	</body>
+
+</html>

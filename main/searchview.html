@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<!--App自定义的css-->
+		
+		<style>
+			.mui-table-view.mui-grid-view .mui-table-view-cell {
+    font-size: 17px;
+    display: inline-block;
+    margin-right: -1px;
+    padding: 6px 0 0 10px;
+    text-align: center;
+    vertical-align: middle;
+    background: 0 0;
+}
+			.mui-card {
+    font-size: 14px;
+    position: relative;
+    overflow: hidden;
+    margin: 5px;
+    border-radius: 1px;
+    background-color: #fff;
+    background-clip: padding-box;
+    box-shadow: 1 1px 1px rgba(0,0,0,.2);
+}
+          .mui-table-view:before {
+				height: 0px;
+			}
+			
+			.mui-table-view:after {
+				height: 0px;
+			}
+			
+			.mui-table-view-cell:after {
+				height: 0px;
+			}
+
+		</style>
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="back()" style="color:red;"></a>
+			<h1 class="mui-title">
+				<div class="mui-input-row mui-search" onclick="back()">
+					<input disabled=true  type="search" class="mui-input-clear hdj-balck hdj-fsize2" placeholder="搜索类别" style="background-color: white;border: 1px solid #cacaca;" >
+				</div>
+			</h1>
+		</header>
+	<div id="list" class="mui-content" style="background-color: white;">	
+		    <!-- {{gsiName}}-->
+		 <p v-if='seen' style="text-align: center;margin-top: 30px;margin-bottom: 30px;">
+		 	
+		 	  抱歉，没有相关商品 
+		 </p>    
+		<div  class="mui-table-view mui-grid-view" >
+			   <!--商品列表-->
+			 <li @tap="open_goods(item)"  v-for="item in goodsList"  class="mui-table-view-cell  mui-media mui-col-xs-6 mui-col-sm-6 "> 
+               <div class="mui-card" style="padding: 0; margin: 1px;">
+               <!--   <p style="position: relative;z-index: 1;color:white; border-radius: 0px 0px 0px 25px; text-align:center; background-color:orange;right:-37vw;padding:0px;width:35px;height:25px">拼</p>
+               -->   
+                 <img  :src="getserverimg(item.id,6)" style=" width:100%;height:auto; border-radius: 0px;padding:0vw">
+                 <div style="padding-left: 7px;padding-right: 10px; padding-bottom: 20px;">
+							<div class="mui-ellipsis hdj-balck hdj-fsize2">{{item.gsiName}}</div>
+							<p style="padding:15px 0px">
+								<span class="mui-pull-left hdj-red hdj-fsize1">
+									¥ {{item.gsiPrice}}
+								</span>
+								<!--<span >市场价¥{{item.gsiMarketprice}}</span>-->
+								 <span class="mui-pull-right hdj-img-wrap-head" >
+                         		       <img  :src="getserverimg(gp.mbId,0)" v-for="gp in item.group"  class="hdj-head-small" >
+                         	     </span>
+							</p>
+				</div>
+               </div>
+              </li>
+	    </div>
+	</div>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/server.js"></script>
+	
+	<script>
+			mui.init({
+			pullRefresh: {
+			   container: '#list',
+			   down: {
+						style: 'circle',
+						color:'#FF4B4A',
+						offset: '60px',
+						auto: false,
+						callback: pulldownRefresh
+					}
+				}
+		});
+		function pulldownRefresh() {
+			if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+								plus.nativeUI.toast('似乎已断开与互联网的连接', {
+									verticalAlign: 'top'
+								});
+								return;
+							}
+	      
+	      open_indexTypes(vm.gsiName);
+		}
+		var vm = new Vue({
+				el: '#list',
+				data: {
+					seen:false,
+					goodsList:[],
+					gsiName:'',
+					id:''
+					}
+				});
+		document.addEventListener('searchview', function(event) {
+			vm.gsiName=event.detail.gsiName;
+			//document.querySelector('.mui-title').innerHTML=vm.goodsinfo.hadTitle;
+			console.log("search-name:"+vm.gsiName);
+			open_indexTypes(vm.gsiName);
+			
+		});
+		document.addEventListener('searchviewd', function(event) {
+			vm.id=event.detail.gsiName;
+			//document.querySelector('.mui-title').innerHTML=vm.goodsinfo.hadTitle;
+			console.log("search-name:"+vm.gsiName);
+			open_indexTypes('',vm.id);
+			
+		});
+		/*document.getElementById("search").addEventListener('input',function(){
+			var st=document.getElementById("search").value;
+			open_indexTypes(st);
+
+        });*/
+
+		/*-------顶部分类按钮-跳转------------*/
+	    function open_indexTypes(item,ids){
+	    	   console.log("search-name:"+item+'id:'+ids);
+	    	      var data ={   
+	    	      	                 id:ids,
+						             gsiName:item,
+						             page:1,
+						             rows:4
+					         }; 
+						 var apiname="goodsInfoApi/pageList"+".do";
+						// console.log(servername+apiname+"?id="+item.id+"&page=1&rows=4&gsiType=1");
+						 mui.getJSON(servername+apiname,data, function(rsp) {
+						             mui('#list').pullRefresh().endPulldown();
+						             console.log(JSON.stringify(rsp));
+						            if(rsp.rows&&rsp.rows.length > 0) {
+						            	vm.goodsList=rsp.rows;
+						            	vm.seen=false;
+						            }else{
+						            	vm.goodsList=[];
+						            	vm.seen=true;
+						            }
+		                          });
+	    }
+	    /*-------进入商品详情---传递----mercId-----*/
+		function open_goods(item) {
+			alert("打开商品详情页--->id"+item.id);
+			    mui.fire(pdview_detail, 'goods_info', {
+				    goodsinfo:item
+				});
+			setTimeout(function () {
+					pdview_detail.show("slide-in-right", 300);
+				},150);
+			} 
+		function back(){
+			/*plus.webview.currentWebview().close();*/
+			mui.back();
+		};
+		
+	</script>
+	</body>
+
+</html>

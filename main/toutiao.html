@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FF4B4A;"></a>
+			<h1 class="mui-title">头条</h1>
+		</header>
+	<div class="mui-content" style="background-color: white;">	
+	      <ul class="mui-table-view">
+	          <li class="mui-table-view-cell mui-media">
+	              <a href="toutiaodetail.html">
+	                  <img class=" mui-pull-left" src="../images/cz1.jpg" style="width:25vw;margin-right: 20px;">
+	                  <div class="mui-media-body">
+	                      <div class="mui-ellipsis-2">套显瘦修身中长款新款潮大衣冬装新款套中长长 </div>
+	                      <p class="mui-ellipsis-2">潮大衣外套中冬装新款潮大衣外套中长款长款外</p>
+	                      
+	                  </div>
+	                  <p class="mui-pull-right">10-20 08-12 399浏览</p>
+	              </a>
+	          </li>
+	           <li class="mui-table-view-cell mui-media">
+	              <a href="javascript:;">
+	                  <img class=" mui-pull-left" src="../images/cz2.jpg" style="width:25vw;margin-right: 20px;">
+	                  <div class="mui-media-body">
+	                      <div class="mui-ellipsis-2">套显瘦修身中长款新款潮大衣冬装新款套中长长 </div>
+	                      <p class="mui-ellipsis-2">潮大衣外套中冬装新款潮大衣外套中长款长款外</p>
+	                      
+	                  </div>
+	                  <p class="mui-pull-right">10-20 08-12 399浏览</p>
+	              </a>
+	          </li>
+	      </ul>
+
+	</div>
+		<script src="../js/mui.min.js"></script>
+		<script>
+
+</script>
+		<script>
+			function loadXMLDoc(value,url)
+{
+  var xmlhttp;
+  if (window.XMLHttpRequest)
+  {
+    // IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+    xmlhttp=new XMLHttpRequest();
+  }
+  else
+  {
+    // IE6, IE5 浏览器执行代码
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xmlhttp.onreadystatechange=function()
+  {
+    if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    	//var jobj=JSON.parse(xmlhttp.responseText);
+    	//var ss=jobj.records[0];
+    	
+     // document.getElementById("myDiv").innerHTML=ss.Name;
+      // document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+    }
+  }
+// xmlhttp.open("GET",url,true);
+  //xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+ // xmlhttp.send();
+ /* xmlhttp.open("GET","http://www.runoob.com/try/ajax/demo_get2.php?fname=Henry&lname=Ford",true);
+  xmlhttp.send();*/
+ 
+   xmlhttp.open("GET",url+"?fname=测试&lname=pp",true);
+ // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+  xmlhttp.send();
+};
+				//检查 "登录状态/锁屏状态" 结束
+				//	var txButton = document.getElementById('tx');
+					//var xjBox = document.getElementById('xianjin');
+					
+					//txButton.addEventListener('tap', function(event) {
+						//alert("txjson");
+						/*var txInfo = {
+							money: xjBox.value,
+						};
+						var txjson=JSON.stringify(txInfo);*/
+						//alert(txjson);
+						//var urls="http://www.runoob.com/try/angularjs/data/Customers_MySQL.php";
+						    //urls="http://www.runoob.com/try/ajax/demo_post2.php";
+						//loadXMLDoc(xjBox.value,urls);
+					//});
+			/*------------------*/
+			
+		</script>
+	</body>
+
+</html>

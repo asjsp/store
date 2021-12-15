@@ -1,0 +1,50 @@
+{
+    "rows": [
+        {
+            "id": "40289fe4603ac09c01603acdb8440004",
+            "createName": "HdjInterface",
+            "createBy": "DESKTOP-G48F2R2/192.168.31.100",
+            "createDate": "Dec 9, 2017 6:24:08 PM",
+            "sysOrgCode": "HdjInterface",
+            "sysCompanyCode": "HdjInterface",
+            "bpmStatus": "1",
+            "mbId": "4028ef816033daa9016033e0b2ae0003",
+            "bGoodsinfoEntity": {
+                "id": "000000006016766001601693c0540032",
+                "gsiName": "秋冬基本款猫爪卫衣",
+                "gsiPrice": 40,
+                "gsiMarketprice": 169,
+                "gsiType": 1,
+                "gsiEndDate": 1544520550000,
+                "gsiInventory": 10000,
+                "group": [
+                    {
+                        "id": "40289fe460310f310160318e35620000",
+                        "mbId": "00000000602e906501602ed42f040000"
+                    },
+                    {
+                        "id": "40289fe460310f310160318f225e0001",
+                        "mbId": "00000000602e906501602ed42f040000"
+                    },
+                    {
+                        "id": "40289fe460310f31016031af201b0005",
+                        "mbId": "00000000602e906501602ed42f040000"
+                    },
+                    {
+                        "id": "4028ef81602e88b801602f9c30ec0004",
+                        "mbId": "00000000602e906501602ed42f040000"
+                    },
+                    {
+                        "id": "4028ef81602e88b801602f9ca08d0005",
+                        "mbId": "00000000602e906501602ed42f040000"
+                    }
+                ],
+                "groupCount": 22
+            },
+            "gscState": 1
+        }
+    ],
+    "totalCount": 1,
+    "pageSize": 10,
+    "pageNo": 1
+}

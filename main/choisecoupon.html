@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+	    <style>
+		    .mui-table-view:before {
+				    height: 0px;
+				}
+			.mui-table-view:after {
+				    height: 0px;
+				}
+			.mui-table-view-cell:after {
+				    height: 0px;
+				}
+	    </style>
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FF4B4A;"></a>
+			<h1 class="mui-title">选择优惠卷</h1>
+		</header>
+		<div id="item1" class="mui-content mui-scroll-wrapper" style="background-color: white;">
+				<div class="mui-scroll" id="pingjia">
+					<ul class="mui-table-view mui-table-view-chevron">
+					<div @tap="open_detail(item)" v-for="item in orderList1" class="mui-table-view hdj-flex" style="margin: 15px;margin-bottom: 8px;">
+						<div style="width: 35%;;height: 100px;padding-right: 5px;"  :style="{'background-color': color}">
+							<div style="color: white; border-left: 3px dotted white; border-right: 1px dashed white;height: 100px">
+								<div style="font-size: 13px; padding: 10px">{{item.cptName}}</div>
+								<div style="text-align: center;padding: 10px">
+									<span style="font-size: 13px;">¥</span>
+									<span style="font-size: 33px">{{item.cptMoney}}</span>
+								</div>
+							</div>
+						</div>
+						<div style="width: 65%;;height: 100px; padding: 15px;padding-top:10px;background-color: #f7f4f4;">
+							<p class="mui-ellipsis hdj-balck hdj-fsize3" style="margin: 0px;">{{item.cptAlluse==0?'店铺使用':'全站使用'}}</p>
+							<p class="hdj-balck hdj-fsize3" style="padding-top: 5px;">满{{item.cptOrderminmoney}}使用</p>
+							<p class="hdj-gray hdj-fsize3">
+								{{convertyear(item.cptUsebegin)}} - {{convertyear(item.cptUseend)}}
+							</p>
+						</div>
+					</div>
+				    </ul>
+			    </div>
+<!--			<div id="item2" class="mui-control-content">
+				<div class="mui-scroll" id="pingjia2">
+					<div @tap="open_detail(item)" v-for="item in scorelist" class="mui-table-view" style="display: -webkit-flex; -webkit-align-items:center;display:flex;align-items: center; background-color: #f8f4f5;margin: 3vw;">
+						<div class="mui-col-xs-4 mui-col-sm-4" style=" background-color: #c3c3c3;padding-right: 5px;">
+							<div style="align-self: stretch; -webkit-align-self: stretch;color: white; border-left: 3px dotted white; border-right: 1px dashed white;height: 100%">
+								<div style="font-size: smaller; padding: 10px">{{item.shopTitle}}</div>
+								<div style="text-align: center;padding: 10px"><span>¥</span><span style="font-size: x-large">{{item.couponInfo}}</span></div>
+							</div>
+						</div>
+						<div class="mui-col-xs-7 mui-col-sm-7" style="margin-left: 2px;padding: 8px">
+							<p class="mui-ellipsis">{{item.title}}</p>
+							<p>{{item.zkFinalPrice}}</p>
+							<p>{{item.couponStartTime}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+-->		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/server.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+
+		<script>
+			//-----------------------
+			mui.init({
+				pullRefresh: {
+					container: '#item1',
+					down: {
+						style: 'circle',
+						color: '#ff4c4a',
+						offset: '60px',
+						auto: true,
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+
+				}
+			});
+			//var fireElem = null;
+			mui.ready(function() {
+				vm.mbId =  h5_mbinfo.mbId;
+				var odetail=JSON.parse(localStorage.getItem('choiseCoupon'));
+                            get_Coupon(odetail);
+				//fireElem = preload("mdetail.html");
+			});
+			//document.addEventListener('choiseCoupon',
+			function get_Coupon(item){
+				console.info('选择'+JSON.stringify(item));
+				vm.totalMoney = item.totalMoney;
+				vm.gsiId = item.gsiId;
+				vm.mercId = item.mercId;
+				//vm.gsiId = item.gsiId;
+				open_indexTypes();
+			}
+			
+			function open_detail(item){
+				//mui.back();
+				/*mui.fire(fireElem,'selectCoupon',{
+					item : item
+				})*/
+				localStorage.setItem("choiseCouponok",JSON.stringify(item));
+					mui.openWindow('mdetail.html');
+			}
+			
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					mbId: '',
+					publicstr: '',
+					orderList1: [],
+					totalMoney : 0,
+					gsiId : null,
+					state : null,
+					color : '#ff4b4a',
+					mercId : ''
+				}
+			}); 
+			var count = 1;
+			var totalCount;
+
+			function pullupRefresh() {
+				count++;
+				setTimeout(function() {
+					mui('#item1').pullRefresh().endPullupToRefresh(noData); //参数为true代表没有更多数据了。
+					open_indexTypes(sn, count, 6);
+				}, 1000);
+			}
+
+			function pulldownRefresh() {
+				count = 1;
+				if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+					plus.nativeUI.toast('似乎已断开与互联网的连接', {
+						verticalAlign: 'top'
+					});
+					return;
+				}
+				//open_indexTypes(sn, count, 6);
+				//vm.orderList=test;
+				open_indexTypes();
+			}
+			var sn = 1;
+			var noData = false;
+
+			function goto(n) {
+				if(n==1){
+					vm.color = '#ff4b4a';
+				}else{
+					vm.color = '#c3c3c3';
+				}
+				sn = n;
+				vm.state = sn;
+				count = 1;
+				open_indexTypes(sn, count, 6);
+			}
+			/*-------61.	订单列表------------*/
+			function open_indexTypes() {
+				//mui('#item1').pullRefresh().enablePullupToRefresh();
+				noData = false;
+				vm.orderList1 = [];
+				var data = {
+					mbId: vm.mbId,
+					money: vm.totalMoney,
+					mercId: vm.mercId,
+					gsiId : vm.gsiId
+				};
+				console.info('请求参数:' + JSON.stringify(data))
+				var apiname = "memberCouponApi/canUseCoupon.do";
+				//console.log(servername+apiname+"?sklId="+vm.tim.id+"&page=1&rows=4");
+				mui.getJSON('../json/coupon.json', function(rsp) {
+					console.info('返回的请求数据:'+JSON.stringify(rsp))
+					var len = vm.orderList1.length;
+//					mui.each(rsp.rows, function(index, value) {
+//						vm.$set(vm.orderList1, len + index, value);
+//					})
+					vm.orderList1 = rsp;
+					mui('#item1').pullRefresh().endPulldownToRefresh(); 
+				});
+			}
+			
+		</script>
+	</body>
+
+</html>

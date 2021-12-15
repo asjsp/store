@@ -1,0 +1,27 @@
+{
+    "rows": [
+        {
+            "id": "402882035fa0ee27015fa164149e0002",
+            "gsiName": "芭蒂娜短外套冬季白色短款加厚高端大牌品牌羊皮毛大毛领羽绒服女 米白 M",
+            "gsiPrice": 111,
+			"srCount":22,
+			"srSalecount":12,
+            "gsiMarketprice": 331,
+            "group": [{ "mbId": "../images/demo/mm.jpg"},{ "mbId": "../images/demo/mm.jpg"}],
+            "groupCount": 0
+        },
+		{
+		    "id": "402882035fa0ee27015fa164149e0002",
+		    "gsiName": "西部数据(Western Digital) 7.68TB 企业级SSD固态硬盘 U.2接口（NVMe协议）WD Gold 五年质保",
+		    "gsiPrice": 69,
+			"srCount":20,
+			"srSalecount":12,
+		    "gsiMarketprice": 21,
+		    "group": [{ "mbId": "../images/demo/mm.jpg"},{ "mbId": "../images/demo/mm.jpg"}],
+		    "groupCount": 0
+		}
+    ],
+    "totalCount": 5,
+    "pageSize": 10,
+    "pageNo": 1
+}

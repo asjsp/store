@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<!--App自定义的css-->
+
+		<style>
+			.mui-table-view.mui-grid-view .mui-table-view-cell {
+				font-size: 17px;
+				display: inline-block;
+				margin-right: -1px;
+				padding: 6px 0 0 10px;
+				text-align: center;
+				vertical-align: middle;
+				background: 0 0;
+			}
+			
+			.mui-card {
+				font-size: 14px;
+				position: relative;
+				overflow: hidden;
+				margin: 5px;
+				border-radius: 1px;
+				background-color: #fff;
+				background-clip: padding-box;
+				box-shadow: 1 1px 1px rgba(0, 0, 0, .2);
+			}
+			
+			#topPopover {
+				position: fixed;
+				top: 16px;
+				right: 10px;
+				left: 0px;
+			}
+			
+			.mui-popover {
+				height: 200px;
+				width: 100%;
+				padding: 8px;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back" style="color:red;"></a>
+			<h1 class="mui-title">闪电拼单</h1>
+		</header>
+		<div id="list" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<ul class="mui-table-view mui-table-view-chevron mui-grid-view">
+					<li @tap="open_goods(item)" v-for="item in goodsList" class="mui-table-view-cell  mui-media mui-col-xs-6 mui-col-sm-6 ">
+						<div style="border: 1px solid gainsboro;">
+							<div class="hdj-img-wrap2">
+								<img src="../images/demo/sj23.jpg" style="width:100%;height:auto;">
+							</div>
+							<div style="padding: 10px;border-top:1px solid gainsboro;margin-bottom:20px">
+								<div class="mui-ellipsis-2 hdj-balck hdj-fsize3">{{item.gsiName}}</div>
+								<p style="margin-top:10px;">
+									<span class="mui-pull-left hdj-red hdj-fsize1" style="color: red;">
+                         	    <span>¥{{item.gsiPrice}}</span>
+									<span class="hdj-redbg hdj-fsize4" style="color: white;padding:2px;padding-left: 5px;padding-right: 5px; border-radius: 4px; margin-left: 5px;">2{{item.groupCount}}折</span>
+									</span>
+									<span class="mui-pull-right hdj-gray3 hdj-fsize4">已售{{item.gsiInventory}}68</span>
+								</p>
+							</div>
+						</div>
+					</li>
+					<!--------->
+				</ul>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/server.js"></script>
+
+		<script>
+			mui.init({
+				swipeBack: false,
+				pullRefresh: {
+					container: '#list',
+					down: {
+						
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			var count = 1;
+			var totalCount;
+			var noData = false;
+			function pullupRefresh() {
+				count++;
+				setTimeout(function() {
+					mui('#list').pullRefresh().endPullupToRefresh(noData); //参数为true代表没有更多数据了。
+					open_indexTypes(vm.goodsinfo, count);
+				}, 1000);
+			}
+
+			function pulldownRefresh() {
+				if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+					plus.nativeUI.toast('似乎已断开与互联网的连接', {
+						verticalAlign: 'top'
+					});
+					return;
+				}
+				open_indexTypes(vm.goodsinfo, count);
+			}
+
+			var vm = new Vue({
+				el: '#list',
+				data: {
+					indexTypes: [],
+					goodsList: [],
+					goodsinfo: []
+				}
+			});
+			//document.addEventListener('adview', function(event) {
+				vm.indexTypes = [];
+				vm.goodsList = [];
+				vm.goodsinfo = [];
+				//mui('#list').pullRefresh().endPullupToRefresh();
+				vm.goodsinfo = JSON.parse(localStorage.getItem('goods_info'));
+				document.querySelector('.mui-title').innerHTML = vm.goodsinfo.hadTitle;
+				console.log("导入店铺Id:" + vm.goodsinfo.id);
+				//open_indexTypes(vm.goodsinfo);
+				pulldownRefresh();
+
+			//});
+			/*-------顶部分类按钮-跳转------------*/
+			function open_indexTypes(item, rw) {
+				console.log("--" + item.id);
+				if(rw == 1) {
+					//mui('#list').pullRefresh().endPullupToRefresh()
+					noData = false;
+					vm.goodsList = [];
+				}
+				var data = {
+					id: item.id,
+					page: rw,
+					rows: 4
+				};
+				var apiname = "homeAdvApi/goodsList" + ".do";
+				console.log(servername + apiname + "?id=" + item.id + "&page=1&rows=4&gsiType=1");
+				mui.getJSON('../json/goodslist.json', function(rsp) {
+//					mui('#list').pullRefresh().endPulldown();
+//					console.log(JSON.stringify(rsp.rows));
+//					if(rsp.rows && rsp.rows.length > 0) {
+//						//alert("商品更新");
+//						vm.goodsList = rsp.rows;
+//						totalCount = rsp.totalCount;
+//					}
+					console.info('JSON:'+JSON.stringify(rsp));
+					if(rsp.lastPage || rsp.rows.length <= 0) {
+						noData = true;
+						mui('#list').pullRefresh().endPullupToRefresh(noData);
+					}
+					var len = vm.goodsList.length;
+					mui.each(rsp.rows, function(index, value) {
+						vm.$set(vm.goodsList, len + index, value);
+					})
+					mui('#list').pullRefresh().endPulldownToRefresh();
+				});
+			}
+			/*-------进入商品详情---传递----mercId-----*/
+			/*function open_goods(item) {
+			
+				mui.fire(pdview_detail, 'goods_info', {
+					goodsinfo: item
+				});
+				setTimeout(function() {
+					pdview_detail.show("slide-in-right", 300);
+				}, 150);
+			}*/
+
+			function back() {
+				plus.webview.currentWebview().close();
+			};
+		</script>
+	</body>
+
+</html>

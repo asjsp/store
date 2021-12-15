@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<style>
+			
+			[v-cloak] {
+			    display: none;
+			}
+			.mui-table-view.mui-grid-view .mui-table-view-cell {
+				font-size: 17px;
+				display: inline-block;
+				margin-right: -1px;
+				padding: 6px 0 0 10px;
+				text-align: center;
+				vertical-align: middle;
+				background: 0 0;
+			}
+			
+			.mui-card {
+				font-size: 14px;
+				position: relative;
+				overflow: hidden;
+				margin: 5px;
+				border-radius: 1px;
+				background-color: #fff;
+				background-clip: padding-box;
+				box-shadow: 1 1px 1px rgba(0, 0, 0, .2);
+			}
+			.mui-table-view:before{
+				height: 0;
+			}
+			.mui-table-view:after{
+				height: 0;
+			}
+			
+		</style>
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="back()" style="color: #FF4B4A;"></a>
+			<h1 class="mui-title">
+				{{mercName}} 的店铺
+			</h1>
+			<a class="mui-pull-right" href="#sharepop" >
+				<img src="../images/share.png" class="hdj-share">
+			</a>
+		</header>
+		<div  id="list"  class="mui-content mui-scroll-wrapper" style="background-color: white;" v-cloak>
+			<div   class="mui-scroll">
+			<!-----分享内容----------------->
+			<!-------------店铺信息------------------------->
+			<div  style="background-size: cover; background-image:url(../images/yuantiao.jpg);">
+				<div style="color: white;text-align: center;padding: 15px;padding-bottom: 20px;">
+					<img class="hdj-head3" :src="imgurl" style="height: auto;">
+					<p style="color: white;padding: 4px;" class="hdj-fsize2">
+						{{mercinfo.mercName}}
+					</p>
+				    <button @tap="open_coupon()" class="hdj-fsize3 mui-btn  mui-btn-outlined" style="color: white;border: 1px solid white;">
+					         <span class="mui-icon mui-icon-search" style="font-size: larger;">
+					         	
+					         </span>
+					                          领优惠卷 
+				    </button>
+				    <button @tap="addcare()" class="hdj-fsize3 mui-btn  mui-btn-outlined" style="margin-left: 20px; color: white;border: 1px solid white;">
+					    <span  :class="convet(mercinfo.isConcern)" style="font-size: larger;">
+					    	
+					    </span>
+					            收藏店铺
+				    </button>
+				</div>
+			</div>
+			
+            <div class="hdj-gray3 hdj-fsize5 hdj-space-around"  style="margin: 10px;">
+				<div style="text-align: center;">
+					{{mercinfo.mercGoodscount}}
+					89
+					<br>
+					商品
+				</div>
+				<div style="text-align: center;">
+					{{mercinfo.mercSalecount}}
+					3445
+					<br>销量
+				</div>
+				<div style="text-align: center;">
+					{{mercinfo.mercConcern}}
+					6788
+					<br>粉丝
+				</div>
+			</div>
+			<!--------商品列表-->
+			 
+			<ul  class="mui-table-view mui-table-view-chevron mui-grid-view" style="background-color: white;">
+				
+				
+				<li @tap="open_goods(item)"  v-for="item in goodsList" class="mui-table-view-cell mui-col-xs-6 mui-col-sm-6 ">
+					
+						<div class="hdj-img-wrap1" >
+							 <img src="../images/demo/m1.jpg" class="hdj-img-cont">
+						</div>
+						
+						<div>
+							<div class="mui-ellipsis hdj-balck hdj-fsize5" style="padding: 5px;">{{item.gsiName}}</div>
+							<p style="text-align: center;">
+								<span class="hdj-red hdj-fsize5">
+									¥ {{item.gsiMarketprice}}
+								</span>
+							</p>
+						</div>
+				</li>
+			</ul>
+			<!--------->
+			 </div>
+		</div>
+		
+		<ul  id="sharepop" class="mui-popover mui-popover-action mui-popover-bottom mui-table-view mui-grid-view " style="background-color: white;padding: 20px; ">
+		           
+		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" >
+		            <a onclick="shareWeixinMessage('WXSceneSession')">
+		                    <img src="../images/fenxiang_weixin.png" style="width: 40%;">
+		                    <div class="mui-media-body hdj-balck hdj-fsize3">微信好友</div>
+		            </a>
+		            </li>
+		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" >
+		            	<a onclick="shareWeixinMessage('WXSceneTimeline')">
+		                    <img src="../images/fenxiang_pengyouquan.png" style="width: 40%;">
+		                    <div class="mui-media-body hdj-balck hdj-fsize3">朋友圈</div>
+		            	</a>
+		            </li>
+		           <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" >
+		           	<a href="" onclick="shareqqMessage()">
+		                   <img src="../images/fenxiang_qq.png" style="width: 40%;">
+		                    <div class="mui-media-body hdj-balck hdj-fsize3">QQ</div>
+		           	</a>
+		           </li>
+		</ul> 
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/server.js"></script>
+		<script src="../js/share.js"></script>
+		<script>
+			var couponview_detail=null;
+			mui.init({
+				swipeBack: false,
+				pullRefresh: {
+					container: '#list',
+					down: {
+						style: 'circle',
+						color:'#FF4B4A',
+						offset: '60px',
+						auto: true,
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			/*mui.plusReady(function() {
+				vm.mbId = plus.storage.getItem("mbId");
+				var lauchFlag = plus.storage.getItem("lauchFlag");
+				couponview_detail = preload("coupon.html");
+			});*/
+			var vh = new Vue({
+				el: '.mui-bar',
+				data: {
+					mercName: ''
+				}
+			});
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					mbId: '',
+					mercId: '',
+					mercinfo: [],
+					goodsList: [],
+					imgurl: ''
+				}
+			});
+            var count = 1;
+		    var totalCount ;
+			function pullupRefresh() {
+				count++;
+				setTimeout(function() {
+					mui('#list').pullRefresh().endPullupToRefresh((count*4 > totalCount)); //参数为true代表没有更多数据了。
+					
+					//callmercinfo();
+	                callgoodslist(count*4);  
+	                
+				}, 1000);
+			}		
+		    function pulldownRefresh() {
+			        if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+								plus.nativeUI.toast('似乎已断开与互联网的连接', {
+									verticalAlign: 'top'
+								});
+								return;
+							}
+			        
+			   callmercinfo();
+	           callgoodslist(count*4);     
+	          // alert("refessh")
+		    }
+			function back() {
+				//plus.webview.currentWebview().close();
+				mui.back();
+			};
+			
+			//-------------------
+			
+			
+			function open_coupon() {				
+				/*mui.fire(couponview_detail, 'coupon_detail', { 
+					mercId: vm.mercinfo.id,
+					mercName:vh.mercName
+				});
+				setTimeout(function() {
+					couponview_detail.show("slide-in-right", 300);
+				}, 150);*/
+				localStorage.setItem("mercName",vh.mercName);
+			    mui.openWindow("coupon.html");
+			}
+			/*-------进入商品详情---传递----mercId-----*/
+			/*function open_goods(item) {
+				//alert("--->导出货品id"+item.id);
+				mui.fire(pdview_detail, 'goods_info', {
+					goodsinfo: item
+				});
+				setTimeout(function() {
+					pdview_detail.show("slide-in-right", 300);
+				}, 150);
+			}*/
+			//--------------------
+			function addcare() {
+				vm.mercinfo.isConcern = !vm.mercinfo.isConcern;
+				return;
+				if(!vm.mbId) {
+					mui.openWindow("../login/login.html");
+					return;
+				}
+				
+				// alert("添加店铺关注");
+				var apiname = "mbMercConcernApi/concern" + ".do";
+				if(vm.mercinfo.isConcern){ //关注发送未关注
+					apiname = "mbMercConcernApi/unconcern" + ".do";
+				}
+				var data = {
+					mbId: vm.mbId,
+					mercId: vm.mercId
+				};
+				console.log(servername + apiname + "?mbId=" + vm.mbId + "&mercId=" + vm.mercId);
+				mui.post(servername + apiname, data, function(rsp) {
+					console.log(JSON.stringify(rsp));
+					mui.toast(rsp.msg);
+					if(rsp.code == 0) {
+						//vb.careimg="../images/ax.png";
+						vm.mercinfo.isConcern = !vm.mercinfo.isConcern;
+					}
+				}, 'json');
+
+			}
+			/*----关注图标-----*/
+			function convet(tr){
+				var str='';
+				if(!tr){
+					str='mui-icon mui-icon-star ';
+				}else{
+					str='mui-icon mui-icon-star-filled hdj-red';
+				}
+				return str;
+			}
+			//监听自定义事件，获取新闻详情
+			dp_detail();
+			function dp_detail() {
+				vm.mercId = localStorage.getItem('mercid');
+				//vm.mbId=h5_mbinfo.mbId;
+				console.log("导入店铺Id:" + vm.mercId);
+				/*----------------------*/
+				/*callmercinfo();
+				callgoodslist(count*4);*/
+				if(h5_mbinfo){
+				      vm.mbId=h5_mbinfo.mbId;
+			     }
+				pulldownRefresh();
+			};
+
+			function callmercinfo() {
+				vm.imgurl = "../images/mm.jpg";
+				
+				var apiname = "merchantApi/info.do"
+				data = {
+					mercId : vm.mercId,
+					mbId: vm.mbId
+				}
+				mui.post(servername + apiname, data, function(rsp) {
+					console.log(JSON.stringify(rsp));
+					//alert("ok");
+					if(rsp){
+						vm.mercinfo = rsp;
+					    vh.mercName = rsp.mercName;
+					}
+					
+					
+				}, 'json');
+			}
+
+			function callgoodslist(rw) {
+				var data = {
+					mercId: vm.mercId,
+					page: 1,
+					rows: rw
+				};
+				var apiname = "goodsInfoApi/pageList" + ".do";
+				//console.log(servername + apiname + "?mercId=" + vm.mercId + "&page=1&rows=4");
+				mui.post("../json/goodslist.json", function(rsp) {
+					mui('#list').pullRefresh().endPulldownToRefresh();
+					console.log(JSON.stringify(rsp));
+					if(rsp.rows&&rsp.rows.length > 0) {
+					       vm.goodsList = rsp.rows;
+					       totalCount=rsp.totalCount;
+					      }
+					
+				}, 'json');
+
+			}
+		</script>
+	</body>
+
+</html>

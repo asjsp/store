@@ -3,15 +3,264 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>Hello MUI</title>
+		<title>前端演示</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<!--<link rel="stylesheet" type="text/css" href="css/icons-extra.css" />-->
+		<link rel="stylesheet" href="css/hdj.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.mui-bar-tab .mui-tab-item.mui-active {
+             color: #FF4B4A;
+            }
+            .mui-bar-tab .mui-tab-item {
+    
+    overflow: hidden;
+    width: 1%;
+    height: 50px;
+    text-align: center;
+    vertical-align: bottom;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #929292;
+    padding: 0px;
+    margin: 0px;
+}
+ .mui-bar-tab{
+ 	margin: 0;
+	padding: 0;
+ }
+.mui-tab-item {
+	margin: 0;
+	padding: 0;
+	}
+	.mui-bar {
+
+    height: 50px;
+    }
+    
+       
+			.mui-popover {
+				
+				width: 90%;
+				left: 5%;
+				right: 5%;
+				top:20%;
+				
+				
+			}
+			.mui-popover-arrow {
+				display: none;
+			}
+		</style>
 	</head>
 
-	<body style="background-color: white;">
+	<body>
+		<header class="mui-bar mui-bar-nav " style="background-color: red;display: flex;align-items: center;justify-content: space-between;display: -webkit-flex;-webkit-align-items: center;-webkit-justify-content: space-between;">
+			<a id="barcode" onclick="clicked('main/fukuan.html')">
+				<img src="images/home_icon_smf.png" class="hdj-btnv" style="width: 18px;height: 18px;margin-left: 5px;margin-top: 2px;">
+				<h6 style="color: white;font-size: 10px;margin: 0px;padding-top: 5px;">扫码付</h6>
+			</a>
+			<h1 class="mui-title" id="title"  onclick="clicked('main/search.html')">
+				<div style="color: white;font-size: 16px;">惠当家</div>
+			</h1>
+			<a id="login" onclick="clickedd('login/login.html')" class="mui-pull-right">
+				<img src="images/home_icon_login.png" class="hdj-btnv" style="width: 18px;height: 18px;margin-top: 2px;">
+				<h6 style="color: white;font-size: 10px;margin: 0px;padding-top: 5px;">登录</h6>
+			</a>
+		</header>
+		<div id="mPopover"  class="mui-popover" style="">
+		 
+		    <div style="text-align: center;border-radius: 7px 7px 0px 0px;  padding: 40px;background-color: #FF4B4A;">
+        		 <img v-if="seen" src="images/hongb.png" style="width: 90%;">
+        		  <img v-if="!seen" src="images/qiandao.png" style="width: 30%;">
+        		 <div v-if="!seen" style="color: white;font-size: 16px;padding-top: 5px;">签到领取盟币</div>
+        	</div>
+        	<div onclick="back(this)"  style="text-align: center;color: white;margin: 25px; background-color: #FF4B4A;padding: 8px;border-radius: 50px;">
+			       确定
+		     </div>	
+		    
+		</div>
+		<nav class="mui-bar mui-bar-tab" id="bottom">
+			<a id="defaultTab" class="mui-tab-item mui-active" href="main/nav.html">
+				<img src="images/shouye_s.png" class="hdj-btnhome">
+				<p class="mui-tab-label hdj-btnfh-active">首页</p>
+			</a>
+			<!-- <a class="mui-tab-item" href="main/tabnew.html">
+				<img src="images/xinpin.png" class="hdj-btnhome">
+				<p class="mui-tab-label hdj-btnfh">新品</p>
+				
+			</a> -->
+			<a class="mui-tab-item" href="main/tabsearch.html">
+				<img src="images/sousuo.png" class="hdj-btnhome">
+				<p class="mui-tab-label hdj-btnfh">搜索</p>
+			</a>
+			
+			<a class="mui-tab-item" href="main/tabme.html">
+				<img src="images/wode.png" class="hdj-btnhome">
+				<p class="mui-tab-label hdj-btnfh">我的</p>
+			</a>
+		</nav>
 		
-       <div>hello</div>
+		<input type="file" name="cam" capture="camera"  accept="image/*"  id="cam" onchange="readURL(this);" style="display:none;" />
+    
+		<script src="js/mui.min.js"></script>
+		<script src="js/server.js"></script>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8">
+		
+		    var subpages = ['main/nav.html', 'main/tabnew.html', 'main/tabsearch.html','main/tabmsg.html', 'main/tabme.html'];
+			var subpage_style = {
+				top: '51px',
+				bottom: '51px',
+				bounceBackground: '#f8f8f8'
+			};
+			var activeTab = subpages[0];
+			mui.init({
+				subpages:[{
+				url:subpages[0],
+				id:'nav',
+				styles:subpage_style
+			   }]
+		});
+			 var vm = new Vue({
+				el: '.mui-popover',
+				data: {
+					mbId: '',
+					seen:false
+					}
+				});
+			/*var title = document.getElementById("title");
+			var barcode = document.getElementById("barcode");
+			var login = document.getElementById("login");*/
+			
+			 //选项卡点击事件
+			mui('.mui-bar-tab').on('tap', 'a', function(e) {
+			    /*---导航图标切换---*/
+			     // icontg(this);
+				/*------------------------------*/
+				var targetTab = this.getAttribute('href');
+				if (targetTab == activeTab) {
+					return;
+				}
+				
+				//更换标题
+				if(targetTab==subpages[1]){
+				      mui.openWindow('index1.html');
+				}
+				if(targetTab==subpages[2]){
+				      mui.openWindow('index2.html');
+				}
+				if(targetTab==subpages[3]){
+				      mui.openWindow('index3.html');
+				}
+				if(targetTab==subpages[4]){
+				      mui.openWindow('index4.html');
+				}
+				
+			});
+			 //自定义事件，模拟点击“首页选项卡”
+			/*document.addEventListener('gohome', function() {
+				var defaultTab = document.getElementById("defaultTab");
+				mui.trigger(defaultTab, 'tap');
+				defaultTab.children[0].src="images/shouye_s.png";
+				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+				if (defaultTab !== current) {
+					current.classList.remove('mui-active');
+					defaultTab.classList.add('mui-active');
+				}
+			});*/
+		   function redbag(){
+			   // alert("红包");
+			   if(vm.seen){
+			            mui.toast("已经签到");
+			            return
+			         }
+			   
+			   if(localStorage.getItem('lauchFlag')){
+			         var ls=localStorage.getItem('lauchFlag');
+			         
+			         if(ls!="true"){
+					     mui.openWindow("login/login.html");
+			           }else{
+			           
+			                mui('#mPopover').popover('toggle');
+			                vm.mbId = h5_mbinfo.mbId;
+			           }
+			   }
+			}
+		  
+		function qd(){
+			var data ={ mbId: vm.mbId};
+						 var apiname="mbSignApi/sign"+".do";
+						 console.log(servername+apiname+"?mbId="+vm.mbId);
+						 mui.post(servername+apiname,data, function(rsp) {
+						              console.log(JSON.stringify(rsp));
+						              vm.seen=true;
+						              setTimeout(function(){
+						              	    mui('#mPopover').popover('toggle');
+						              },'2000')
+						             
+		                          },'json');
+		}
+			function back(obj){
+				qd();
+		    }
+		   
+		   /*--------------------------*/
+           function clicked(id){
+			  console.info(id);
+			   document.getElementById("cam").click();
+			  //mui.openWindow(id);
+           };
+           function readURL(input) {
+           if (input.files && input.files[0]) {
+           var reader = new FileReader();
+           reader.onload = function (e) {
+            //document.getElementById("head-img1").src= e.target.result;
+             mui.openWindow("main/fukuan.html");
+           }
+          reader.readAsDataURL(input.files[0]);
+            }
+        }
+           
+           
+           function clickedd(id){
+             var lauchFlag=localStorage.getItem('lauchFlag');
+           		console.info("lauchFlag:"+lauchFlag);
+           	   if(lauchFlag!="true"){
+					mui.openWindow("login/login.html");
+			   }else(mui.toast("已经登录"))
+           }
+           
+           /*---导航图标切换---*/
+			function icontg(obj){
+				   var c=obj.children;
+				var imgs=c[0].getAttribute('src');
+				var st=imgs.split(".");
+				
+				var cp=obj.parentNode.children;
+				for (i=0; i<cp.length; i++){
+		           var imgurl=cp[i].children[0].getAttribute('src').split(".")[0];
+		           var sr=imgurl.search('_s');
+		             if(sr>0){
+		               	    imgurl= imgurl.split("_")[0];
+		               	   // console.info(imgurl);
+		              }
+		           cp[i].children[0].src=imgurl+'.png';
+		           cp[i].children[1].className='mui-tab-label hdj-btnfh';
+	            };
+	            /*-------激活-------*/
+				c[0].src=st[0]+'_s.png';
+				c[1].className='mui-tab-label hdj-btnfh-active';
+			}
+		</script>
 	</body>
 
 </html>

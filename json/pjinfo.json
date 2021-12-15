@@ -1,0 +1,52 @@
+{
+    "rows": [
+        {
+            "id": "4028ef816053234e0160532a4c84000c",
+            "gsiId": "000000006016766001601693c0540032",
+            "boId": "40289fe4603e364701603e60a13d0018",
+            "cmtState": 1,
+            "cmtScore": 5, 
+            "cmtContent": "大小合适，颜色漂亮与图片一致。包装好，店家用又大又硬有型的纸盒装衣服，没有压痕褶皱。物流快", 
+            "mbId": "4028ef815fdcbc7c015fdd085b8d0004",
+            "pictures": [
+                {
+                    "id": "4028ef816053234e0160532a4c86000e", 
+                    "cmtId": "4028ef816053234e0160532a4c84000c"
+                },
+                {
+                    "id": "4028ef816053234e0160532a4c86000d",
+                    "cmtId": "4028ef816053234e0160532a4c84000c"
+                }
+            ]
+        },
+		{
+		    "id": "4028ef816053234e0160532a4c84000c",
+		    "gsiId": "000000006016766001601693c0540032",
+		    "boId": "40289fe4603e364701603e60a13d0018",
+		    "cmtState": 1,
+		    "cmtScore": 5, 
+		    "cmtContent": "一次满意的购物体验，大衣质量真不错！面料质地手感细腻柔软，做工精细，版型简洁时尚", 
+		    "mbId": "4028ef815fdcbc7c015fdd085b8d0004",
+		    "pictures": [
+		        {
+		            "id": "4028ef816053234e0160532a4c86000e", 
+		            "cmtId": "4028ef816053234e0160532a4c84000c"
+		        },
+		        {
+		            "id": "4028ef816053234e0160532a4c86000d",
+		            "cmtId": "4028ef816053234e0160532a4c84000c"
+		        }
+		    ]
+		}
+    ],
+    "firstResult": 0,
+    "attach": null,
+    "totalCount": 5,
+    "totalPage": 1,
+    "lastPage": true,
+    "firstPage": true,
+    "nextPage": 1,
+    "pageNo": 1,
+    "pageSize": 10,
+    "previousPage": 1
+}

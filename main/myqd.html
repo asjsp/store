@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<!--App自定义的css-->
+		<!--<link rel="stylesheet" type="text/css" href="../css/app.css" />-->
+		<style>
+			.mui-table-view.mui-grid-view .mui-table-view-cell {
+				font-size: 17px;
+				display: inline-block;
+				margin-right: -1px;
+				padding: 6px 0 0 10px;
+				text-align: center;
+				vertical-align: middle;
+				background: 0 0;
+			}
+			
+			.mui-card {
+				font-size: 14px;
+				position: relative;
+				overflow: hidden;
+				margin: 5px;
+				border-radius: 1px;
+				background-color: #fff;
+				background-clip: padding-box;
+				box-shadow: 1 1px 1px rgba(0, 0, 0, .2);
+			}
+			
+			.mui-table-view:before {
+				height: 0px;
+			}
+			
+			.mui-table-view:after {
+				height: 0px;
+			}
+			
+			.mui-table-view-cell:after {
+				height: 0px;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: #FDF7F7;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"  style="color:red;"></a>
+			<h1 class="mui-title">我的抢单</h1>
+		</header>
+		<div id="list" class="mui-content mui-scroll-wrapper" style="background-color: #FDF7F7;">
+			<!--<div id="slider" class="mui-slider" style="background-color: white;">-->
+			<div class="mui-scroll">	
+			<ul class="mui-table-view mui-table-view-chevron">	
+			<div style="background-color: white; border-bottom: 1px solid gainsboro;" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-negative">
+				<a @tap="goto(0)" class="mui-control-item mui-active">正在抢</a>
+				<a @tap="goto(1)" class="mui-control-item">我抢中</a>
+			</div>
+
+			<!--<div class="mui-slider-group">
+				<div id="list" class="mui-slider-item mui-control-content  mui-active">
+					<div class="mui-scroll-wrapper">-->
+						
+							<!---数据填充------>
+							<div v-for="item in orderList" class="mui-table-view-cell hdj-shadow" style="background-color: white; margin: 10px;margin-bottom:20px;border-radius:8px; padding: 15px; padding-right: 0px;">
+
+								<div class="hdj-space-between">
+									<span class="hdj-gray2 hdj-fsize3"></span >
+                       <span style="padding-right: 15px;" class="hdj-fsize1"  v-bind:style="{color:convert_color(seen),}">{{convert_label(seen)}}</span>
+								</div>
+								<div class="hdj-flex" style="padding-top: 10px;">
+									<div  class="mui-media-body mui-col-xs-3 mui-col-sm-3" >
+                                        <div class="hdj-img-wrap1" style="background-color: white;">
+                                            <img  src="../images/demo/sj25.jpg" class="hdj-img-cont" style="width: 90%;">
+                                        </div>
+                                        <span  v-if="seen" class="hdj-imglabel-red" >抢单成功</span>
+					                </div>
+
+									<!--<div style="">
+										<div class="hdj-img-wrap-big">
+											<img :src="getserverimg(item.gsiId,6)" style="width:100%;">
+										</div>
+										<span v-if="seen" class="hdj-imglabel-red" style="right: -40px;">抢单成功</span>
+									</div>-->
+
+									<div  class="mui-media-body mui-col-xs-9 mui-col-sm-9" style="margin-left: 10px;">
+										<div class="mui-ellipsis hdj-balck hdj-fsize2">{{item.gsiName}}</div>
+										<p>
+											<p style="padding-top: 5px;" class="hdj-gray hdj-fsize3">市场价：<span class="hdj-balck hdj-fsize2">¥{{item.gsiMarketprice}}</span></p>
+											<p style="padding-top: 5px;" class="hdj-gray hdj-fsize3">拍卖价：<span class="hdj-red hdj-fsize2">¥{{item.gsiNowprice}}</span></p>
+											<p style="padding-top: 5px;" class="hdj-gray hdj-fsize3">我出价：<span class="hdj-red hdj-fsize2">¥{{item.myPrice}}</span></p>
+										</p>
+										</br>
+									</div>
+								</div>
+
+								<div class="hdj-space-between-end hdj-fsize2">
+									<span v-bind:style="{color:convert_gray(seen),}" style="margin-left: 10px;font-size: 17px;">
+                         	
+                       </span >
+                      
+                       <span v-if="seenf" @tap="open_goods(item)"  style="width: 120px; text-align:center; padding:6px;border-radius: 20px 0px 0px 20px;; color:white; background-color:#FF4C4A">
+                       	        继续抢单
+                       </span>
+
+							<span v-if="seen" @tap="open_goods(item)" style=" width: 120px; text-align:center; padding:6px;border-radius: 20px 0px 0px 20px;; color:white; background-color:#FF4C4A">
+                        	查看详情
+                       </span>
+
+								</div>
+							</div>
+							<!------------------>
+						
+			</ul>			
+			</div>
+				<!--	</div>
+				</div>
+			</div>-->
+			<!--</div>-->
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/server.js"></script>
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: '#list',
+					down: {
+						style: 'circle',
+						color: '#ff4c4a',
+						offset: '60px',
+						auto: true,
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			//mui.plusReady(function() {
+			//	vm.mbId = plus.storage.getItem("mbId");
+			//});
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					mbId: '',
+					seen: 0,
+					seenf: true,
+					orderList: []
+				}
+			});
+			vm.mbId = h5_mbinfo.mbId;
+			var count = 1;
+			var totalCount;
+			var noData = false;
+
+			function pullupRefresh() {
+				count++;
+				setTimeout(function() {
+					mui('#list').pullRefresh().endPullupToRefresh(noData); //参数为true代表没有更多数据了。
+
+				}, 1000);
+			}
+
+			function pulldownRefresh() {
+				count = 1;
+				if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+					plus.nativeUI.toast('似乎已断开与互联网的连接', {
+						verticalAlign: 'top'
+					});
+					return;
+				}
+				goto(vm.seen);
+			}
+
+			function goto(n) {
+				vm.seen = n;
+				vm.seenf = !vm.seen;
+				open_indexTypes(n, count);
+			}
+			/*-------61.	订单列表------------*/
+			function open_indexTypes(item, count) {
+				if(count == 1) {
+					//mui('#list').pullRefresh().enablePullupToRefresh();
+					noData = false;
+					vm.orderList = [];
+				}
+				var data = {
+					mbId: vm.mbId,
+					state: item,
+					page: count,
+					rows: 6
+				};
+				var apiname = "offerApi/listOffer" + ".do";
+				// console.log(servername+apiname+"?mbId="+vm.mbId+"&state="+item+"&page=1&rows=4");
+				mui.getJSON("../json/myqd.json",function(rsp) {
+					console.info(JSON.stringify(rsp));
+					if(rsp.lastPage || rsp.rows.length <= 0) {
+						noData = true;
+					}
+					var len = vm.orderList.length;
+					mui.each(rsp.rows, function(index, value) {
+						vm.$set(vm.orderList, len + index, value);
+					})
+					mui('#list').pullRefresh().endPulldownToRefresh();
+					//					mui('#list').pullRefresh().endPulldown();
+					//					console.log("订单列表" + JSON.stringify(rsp.rows));
+					//					if(rsp.rows && rsp.rows.length > 0) {
+					//						vm.orderList = rsp.rows;
+					//					} else {
+					//						mui.toast("还没有相关订单")
+					//					}
+				});
+			}
+
+			// --"查看订单"------------;
+			function see_order(item) {
+
+				var order_view = preload("order_detail.html");
+				mui.fire(order_view, 'order_detail', {
+					orderinfo: item
+				});
+				setTimeout(function() {
+					order_view.show("slide-in-right", 300);
+				}, 150);
+			}
+			/*-------进入商品详情---继续抢单-----*/
+			function open_goods(item) {
+			console.log("打开商品详情页--->id" + item.gsiId);
+			localStorage.setItem("gsiId",item.gsiId);
+			localStorage.setItem("gsiCurrentperiods",item.periods);
+			mui.openWindow('productdetailoffer.html');
+			
+				/*mui.fire(qdview_detail, 'goods_info', {
+					gsiId: item.gsiId,
+					gsiCurrentperiods: item.periods
+				});
+				setTimeout(function() {
+					qdview_detail.show("slide-in-right", 300);
+				}, 150);*/
+			}
+
+			function convert_label(item) {
+				//alert(item);
+				var str = '';
+				if(item == 0) {
+					str = "抢单中"
+				};
+				if(item == 1) {
+					str = "抢单成功"
+				};
+				return str
+			};
+
+			function convert_color(item) {
+				var str = '';
+				if(item == 0) {
+					str = "#f9a504"
+				};
+				if(item == 1) {
+					str = "green"
+				};
+				return str
+			};
+
+			function convert_gray(item) {
+				var str = '';
+				if(item == 1) {
+					str = "#a7a7a7"
+				};
+				if(item == 0) {
+					str = "#ff4c4a"
+				};
+				return str
+			};
+
+			function back() {
+				plus.webview.currentWebview().close();
+			};
+
+			/*var item2 = document.getElementById('item2');
+		var item3 = document.getElementById('item3');
+		var se=document.querySelector(".mui-segmented-control");
+		var sg=document.querySelector(".mui-slider-group");
+		activedom(se,0);
+		activedom(sg,0);
+		function activedom(dome,ind){
+			var c=dome.children;
+			for (i=0; i<c.length; i++){
+		            c[i].classList.remove("mui-active");
+	        c[ind].classList.add("mui-active");  
+		}
+		document.getElementById('slider').addEventListener('slide', function(e) {
+					if (e.detail.slideNumber === 1) {
+						         activedom(se,1);
+		                         activedom(sg,1);
+					} else if (e.detail.slideNumber === 0) {
+						         activedom(se,0);
+		                         activedom(sg,0);
+					} 
+					
+				});*/
+		</script>
+
+	</body>
+
+</html>

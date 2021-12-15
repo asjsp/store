@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<!--<link rel="stylesheet" type="text/css" href="../css/app.css" />-->
+	</head>
+
+	<body>
+
+		<style>
+			.mui-control-content {
+				background-color: white;
+				min-height: 500px;
+			}
+			.mui-control-content .mui-loading {
+				margin-top: 50px;
+			}
+			#sliderSegmentedControl{
+				background-color: white;
+			}
+		</style>
+		<!--<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">顶部选项卡-可左右拖动(div)</h1>
+		</header>-->
+		
+
+		    
+		    
+		<div class="mui-content">
+
+			<!----------------->
+			<div id="slider" class="mui-slider">
+				<!--<div style="display: flex;justify-content: space-between;">-->
+				<div id="sliderSegmentedControl"  class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-negative">
+					<div class="mui-scroll">
+					<a class="mui-control-item" href="#item1mobile">推荐</a>
+					<a class="mui-control-item" href="#item2mobile">手机</a>
+					<a class="mui-control-item" href="#item3mobile">鞋包</a>
+					<a class="mui-control-item" href="#item4mobile">美食</a>
+					<a class="mui-control-item" href="#item5mobile">珠宝</a>
+					<a class="mui-control-item" href="#item6mobile">家纺</a>
+					</div>
+				</div>
+				<!--<div style="background-color: white;width: 10%;">p</div>-->
+				<!--</div>-->
+				<div class="mui-slider-group">
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+						<!--<div id="scroll1" class="mui-scroll-wrapper">-->
+							<div class="mui-scroll">
+					                   
+	<!--	<ul class="mui-table-view mui-grid-view "  >
+		    <li class="mui-table-view-cell mui-media mui-media mui-col-xs-6 mui-col-sm-6" >
+            <a href="#" >	
+		    <div class="mui-card" style="padding: 0; margin: 1px;">
+				<div class="mui-card-header mui-card-media" style="height:30vw;background-image:url(../images/m3.jpg)"></div>
+				<div class="mui-card-content">
+					<div class="mui-card-content-inner">
+						<div class="mui-media-body">这里显示文章摘要，让读者对文章内容有个粗</div>
+					</div>
+				</div>
+				<div class="mui-card-footer">
+					<span class="mui-card-link" style="color: red;">$30</span>
+					<span class="mui-card-link" style="color: red;">02:10:22</span>
+				</div>
+			</div>          
+		    </a>
+		    </li>
+		</ul>-->
+							</div>
+						<!--</div>-->
+					</div>
+				<div id="item2mobile" class="mui-slider-item mui-control-content">
+						
+							<div class="mui-scroll">
+								<div class="mui-loading">
+									<div class="mui-spinner">
+									</div>
+								</div>
+							</div>
+						
+
+					</div>
+				<div id="item3mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll3" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="mui-loading">
+									<div class="mui-spinner">
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				<div id="item4mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll4" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="mui-loading">
+									<div class="mui-spinner">
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				<div id="item5mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll5" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="mui-loading">
+									<div class="mui-spinner">
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				<div id="item6mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll6" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="mui-loading">
+									<div class="mui-spinner">
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script>
+		var objData1=[
+        {"imgsrc":"m1.jpg","title":"韩都衣舍2017韩版女装冬装新款潮大衣外套中长款毛呢外套HH7524妠 ","price":"20","time":"00:33:21"},
+        {"imgsrc":"c1.jpg","title":"11,11用券价1449元Vero Moda落肩袖大中长款毛呢大衣|317427506 ","price":"300","time":"01:03:21"},
+        {"imgsrc":"c2.jpg","title":"11,11用券价1449元Vero Moda落肩袖大中长款毛呢大衣|317427506 ","price":"20","time":"00:33:21"},
+        {"imgsrc":"m2.jpg","title":"冬装新款潮大衣外套中长款","price":"300","time":"01:03:21"},
+        {"imgsrc":"m1.jpg","title":"肩袖大中长款毛呢大衣","price":"20","time":"00:33:21"},
+        {"imgsrc":"m3.jpg","title":"大衣外套中长款毛呢外套H","price":"300","time":"01:03:21"},
+    ];
+    		var objData2=[
+        {"imgsrc":"sj4.jpg","title":"华为 HUAWEI P10 全网通 4GB+64GB 钻雕蓝 移动联通电信4G手机 双卡双待 ","price":"3488.00","time":"00:33:21"},
+        {"imgsrc":"sj2.jpg","title":"魅族 魅蓝Note5 全网通公开版 3GB+32GB 香槟金","price":"3488.00","time":"01:03:21"},
+        {"imgsrc":"sj3.jpg","title":"小米 红米Note5A 全网通版 3GB+32GB 香槟金 移动联通电信4G手机 双卡双待 ","price":"3488.00","time":"00:33:21"},
+        {"imgsrc":"sj4.jpg","title":"魅族 魅蓝Note5 全网通公开版 3GB+32GB 香槟金","price":"300","time":"01:03:21"},
+        {"imgsrc":"sj2.jpg","title":"魅族 魅蓝Note5 全网通公开版 3GB+32GB 香槟金","price":"20","time":"00:33:21"},
+        {"imgsrc":"sjj.jpg","title":"魅族 魅蓝Note5 全网通公开版 3GB+32GB 香槟金","price":"300","time":"01:03:21"},
+    ];
+		/*----------------------------------*/
+		function creatPics(imgurl){
+			imgurl='../images/'+imgurl;
+	var str='<div class="mui-slider"><div class="mui-slider-group mui-slider-loop">'+
+    '<div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="'+imgurl+'4.jpg" /></a></div>'+
+    '<div class="mui-slider-item"><a href="#"><img src="'+imgurl+'1.jpg" /></a></div>'+
+    '<div class="mui-slider-item"><a href="#"><img src="'+imgurl+'2.jpg" /></a></div>'+
+    '<div class="mui-slider-item"><a href="#"><img src="'+imgurl+'3.jpg" /></a></div>'+
+    '<div class="mui-slider-item"><a href="#"><img src="'+imgurl+'4.jpg" /></a></div>'+
+    '<div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="'+imgurl+'1.jpg" /></a></div>'+
+    '</div><div class="mui-slider-indicator"><div class="mui-indicator mui-active"></div><div class="mui-indicator"></div><div class="mui-indicator"></div><div class="mui-indicator"></div></div></div>';
+			return str;
+		}
+		function creatdom(objData,mg){
+			var html = [];
+			var x;
+			html.push('<ul class="mui-table-view mui-grid-view">');
+			var imgdm=creatPics(mg);
+			//alert(imgdm);
+			html.push(imgdm);
+			for (x in objData) {
+				var tis=objData[x].title;
+				var prs=objData[x].price;
+				var tms=objData[x].time;
+				var urs=objData[x].imgsrc;
+					//urs='"'+'../images/'+urs+'"';
+			html.push('<li class="mui-table-view-cell mui-media mui-media mui-col-xs-6 mui-col-sm-6" >'
+            +'<a href="#" >'
+		    +'<div class="mui-card" style="padding: 0; margin: 1px;">'
+				+'<div class="mui-card-header mui-card-media" style="height:45vw;background-image:url(../images/'+urs+')"></div>'
+				+'<div class="mui-card-content">'
+					+'<div class="mui-card-content-inner">'
+						+'<div class="mui-ellipsis-2">'+tis+'</div>'
+					+'</div>'
+				+'</div>'
+				+'<div class="mui-card-footer">'
+					+'<span class="mui-card-link" style="color: red;">¥'+prs+'</span>'
+					+'<span class="mui-card-link" style="color: red;">'+tms+'</span>'
+				+'</div>'
+			+'</div> '         
+		    +'</a>'
+		    +'</li>');
+				
+				
+			}
+			html.push('</ul>');
+			var objres = html.join('');
+			return objres;
+		}
+			
+			//alert(objres);
+			var item1 = document.getElementById('item1mobile');
+			//item1.querySelector('.mui-scroll').innerHTML  =creatdom(objData1,"a");
+			item1.innerHTML  =creatdom(objData1,"a");
+			/*-------------------------*/
+			mui.init({
+				swipeBack: false
+			});
+			(function($) {
+				$('.mui-scroll-wrapper').scroll({
+					indicators: true //是否显示滚动条
+				});
+				var html2 = creatdom(objData2,"s");
+				var html3 = creatdom(objData1,"b");
+				var item2 = document.getElementById('item2mobile');
+				var item3 = document.getElementById('item3mobile');
+				document.getElementById('slider').addEventListener('slide', function(e) {
+					if (e.detail.slideNumber === 1) {
+						if (item2.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								item2.querySelector('.mui-scroll').innerHTML = html2;
+							}, 500);
+						}
+					} else if (e.detail.slideNumber === 2) {
+						if (item3.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								item3.querySelector('.mui-scroll').innerHTML = html3;
+							}, 500);
+						}
+					}
+				});
+				var sliderSegmentedControl = document.getElementById('sliderSegmentedControl');
+				$('.mui-input-group').on('change', 'input', function() {
+					if (this.checked) {
+						sliderSegmentedControl.className = 'mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-' + this.value;
+						//force repaint
+						sliderProgressBar.setAttribute('style', sliderProgressBar.getAttribute('style'));
+					}
+				});
+			})(mui);
+		</script>
+
+	</body>
+
+</html>

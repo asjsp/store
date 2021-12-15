@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<style>
+			.mui-btn {
+				font-size: 15px;
+				padding: 8px;
+				margin: 3px;
+			}
+			.mui-table-view:before {
+				    height: 0px;
+				}
+			.mui-table-view:after {
+				    height: 0px;
+				}
+			.mui-table-view-cell:after {
+				    height: 0px;
+				}
+		</style>
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back" style="color:#FF4B4A;"></a>
+			<h1 class="mui-title">支付成功</h1>
+		</header>
+		<div class="mui-content" style="background-color: white;">
+			<div style="background-color: #FF514f;">
+				<div style="font-size: 16px; color: white;text-align: center;padding: 30px;padding-bottom: 22px;">
+					<p style="color: white;">
+						<span class="mui-icon mui-icon mui-icon-checkmarkempty" style="font-size: 33px; border: 2px solid white;border-radius: 50%;"></span>
+
+					</p>
+					<p style="color: white;margin: 18px;">订单支付成功 </p>
+					<button onclick="see_order()" id="about" class="mui-btn  mui-btn-outlined" style="width: 96px; color: white;border: 1px solid white;">回到首页 </button>
+
+				</div>
+				<!-- <button type="button" class="mui-btn mui-btn-blue mui-btn-outlined">按钮</button>-->
+			</div>
+			<!-------->
+			<ul class="mui-table-view" id="list"  style="margin-top: 20px;">
+				<li class="mui-table-view-cell" >
+					<a>
+						订单编号：<span style="color: #969696;">20210684774432</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a>
+						交易方式：<span style="color: grey;">微信支付</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a>
+						下单时间：<span style="color: grey;">2019-09-07 11：34：32</span>
+					</a>
+				</li>
+			</ul>
+			<!--<a onclick="see_order()">
+				<div style="text-align: center;color: white;margin: 4vw; background-color: #FF4B4A;padding: 10px;border-radius: 50px;">
+					查看订单详情
+				</div>
+			</a>-->
+			
+			<div style="padding: 20px;">
+			      <div onclick="see_order()"  class="mui-btn mui-btn-block mui-btn-red" style=" color: white;border-radius: 50px;">
+			                            查看订单详情
+		           </div>	
+		    </div>
+		    
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/server.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<!--<script src="../js/common.js"></script>-->
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: '#list',
+					down: {
+						style: 'circle',
+						color: '#FF4B4A',
+						offset: '60px',
+						auto: true
+						
+					}
+				}
+			});
+			/*function back(){
+				plus.webview.currentWebview().close();
+			}*/
+			mui.plusReady(function() {
+				vm.mbId = plus.storage.getItem("mbId");
+				//open_indexTypes(1);
+				//var lauchFlag = plus.storage.getItem("lauchFlag");
+			});
+
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					mbId: '',
+					orderinfo: {}
+				}
+			});
+
+			function pulldownRefresh() {
+				if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+					plus.nativeUI.toast('似乎已断开与互联网的连接', {
+						verticalAlign: 'top'
+					});
+					return;
+				}
+				//open_indexTypes(2);
+			}
+
+			function open_indexTypes(item) {
+				var data = {
+					mbId: vm.mbId
+				};
+				var apiname = "orderApi/lastSuccess" + ".do";
+				console.log("请求订单列表" + JSON.stringify(data));
+				//console.log(servername+apiname+"?sklId="+vm.tim.id+"&page=1&rows=4");
+				mui.getJSON(servername + apiname, data, function(rsp) {
+					mui('#list').pullRefresh().endPulldown();
+					if(rsp) {
+						vm.orderinfo = rsp;
+					} else {
+						mui.toast("暂无数据");
+						//vm.orderList=test;
+					}
+				});
+			}
+
+			function convert(item) {
+				var str = '';
+				if(item == 1) {
+					str = "微信支付"
+				};
+				if(item == 2) {
+					str = "支付宝支付"
+				};
+				if(item == 3) {
+					str = "余额支付"
+				};
+				if(item == 4) {
+					str = "盟币支付"
+				};
+				if(item == 5) {
+					str = "惠币支付"
+				};
+				if(item == 6) {
+					str = "银联支付"
+				};
+				return str
+			};
+
+			function see_order() {
+				mui.openWindow('home.html');
+				return;
+				//console.log("查看订单"+item.id);
+				var order_view = preload("order_detail.html");
+				mui.fire(order_view, 'order_detail', {
+					orderinfo: vm.orderinfo
+				});
+				setTimeout(function() {
+					order_view.show("slide-in-right", 300);
+				}, 150);
+			}
+			document.getElementById("about").addEventListener('tap', function() {
+				//获得主页面的webview
+				// plus.webview.currentWebview().hide();
+				var main = plus.webview.getLaunchWebview();
+				main.show();
+				//触发主页面的gohome事件
+				mui.fire(main, 'gohome');
+			});
+		</script>
+	</body>
+
+</html>

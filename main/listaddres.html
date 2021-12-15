@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		
+		<style>
+
+.mui-checkbox input[type=checkbox]:checked:before, .mui-radio input[type=radio]:checked:before {
+    color: #FF4B4A;
+}
+.mui-table-view-cell:after {
+    height: 0px;
+}
+.mui-table-view:after {
+				    height: 0px;
+				}
+		</style>
+	</head>
+
+	<body style="background-color: #F8F8F8;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FF4B4A;"></a>
+			<h1 class="mui-title">管理收货地址</h1>
+		</header>
+		<nav class="mui-bar mui-bar-tab" style="background-color: white;">
+			  <a onclick="clicked('newaddres.html')">
+			  	<div  id="tx" style="text-align: center;margin: 4vw; color: #FF4B4A;padding: 10px;border: 1px solid #FF4B4A; border-radius: 10px;">
+			      <span style="font-size: x-large; margin-right: 3px;">+</span>
+			      <span>添加新地址</span> 
+		         </div>
+		      </a> 
+		</nav>
+	<div id="list"  class="mui-content mui-scroll-wrapper" style="background-color: #F8F8F8;">	
+	    <div class="mui-scroll">
+		<!----数据列表----->
+	    <ul v-bind:style="{borderColor:convertbcolor(item.mbaDefault),borderStyle:convertbstyle(item.mbaDefault), }"   v-for="item in addressList" :id="item.id" class="mui-table-view" style="border: 1px solid gainsboro; border-left: 0px;border-right: 0px; margin-top: 10px; padding: 18px;">
+	                <div style="color: #333333;" @tap="choise(item)">
+	                	{{item.mbaName}}
+	                	<span style="margin-left: 24px;">{{item.mbaPhone}}</span>
+	                </div>  
+	                <p style="margin-top: 15px;" style="color: #9c9b9b;" @tap="choise(item)">
+	                	<span>{{item.mbaProvinceName}}</span><span>{{item.mbaCityName}}</span><span>{{item.mbaOraName}}</span>
+	                	<span>{{item.mbaAddress}}</span>
+	                </p>
+	                <div style="display: -webkit-flex;  -webkit-justify-content: space-between; -webkit-align-items:center;display: flex;justify-content: space-between;align-items: center;">
+	                    <div v-on:click="toDeaful(item)"  class="mui-table-view-cell mui-radio mui-left"  >
+						     <input  name="radio" type="radio"  :checked="item.mbaDefault">设为默认
+					    </div>
+						<div >
+						        <span v-on:click="editData(item)" >
+						        	<span  class="mui-icon mui-icon-compose"   style="font-size: 25px;"></span>
+						        	<span style="font-size:small;">编辑</span>
+						        </span>
+						        <span v-on:click="delData(item.id)">
+						        	<span  class="mui-icon mui-icon-trash"  style="font-size: 25px;"></span>
+						        	<span style="font-size:small;">删除</span>
+						        </span>
+						</div>	
+	                </div>
+	    </ul>
+	    <br>
+	 	</div>		
+	</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/server.js"></script>
+		<script>
+		//alert("h5会员id:"+h5_mbinfo.mbId);	
+		mui.init({
+				swipeBack: false,
+				pullRefresh: {
+					container: '#list',
+					down: {
+						auto: false,
+						callback: pulldownRefresh
+					}/*,
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}*/
+				}
+			});	
+		/*-----------------------------------*/
+		 var mdetail =null;
+		 var mqdetail =null;
+         mui.ready(function() {
+				/*vm.mbId=plus.storage.getItem("mbId");
+				mdetail = preload("mdetail.html");
+				mqdetail = preload("mqdetail.html")*/
+				//var lauchFlag = plus.storage.getItem("lauchFlag");
+				//向服务端请求会员信息
+				//if(lauchFlag){};
+				 vm.mbId=h5_mbinfo.mbId;
+				 if(localStorage.getItem("chosiseModel")) {
+				 	var sm=localStorage.getItem("chosiseModel");
+				 	  if(sm=='true'){
+				 		      vm.chosiseModel =sm;
+			                  console.info('是否选择:'+vm.chosiseModel);
+				 	    }                
+				    }
+				
+			});
+		/*var count = 1;
+		var totalCount ;
+		function pullupRefresh() {
+				count++;
+				setTimeout(function() {
+					mui('#list').pullRefresh().endPullupToRefresh((count > totalCount)); //参数为true代表没有更多数据了。
+					getaddresslist(count*4);
+				}, 1000);
+			}	*/	
+		function pulldownRefresh() {
+			if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+								plus.nativeUI.toast('似乎已断开与互联网的连接', {
+									verticalAlign: 'top'
+								});
+								return;
+							}
+	        /*-----------*/
+	        
+	        vm.mbId=h5_mbinfo.mbId;
+	       // getaddresslist();
+		}
+		function convertbstyle(item) {
+			var str='';
+			if(item==1){str="dashed"};
+			if(item==0){str="solid"};
+		
+			return str
+            };  
+        function convertbcolor(item) {
+			var str='';
+			if(item==1){str="#FF4B4A"};
+			if(item==0){str="gainsboro"};
+			
+			return str
+            };    
+		function getaddresslist(){
+			             var data ={mbId: vm.mbId };
+						 var apiname="memAddressApi/list"+".do";
+						 mui.post(servername+apiname,data, function(rsp) {
+						 	            mui('#list').pullRefresh().endPulldownToRefresh();
+						                console.log(JSON.stringify(rsp));
+						                vm.addressList=rsp;
+						                
+		                          },'json');
+		}
+		function clicked(ids){
+			 mui.openWindow({url:ids,id:ids});
+		}
+		/*document.addEventListener('choiseAddress',function(event){
+			vm.chosiseModel = event.detail.chosiseModel;
+			console.info('是否选择:'+vm.chosiseModel);
+		})*/
+		
+		function choise(item){
+			if(vm.chosiseModel){ 
+				mui.back();
+				/*mui.fire(mdetail, "choisedAddress", {
+					item:item
+				});
+				mui.fire(mqdetail, "choisedAddress", {
+					item:item
+				});*/
+				localStorage.setItem("choisedAddress",JSON.stringify(item));
+				//mui.openWindow('mdetail.html');
+			}
+		}
+		editaddView=preload("editaddres.html");
+		var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					mbId:'',
+				addressList:[
+					{"id":"4028ef81600ab4c201600ad8f7db0000","mbaCityName":"青岛市","mbaOraName":"市北区","mbaProvinceName":"山东省","mbaProvince":"370000","mbaAddress":"深圳路888号","mbaCity":"370200","mbaOrg":"370203","mbaName":"joker","mbaPhone":"1528898****","mbaState":1,"mbaDefault":0}
+				],
+				chosiseModel : false,
+				},
+				methods: {
+					toDeaful: function(item) {//重置数据
+						mui.each(vm.addressList,function(index,item){
+							item.mbaDefault = 0;
+						})
+						var data ={
+						        mbId: this.mbId,
+						        adId:item.id
+					          };
+					    item.mbaDefault = 1;
+						var apiname="memAddressApi/toDeafultreviceAddress"+".do";
+						mui.post(servername+apiname,data, function(rsp) {
+						                  mui.toast(rsp.msg);
+						                  console.info(JSON.stringify(rsp))
+						                  if(rsp.code==0){
+						                  	 getaddresslist();
+						                  }
+						                  item.mbaDefault=1;
+		                },'json');
+					},
+					editData: function(item) {//编辑地址
+						//location.href="editaddres.html";
+						mui.fire(editaddView,"editaddres",{info:item});
+						setTimeout(function () {
+					                   editaddView.show("slide-in-right", 300);
+				                     },150);
+						
+						/*-----------*/
+					},
+					delData: function(id) {
+						// alert(id);
+					var data ={
+						        mbId: this.mbId,
+						        adId:id
+					          };
+					var apiname="memAddressApi/delete"+".do";
+					
+					var  btnArray=["确认","取消"];
+					var li = document.getElementById(id);
+					mui.confirm('确认删除该条记录？', '惠当家', btnArray, function(e) {
+						if (e.index == 0) {
+							  
+							   mui.post(servername+apiname,data, function(rsp) {
+						                 // console.log(JSON.stringify(rsp));
+						                  mui.toast(rsp.msg);
+						                   li.parentNode.removeChild(li);
+		                          },'json');
+							   
+							   //------------------
+						} else {
+							setTimeout(function() {
+								mui.swipeoutClose(li);
+							}, 0);
+						}
+					});	
+						
+					}
+				}
+		    });
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+			<link rel="stylesheet" href="../css/hdj.css">
+		<link href="../css/mui.picker.css" rel="stylesheet" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<!--<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />-->
+		<style>
+			.mui-btn {
+				font-size: 15px;
+				padding: 8px;
+				margin: 3px;
+			}
+			h5.mui-content-padded {
+				margin-left: 3px;
+				margin-top: 20px !important;
+			}
+			h5.mui-content-padded:first-child {
+				margin-top: 12px !important;
+			}
+			.ui-alert {
+				text-align: center;
+				padding: 20px 10px;
+				font-size: 16px;
+			}
+			.mui-input-group:before {
+				    height: 0px;
+				}
+			.mui-input-group:after {
+				    height: 0px;
+				}
+		</style>
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FF4B4A;"></a>
+			<h1 class="mui-title">新建地址</h1>
+		</header>
+	<div class="mui-content" style="background-color: white;">	
+	    <form class="mui-input-group mui-content-padded hdj-balck hdj-fsize2">
+	         <div class="mui-input-row " >
+	         	 <label >收货人</label>
+	             <input v-model="address.mbaName" id="name" type="text"  class="mui-input-clear" placeholder="请输入收货人姓名">
+	         </div>
+	         <div class="mui-input-row " >
+	         	 <label >手机号码</label>
+	             <input v-model="address.mbaPhone"  id="telp" type="number"  class="mui-input-clear" placeholder="请输入收货人手机号码">
+	         </div>
+	         <div class="mui-input-row " >
+	         	 <a class="mui-navigate-right" id='showCityPicker3'>
+	         	 	  <label style="color: black;">所在地区</label>
+	                  <input id='cityResult3' type="number"  class="mui-input-clear" placeholder="请选择">
+	             </a>
+	         </div>
+	         <div class="mui-input-row " >
+	         	 <label >详细地址</label>
+	             <input v-model="address.mbaAddress" id="moreads" type="text"  class="mui-input-clear" placeholder="详细地址">
+	         </div>
+	     </form>
+		<!-------->
+		</br></br>
+		<!---------->
+		<div id="myDiv"></div>
+		<!------------>
+		<div style="padding: 20px;">
+			      <div @tap='edit_address()' id="tx" class="mui-btn mui-btn-block mui-btn-red hdj-redbg" style="color: white;border-radius: 50px;">
+			                             保存
+		           </div>	
+		</div>
+	</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script src="../js/city.data-3.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/server.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		 <script>
+		 	(function($, doc) {
+				$.init();
+				$.ready(function() {
+		           var _getParam = function(obj, param) {
+						return obj[param] || '';
+					};
+                   	//					//级联示例
+					var cityPicker3 = new $.PopPicker({
+						layer: 3
+					});
+					cityPicker3.setData(cityData3);
+					var showCityPickerButton = doc.getElementById('showCityPicker3');
+					var cityResult3 = doc.getElementById('cityResult3');
+					showCityPickerButton.addEventListener('tap', function(event) {
+						cityPicker3.show(function(items) {
+							cityResult3.placeholder =cityResult3.value =_getParam(items[0], 'text') + " " + _getParam(items[1], 'text') + " " + _getParam(items[2], 'text');
+							
+							vm.address.mbaProvince=_getParam(items[0], 'value');
+							vm.address.mbaCity=_getParam(items[1], 'value');
+							vm.address.mbaOrg=_getParam(items[2], 'value');
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+							
+						});
+					}, false);
+					
+				});
+			})(mui, document);
+         </script>
+		<script>
+			alert("h5会员id:"+h5_mbinfo.mbId);
+			mui.init({
+			          swipeBack:true,//启用右滑关闭功能
+		            });
+		    mui.plusReady(function() {
+			       vm.mbId=plus.storage.getItem("mbId");
+		    });
+		    var vm = new Vue({
+				el: '.mui-content',
+				data: {mbId:'',address:{}},
+				});
+			function edit_address(){
+				      vm.mbId=h5_mbinfo.mbId;   
+				      var data ={
+						             mbId: vm.mbId,
+						             mbaProvince:vm.address.mbaProvince,
+						             mbaCity:vm.address.mbaCity,
+						             mbaOrg:vm.address.mbaOrg,
+						             mbaName:vm.address.mbaName,
+						             mbaPhone:vm.address.mbaPhone,
+						             mbaAddress:vm.address.mbaAddress,
+						             mbaDefault:0
+					               };
+					     console.log(JSON.stringify(data));         
+						 var apiname="memAddressApi/add"+".do";
+						 mui.post(servername+apiname,data, function(rsp) {
+						               console.log(JSON.stringify(rsp));
+						               if(rsp.code==0){
+						               	    mui.toast(rsp.msg);
+						                  	mui.back();
+						                 }
+		                          },'json');
+			}
+					
+		</script>
+	</body>
+
+</html>

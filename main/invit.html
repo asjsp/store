@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" href="../css/hdj.css">
+		<style>
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+				margin: 0;
+				padding: 2px 2px;
+				vertical-align: top;
+				border-right: 0px solid #eee;
+				border-bottom: 0px solid #eee;
+			}
+       .mui-table-view:before {
+				height: 0px;
+			}
+			
+			.mui-table-view:after {
+				height: 0px;
+			}
+			
+			.mui-table-view-cell:after {
+				height: 0px;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"  style="color:red;"></a>
+			<h1 class="mui-title">分享好友拼单</h1>
+		</header>
+	<div class="mui-content" style="background-color: white;">	
+	 
+		<div style="text-align: center; padding: 10px;border-radius: 8px;">
+			<div class="hdj-red hdj-fsize2" style="margin:0px;padding-top: 5px;padding-bottom: 12px;">
+				<span></span>倒计时
+			</div>
+			<span style=" font-size: 16px; padding: 4px 20px;border: 1px solid #fe0000; color: #fe3030; border-radius: 20px;">
+				00:23:08
+			</span>
+			
+			<p style="font-size: 17px;color: #555555;padding-top: 30px;padding-bottom: 20px;">
+				还差<span style="color: #fe2a2a;margin: 10px;">8</span>人
+				赶紧邀请好友来拼单吧～
+			</p>
+		</div>
+		<!------------->
+		
+		<div style="margin: 4vw; background-color: white;padding: 10px;border-radius: 8px;">
+			    <div  class="hdj-center-jus"  style="background-color: white;margin: 15px;">
+					               <span class="hdj-line"></span>
+				                   <span class="hdj-balck hdj-fsize1">分享到</span>
+				                   <span class="hdj-line"></span>
+		        </div>
+				<ul  id="share" class="mui-table-view mui-grid-view mui-grid-9" style="background-color: white; border: 0px;">
+		           
+		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" onclick="shareWeixinMessage('WXSceneSession')">
+		            <a href="#">
+		                    <img src="../images/fenxiang_weixin.png" style="width: 40%;">
+		                    <div class="mui-media-body hdj-balck hdj-fsize3">微信好友</div>
+		            </a>
+		            </li>
+		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" onclick="shareWeixinMessage('WXSceneTimeline')">
+		            	<a href="#">
+		                    <img src="../images/fenxiang_pengyouquan.png" style="width: 40%;">
+		                    <div class="mui-media-body hdj-balck hdj-fsize3">朋友圈</div>
+		            	</a>
+		            </li>
+		           <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" onclick="shareqqMessage()">
+		           	<a href="#">
+		                   <img src="../images/fenxiang_qq.png" style="width: 40%;">
+		                    <div class="mui-media-body hdj-balck hdj-fsize3">QQ</div>
+		           	</a>
+		           </li>
+		        </ul> 
+				     
+		</div>
+	</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/server.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/share.js"></script>
+		<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					mbId: h5_mbinfo.mbId,
+					orderinfo:{}
+					}
+				});
+		//document.addEventListener('invitp', function(event) {
+		vm.orderinfo =JSON.parse(localStorage.getItem('invitinfo'));
+			   //console.log("查看订单"+ vm.orderinfo.id);
+		//});
+		
+		function sharelist(){
+			/*var sharelist=preload("sharelist.html")
+			setTimeout(function () {
+					sharelist.show("slide-in-right", 300);
+				},150);*/
+			mui.openWindow("sharelist.html");
+		}
+		function open_regv(){
+			 mui.openWindow("../login/regv.html");
+		}
+		//document.getElementById("about").addEventListener('tap',function () {
+			//获得主页面的webview
+			// plus.webview.currentWebview().hide();
+			//触发主页面的gohome事件
+			//mui.fire(main,'gohome');
+		//});
+	</script>
+	</body>
+
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../css/app.css" />
+		<style>
+			.mui-table-view.mui-grid-view .mui-table-view-cell {
+    font-size: 17px;
+    display: inline-block;
+    margin-right: -1px;
+    padding: 6px 0 0 10px;
+    text-align: center;
+    vertical-align: middle;
+    background: 0 0;
+}
+			.mui-card {
+    font-size: 14px;
+    position: relative;
+    overflow: hidden;
+    margin: 5px;
+    border-radius: 1px;
+    background-color: #fff;
+    background-clip: padding-box;
+    box-shadow: 1 1px 1px rgba(0,0,0,.2);
+}
+#topPopover {
+				position: fixed;
+				top: 16px;
+				right: 6px;
+			}
+			
+			
+			.mui-popover {
+				height: 300px;
+				width: 20%;
+				padding: 4px;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="back()" style="color:red;"></a>
+			<h1 class="mui-title">闪电抢单</h1>
+		</header>
+	<div class="mui-content" style="background-color: white;">	
+				<!--右上角弹出菜单-->
+		<div id="topPopover" class="mui-popover">
+			<div class="mui-popover-arrow"></div>
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<a class="mui-control-item " href="#item1">推荐</a>
+						</li>
+						<li class="mui-table-view-cell"><a class="mui-control-item" href="#item2">手机</a>
+						</li>
+						<li class="mui-table-view-cell"><a class="mui-control-item" href="#item3">鞋包</a>
+						</li>
+						<li class="mui-table-view-cell">	<a class="mui-control-item" href="#item4">美食</a>
+						</li>
+						<li class="mui-table-view-cell"><a class="mui-control-item" href="#item5">珠宝</a>
+						</li>
+						<li class="mui-table-view-cell"><a class="mui-control-item" href="#item6">家纺</a>
+						</li>
+						<li class="mui-table-view-cell"><a class="mui-control-item" href="#item7">文娱</a>
+						</li>
+						
+					</ul>
+				</div>
+			</div>
+
+		</div>
+		
+		
+		<div id="slider" class="mui-slider" >
+			<div style="display: flex;">
+			<div style="margin: 5px;width: 90%;border: 0px solid saddlebrown;" id="segmentedControl" class="mui-scroll-wrapper mui-slider-indicator  mui-segmented-control mui-segmented-control-inverted mui-segmented-control-negative">
+				<div class="mui-scroll">
+					<a class="mui-control-item mui-active" href="#item1">推荐</a>
+					<a class="mui-control-item" href="#item2">手机</a>
+					<a class="mui-control-item" href="#item3">鞋包</a>
+					<a class="mui-control-item" href="#item4">美食</a>
+					<a class="mui-control-item" href="#item5">珠宝</a>
+					<a class="mui-control-item" href="#item6">家纺</a>
+					<a class="mui-control-item" href="#item7">文娱</a>
+				</div>	
+		    </div>
+		  
+		  	<a href="#topPopover" class="mui-action-menu"  style="align-self: center;color: gainsboro;">
+		  		<span  class="mui-icon mui-icon-arrowdown"></span>
+		  	</a>
+		  
+		    </div>
+	        <div  class="mui-slider-progress-bar" ></div>
+	        <div class="mui-slider-group">
+		       <div id="item1" class="mui-slider-item mui-control-content mui-table-view mui-grid-view  mui-active" >
+			        <!--<div id="cnxh" class="mui-table-view mui-grid-view" style="background-color: white;"></div>	-->
+	     	   </div>
+		        <div id="item2" class="mui-slider-item mui-control-content mui-table-view mui-grid-view" >
+					 <div class="mui-loading"><div class="mui-spinner"></div></div>
+		        </div>
+		        <div id="item3" class="mui-slider-item mui-control-content mui-table-view mui-grid-view" >
+					<div class="mui-loading"><div class="mui-spinner"></div></div>
+		        </div>
+		        <div id="item4" class="mui-slider-item mui-control-content mui-table-view mui-grid-view" >
+					<div class="mui-loading"><div class="mui-spinner"></div></div>
+		        </div>
+		        <div id="item5" class="mui-slider-item mui-control-content mui-table-view mui-grid-view" >
+					<div class="mui-loading"><div class="mui-spinner"></div></div>
+		        </div>
+		        <div id="item6" class="mui-slider-item mui-control-content mui-table-view mui-grid-view" >
+					<div class="mui-loading"><div class="mui-spinner"></div></div>
+		        </div>
+		        <div id="item7" class="mui-slider-item mui-control-content mui-table-view mui-grid-view" >
+					<div class="mui-loading"><div class="mui-spinner"></div></div>
+		        </div>
+	         </div>
+		</div>
+		
+			<!--------->
+	</div>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/server.js"></script>
+	<script>
+		 var jsondataend=[
+              {"pid":"567836","imgurl":"../images/sj21.jpg","titles":"女装新款秋冬季时尚韩版女装毛呢外套显瘦修身中长款长袖呢子大衣女zx1710536 焦糖色 S ","pricenow":"2899","pricelast":"169","pesonnumb":"00:45:22","presonimgarray":[],"buttonlabel":"去拼单","color":"red"},
+            {"pid":"567838","imgurl":"../images/sj22.jpg","titles":"韩版女装毛呢外套显瘦修身中长款长袖呢子大衣女zx1710536 焦糖色 S ","pricenow":"2333","pricelast":"169","pesonnumb":"02:45:22","presonimgarray":[],"buttonlabel":"去拼单","color":"red"},
+  {"pid":"567836","imgurl":"../images/sj23.jpg","titles":"女装新款秋冬季时尚韩版女装毛呢外套显瘦修身中长款长袖呢子大衣女zx1710536 焦糖色 S ","pricenow":"2899","pricelast":"169","pesonnumb":"00:45:22","presonimgarray":[],"buttonlabel":"去拼单","color":"red"},
+            {"pid":"567838","imgurl":"../images/sj25.jpg","titles":"韩版女装毛呢外套显瘦修身中长款长袖呢子大衣女zx1710536 焦糖色 S ","pricenow":"2333","pricelast":"169","pesonnumb":"02:45:22","presonimgarray":[],"buttonlabel":"去拼单","color":"red"},
+
+        ];
+        var jsondata1=[
+              {"pid":"567836","imgurl":"../images/sj23.jpg","titles":"女装新款秋冬季时尚韩版女装毛呢外套显瘦修身中长款长袖呢子大衣女zx1710536 焦糖色 S ","pricenow":"2899","pricelast":"169","pesonnumb":"00:45:22","presonimgarray":[],"buttonlabel":"去拼单","color":"red"},
+            {"pid":"567838","imgurl":"../images/sj24.jpg","titles":"韩版女装毛呢外套显瘦修身中长款长袖呢子大衣女zx1710536 焦糖色 S ","pricenow":"2333","pricelast":"169","pesonnumb":"02:45:22","presonimgarray":[],"buttonlabel":"去拼单","color":"red"},
+
+        ];
+         var jsondata2=[
+              {"pid":"567836","imgurl":"../images/sj25.jpg","titles":"女装新款秋冬季时尚韩版女装毛呢外套显瘦修身中长款长袖呢子大衣女zx1710536 焦糖色 S ","pricenow":"2899","pricelast":"169","pesonnumb":"00:45:22","presonimgarray":[],"buttonlabel":"去拼单","color":"red"},
+            {"pid":"567838","imgurl":"../images/sj26.jpg","titles":"韩版女装毛呢外套显瘦修身中长款长袖呢子大衣女zx1710536 焦糖色 S ","pricenow":"2333","pricelast":"169","pesonnumb":"02:45:22","presonimgarray":[],"buttonlabel":"去拼单","color":"red"},
+
+        ];
+		function madepindanlike(pid,imgurl,titles,pricenow,pricelast,pesonnumb,presonimgarray,buttonlabel,color){
+			/*-------------------*/
+           /* var pesonimgs="";
+            for (y in presonimgarray) {
+                var mus=presonimgarray[y];
+                pesonimgs+='<img style="border-radius: 50%;width: 5vw;height: auto;" class="mui-media-object " src="../images/'+mus+'.jpg">';
+            }*/
+			/*-----------------------*/
+            var pricedm="";
+           /* if(color=="orange"){
+                pricedm='<span class="mui-pull-left" style="color: red;font-size:medium;">¥'+pricenow+
+					    '</span><span class="mui-pull-right">'+pesonimgs+'</span></p>';
+
+            }*/
+          /* if(color=="red"){
+                pricedm='<span  style="color: '+color+';font-size:medium;">¥'+pricenow+
+                    '</span><span  style="color: '+color+';font-size:medium;">'+pesonnumb+'</span>';
+            }*/
+           var cls="clickqd('"+pid+"','"+imgurl+"','"+titles+"','"+pricenow+"','"+pricelast+"','"+pesonnumb+"')";
+            
+            var htmlstr=
+                '<li onclick="'+cls+'"   class="mui-table-view-cell  mui-media mui-col-xs-6 mui-col-sm-6 "> '+
+                 '<div class="mui-card" style="padding: 0; margin: 2px;">'+
+                   '<img  src="'+imgurl+'" style="width:100%;height:auto; border-radius: 0px;padding:5vw">'+
+
+                  '<div style="padding-left: 5vw;padding-right: 5vw;border-top:1px solid gainsboro" >'+
+                      '<div style="border-radius: 20px;padding:3px; border:1px solid red; margin: 10px;color:red">'+pesonnumb+'</br></div>'+
+                      '<p style="margin: 10px;color:red">¥'+pricenow+'</br></p>'+
+                      '<p style="background-color: red;border-radius: 5px;padding:5px;margin: 10px;color:white">马上抢</br></p>'+
+                  '</div>'+
+                  '</div>'+
+                '</li>';
+            return htmlstr;
+        }
+		
+			  var  cnxhs = document.getElementById("item1");/*---------------分类*/
+        cnxhs.innerHTML=getdatalike(jsondataend);
+	</script>
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		function back(){
+			plus.webview.currentWebview().close();
+		}
+			var item2 = document.getElementById('item2');
+		var item3 = document.getElementById('item3');
+		document.getElementById('slider').addEventListener('slide', function(e) {
+					if (e.detail.slideNumber === 1) {
+						if (item2.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								item2.innerHTML =getdatalike(jsondata1);
+							}, 500);
+						}
+					} else if (e.detail.slideNumber === 2) {
+						if (item3.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								item3.innerHTML =getdatalike(jsondata2);
+							}, 500);
+						}
+					} 
+				});
+	</script>
+	</body>
+
+</html>

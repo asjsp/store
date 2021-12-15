@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" href="../css/hdj.css">
+		<style>
+			.mui-btn {
+				font-size: 15px;
+				padding: 8px;
+				margin: 3px;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back" style="color:red;"></a>
+			<h1 class="mui-title">好友拼单</h1>
+		</header>
+		<div class="mui-content mui-content-padded" style="background-color: white;">
+			<div style="text-align: center; padding: 10px;border-radius: 8px;">
+				<div class="hdj-red hdj-fsize2" style="margin:0px;padding-top: 5px;padding-bottom: 12px;">
+					<span></span>倒计时
+				</div>
+				<span style=" font-size: 16px; padding: 4px 20px;border: 1px solid #fe0000; color: #fe3030; border-radius: 20px;">
+				00:23:08
+			</span>
+
+				<p style="font-size: 17px;color: #555555;padding-top: 30px;padding-bottom: 20px;">
+					还差<span style="color: #fe2a2a;margin: 10px;">9</span>人 赶紧邀请好友来拼单吧～
+				</p>
+			</div>
+			<!------------->
+			<div @tap="open_invitp(orderinfo)" class="mui-btn mui-btn-block mui-btn-red" style="background-color:#FF4B4A;border-radius: 50px;margin-bottom: 30px;">
+				邀请好友拼单
+			</div>
+			<div style="background-color: white; padding: 15px;border-radius: 8px;border: 1px solid ghostwhite;box-shadow: 3px 3px 3px 3px #E8E8E8;">
+
+				<div class="hdj-center" style="margin-left: 10px;">
+					<div onclick="shareWeixinMessage('WXSceneSession')">
+						<img class="hdj-head1" src="../images/demo/mm.jpg">
+					</div>
+					<img class="hdj-head2" src="../images/emoji1.png">
+					<img class="hdj-head2" src="../images/emoji2.png">
+					<img class="hdj-head2" src="../images/emoji3.png">
+					<img class="hdj-head2" src="../images/emoji4.png">
+				</div>
+				<p class=" hdj-gray3 hdj-fsize5" style="padding-top: 37px;">
+					商品名称:
+					<sapn class="mui-ellipsis">{{orderinfo.gsiName}}</span>
+				</p>
+				<p class=" hdj-gray4 hdj-fsize5" style="padding-top: 10px;">
+					拼单须知 人满发货 人不满退款 说明
+				</p>
+
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/server.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+
+		<script>
+			var mview_detail = null;
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			
+			//mui.plusReady(function() {
+			//	mview_detail = preload("invit.html");
+			//});
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					mbId: h5_mbinfo.mbId,
+					orderinfo: {}
+				}
+			});
+			//document.addEventListener('invit', function(event) {
+				vm.orderinfo =JSON.parse(localStorage.getItem('invitgsiinfo'));
+				//console.log("查看订单"+ vm.orderinfo.id);
+			//});
+			//mview_detail = preload("invit.html");
+
+			function open_invitp(item) {
+				console.log("邀请好友拼单:" + item.gpoUrl);
+				/*mui.fire(mview_detail, 'invitp', {
+					orderinfo: item
+				});
+				setTimeout(function() {
+					mview_detail.show("slide-in-right", 300);
+				}, 150);*/
+				localStorage.setItem("invitinfo",JSON.stringify(item));
+			    mui.openWindow("invit.html");
+			};
+
+			function clicked(ids) {
+				mui.openWindow({
+					url: ids,
+					id: ids
+				});
+
+			};
+		</script>
+	</body>
+
+</html>

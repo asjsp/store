@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<style>
+			.mui-btn {
+				font-size: 15px;
+				padding: 8px;
+				margin: 3px;
+			}
+			.mui-input-group:before {
+                         height: 0px;
+                    }
+.mui-checkbox input[type=checkbox]:checked:before, .mui-radio input[type=radio]:checked:before {
+    color: #FF4C4A;
+}
+		</style>
+	<!--
+	    <script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+var pays={};
+function plusReady(){
+	// 获取支付通道
+	plus.payment.getChannels(function(channels){
+		var content=document.getElementById('dcontent');
+		var info=document.getElementById('info');
+		var txt='支付通道信息：';
+		for(var i in channels){
+			var channel=channels[i];
+			if(channel.id=='qhpay'||channel.id=='qihoo'){	// 过滤掉不支持的支付通道：暂不支持360相关支付
+				continue;
+			}
+			pays[channel.id]=channel;
+			txt += 'id:'+channel.id+', ';
+			txt += 'description:'+channel.description+', ';
+			txt += 'serviceReady:'+channel.serviceReady+'； ';
+			var de=document.createElement('div');
+			de.setAttribute('class', 'button');
+			de.setAttribute('onclick', 'pay(this.id)');
+			de.id=channel.id;
+			de.innerText=channel.description+'支付';
+			//content.appendChild(de);
+			checkServices(channel);
+		}
+		info.innerText=txt;
+	},function(e){
+		outLine('获取支付通道失败：'+e.message);
+	});
+}
+document.addEventListener('plusready', plusReady, false);
+// 检测是否安装支付服务
+function checkServices(pc){
+	if(!pc.serviceReady){
+		var txt=null;
+		switch(pc.id){
+			case 'alipay':
+			txt='检测到系统未安装“支付宝快捷支付服务”，无法完成支付操作，是否立即安装？';
+			break;
+			default:
+			txt='系统未安装“'+pc.description+'”服务，无法完成支付，是否立即安装？';
+			break;
+		}
+		plus.nativeUI.confirm(txt, function(e){
+			if(e.index==0){
+				pc.installService();
+			}
+		}, pc.description);
+	}
+}
+
+var w=null;
+var servernam="http://39.106.31.13:8081/HdjInterface/rechargeApi/upOrder"
+var PAYSERVER=servernam+'.do?paytype=';
+// 支付
+function pay(id){
+	if(w){return;}//检查是否请求订单中
+	if(id==='appleiap'){
+		outSet('应用内支付');
+		clicked('payment_iap.html');
+		return;
+	}
+	outSet('----- 请求支付 -----');
+	var url=PAYSERVER;
+	if(id=='alipay'||id=='wxpay'){
+		url+=id;
+	}else{
+		plus.nativeUI.alert('当前环境不支持此支付通道！', null, '捐赠');
+		return;
+	}
+	var appid=plus.runtime.appid;
+	if(navigator.userAgent.indexOf('StreamApp')>=0){
+		appid='Stream';
+	}
+	//url+='&appid='+appid+'&rgMoney=';
+	url+='&rgMoney=';
+	w=plus.nativeUI.showWaiting();
+	// 请求支付订单
+	var amount = document.getElementById('total').value;
+	var xhr=new XMLHttpRequest();
+	xhr.onreadystatechange=function(){
+		switch(xhr.readyState){
+			case 4:
+			w.close();w=null;
+			if(xhr.status==200){
+				outLine('----- 请求订单成功 -----');
+				outLine(xhr.responseText);
+				var order=xhr.responseText;
+				plus.payment.request(pays[id],order,function(result){
+					outLine('----- 支付成功 -----');
+					outLine(JSON.stringify(result));
+					plus.nativeUI.alert('支付成功：感谢你的支持，我们会继续努力完善产品。',function(){
+						back();
+					},'捐赠');
+				},function(e){
+					outLine('----- 支付失败 -----');
+					outLine('['+e.code+']：'+e.message);
+					plus.nativeUI.alert('更多错误信息请参考支付(Payment)规范文档：http://www.html5plus.org/#specification#/specification/Payment.html', null, '支付失败：'+e.code);
+				});
+			}else{
+				outLine('----- 请求订单失败 -----');
+				outLine( xhr.status );
+				plus.nativeUI.alert('获取订单信息失败！', null, '捐赠');
+			}
+			break;
+			default:
+			break;
+		}
+	}
+	xhr.open('GET',url+amount);
+	outLine('请求支付订单：'+url+amount);
+	xhr.send();
+}
+		</script>
+		-->
+	</head>
+
+	<body style="background-color: white;" >
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a  class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FF4B4A;"></a>
+			<h1 class="mui-title">充值</h1>
+		</header>
+	<div class="mui-content" style="background-color: white;" id="dcontent">	
+	    <!--------------->
+	   
+	   <!-- <p id="info" style="display: none; padding: 0 1em;text-align:left;">
+	    	支付通道信息：
+		</p>-->
+	    <form class="mui-content-padded mui-input-group hdj-balck hdj-fsize1" style="margin-top: 40px;">
+	          <input  id="total" v-model="amount"  type="number" class="mui-input-clear mui-input"  placeholder="请输入充值金额（元）">
+	     </form>
+		<!-------->
+		</br>
+		<!---------->
+		<form class="hdj-balck hdj-fsize2">
+		 <div class="mui-input-row mui-radio mui-right" style="padding: 12px;">
+		    <div class="hdj-center" >
+		    	<span ><img style="width: 28px;" src="../images/zhifu_weixin.png" ></span>
+		    	<span style="margin-left: 18px;padding-bottom: 6px;">微信支付</span>	
+		    </div>
+		    <input style="padding-top: 6px;" v-model="paytype" value=1 type="radio">
+		</div>
+		<div class="mui-input-row mui-radio mui-right" style="padding: 12px;padding-bottom: 24px;">
+		     <div class="hdj-center" >
+		    	<span ><img style="width: 28px;" src="../images/zhifu_zhifubao.png" ></span>
+		    	<span style="margin-left: 18px;padding-bottom: 6px;">支付宝支付</span>		
+		    </div>
+		    <input  style="padding-top: 6px;"  v-model="paytype" value=2 type="radio">
+		</div>
+		</form>
+		<!------------>
+		<!--<div id="cz" @tap="payre()"  class="hdj-fsize1"  style="text-align: center;color: white;margin: 4vw; background-color: #FF4B4A;padding: 10px;border-radius: 50px;">
+			    充值
+		</div>	-->
+		
+		<div style="padding: 20px;">
+			      <div id="cz" @tap="payre()"   class="mui-btn mui-btn-block mui-btn-red hdj-redbg" style="color: white;border-radius: 50px;">
+			                            充值
+		           </div>	
+		</div>
+		<!------------->
+       <!-- <div id="output" style="display: ;">
+         
+		</div>-->
+		<!--<ul class="mui-table-view">
+						<li class="mui-table-view-cell" v-for="item in gettlewater">
+							<span class="mui-pull-left hdj-fsize5" style="color: #555555;">
+								充值 {{item.rgMoney}}元
+							</span>
+							<span class="mui-pull-right hdj-fsize5" style="color: #848484;">
+								{{convertdate(item.rgDate)}}
+							</span>
+						</li>
+					</ul>-->
+	</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/server.js"></script>
+		<script>
+			mui.init({
+				
+			})
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					gettlewater:[],
+					mbId:'',
+					amount:null,
+					paytype:1
+				}
+			});
+			
+			mui.ready(function() {
+				//预加载详情页
+				 //vm.mbId = plus.storage.getItem("mbId");
+				   vm.mbId = h5_mbinfo.mbId;
+				});
+			
+			function payre(){
+				  mui('#cz').button('loading');
+				 var data ={paytype:vm.paytype,rgMoney:vm.amount,mbId:  vm.mbId};
+				 console.log(JSON.stringify(data));
+				         var apiname="rechargeApi/upOrder"+".do";
+						// var apina="http://39.106.31.13:8081/HdjInterface/rechargeApi/upOrder.do";
+						 mui.post(servername+apiname,data, function(rsp) {
+						             // console.log(JSON.stringify(rsp));
+						              setTimeout(function() {
+				                          mui('#cz').button('reset');
+				                         }.bind(this), 150);	
+				                    
+						              if(rsp.code==0){
+						              	  mui.toast(rsp.msg);
+						              	 // mui.back();
+						              	  // mui.openWindow("mymoney.html");
+						              }
+					     },'json'); 
+			}
+			//------触发父页面的自定义事件(refresh),从而进行刷新--------
+			/*mui.back = function() {
+				      var list = plus.webview.currentWebview().opener();
+                          list.show();
+                          mui.fire(list, 'refresh');
+			}*/
+			
+		/*	var lm=localStorage.getItem('mm');
+			
+			var sm=JSON.parse(lm);
+			vm.gettlewater=sm.rows;
+			alert(vm.gettlewater.length);*/
+			//document.getElementById("about").addEventListener('tap',function () {
+			//获得主页面的webview
+			// plus.webview.currentWebview().hide();
+			 //location.reload();
+			
+			// var  main=plus.webview.getLaunchWebview();
+			    //  main.show();
+			   //触发主页面的gohome事件
+			     // mui.fire(main,'backme');
+		//});
+		</script>
+	</body>
+
+</html>

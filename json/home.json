@@ -1,0 +1,255 @@
+{
+    "hotBrand": [
+		{
+		    "id": "../images/demo/pp1.png"
+		},
+		{
+		    "id": "../images/demo/pp2.png"
+		},
+		{
+		    "id": "../images/demo/pp2.png"
+		},
+		{
+		    "id": "../images/demo/pp3.png"
+		}
+		
+	],
+    "banners": [
+        {
+            "id": "4028ef815fb484e8015fb494590b0007",
+            "abOrder": 2,
+            "abState": 1,
+            "abTurntype": 2,
+            "abHref": "3"
+        }
+    ],
+    "loves": [
+        {
+            "id": "402882035fa0ee27015fa164149e0002",
+            "mercId": "402880e65f825ae8015f825db6030004",
+            "gsiState": 2,
+            "gsiIntro": "1",
+            "gstId": "402880e75f8ae99b015f8afa56cc000a",
+            "gsiName": "芭蒂娜短外套冬季白色短款加厚高端大牌品牌羊皮毛大毛领羽绒服女 米白 M",
+            "gsiUnit": 1,
+            "gsiPrice": 189,
+            "gsiWeight": 1,
+            "gsftId": "447164f8c56011e790cd00163e0a68ed",
+            "gsiFormat": "111",
+            "gstiCity": "402880e65f7c94b6015f7c9662670002",
+            "gsiPeriods": null,
+            "gsiType": 1,
+            "sklId": "",
+            "bpmStatus": "1",
+            "bgoodsServers": null,
+            "goodsPictureEntitys": null,
+            "gsiLotterydraw": null,
+            "goodsBannerEntity": [],
+            "bMerchantEntity": null,
+            "goodsInventories": null,
+            "gsiStartPrice": null,
+            "gsiEachincrease": null,
+            "bgoodsComments": null,
+            "sysCompanyCode": "A03",
+            "gstiProvince": "402880e65f7c94b6015f7c95dc7f0000",
+            "gsiNowprice": null,
+            "gsiInventory": 11,
+            "gsiMarketprice": 1,
+            "gsiLasttime": null,
+            "gsiGroupprice": 111,
+            "gsiConverintegral": 111,
+            "gsiAllowcoupon": 1,
+            "gsiSecondkill": 0,
+            "gsiOfferednumber": 1,
+            "gsiLimitcount": 0,
+            "gsiKilldate": null,
+            "gsiCurrentperiods": null,
+            "gsiLimittime": 1,
+            "gsiVolume": null,
+            "orderCount": null,
+            "gstTwo": null,
+            "gsiClick": null,
+			"group": [{ "mbId": "../images/demo/mm.jpg"},{ "mbId": "../images/demo/mm.jpg"}],
+            "groupOrder": [],
+            "groupCount": 0,
+            "gstThree": null,
+            "arttId": null,
+            "orders": null
+        }
+    ],
+    "quan": [
+        {
+            "id": "",
+            "shopTitle": "SHOW工坊专业美发用品",
+            "nick": "show工坊",
+            "numIid": "1027111337",
+            "pictUrl": "http://img3.tbcdn.cn/tfscom/i1/57579855/TB29EBscSBjpuFjSsplXXa5MVXa_!!57579855.jpg",
+            "title": "【天天特价】正品德国原装歌薇染膏染发剂盖白发专用染发植物染发",
+            "userType": "0",
+            "itemUrl": "http://detail.tmall.com/item.htm?id=1027111337",
+            "sellerId": "57579855",
+            "qrcode": "upload/qrcode/2017-07-19/1027111337.png",
+            "couponInfo": "3",
+            "volume": "89",
+            "category": "50023282",
+            "attachmentIds": null,
+            "listAttachment": null,
+            "smallImages": "[\"http://img1.tbcdn.cn/tfscom/i2/57579855/T2q8ClXFXaXXXXXXXX-57579855.jpg\",\"http://img2.tbcdn.cn/tfscom/i4/57579855/T28uilXGBaXXXXXXXX-57579855.jpg\",\"http://img2.tbcdn.cn/tfscom/i1/57579855/T2ogOlXT8XXXXXXXXX-57579855.jpg\",\"http://img4.tbcdn.cn/tfscom/i1/57579855/T2nL9mXONXXXXXXXXX-57579855.jpg\"]",
+            "itemDescription": "德国歌薇，德国原装进口。做一次价格不菲。短发一般在500左右，长发800左右。  特点：损伤低，味道清淡，上色效果好，光泽度好。 正常发量 肩部以上一套，肩部以下25cm以内需深色，自然色，可以自己做。明显的颜色建议去美发店加工。自己做容易做花。",
+            "zkFinalPrice": "65.00",
+            "commissionRate": "6.00",
+            "couponStartTime": "2017-07-18",
+            "couponClickUrl": "https://detail.tmall.com/item.htm?spm=a220m.1000858.1000725.36.4a048865ZkAAx8&id=562540267614&skuId=4611700717166&user_id=217101303&cat_id=2&is_b=1&rn=7776e47e68d7a0107501ebfb22f8954d",
+            "couponTkouling": "￥GDyd00BSTRc￥",
+            "couponRemainCount": "88859",
+            "couponEndTime": "2017-09-30",
+            "couponShortUrl": null,
+            "couponTotalCount": "88888"
+        }
+    ],
+    "indexTypes": [
+        {
+            "id": "4028ef815fb2f99b015fb30131090005",
+            "gstOrder": 2,
+            "gstUrl": "",
+            "gstState": 1,
+            "gstName": "呼哈",
+            "gstParentid": "402880e75f8ae99b015f8afa56cc000a"
+        }
+    ],
+    "homenavs": [],
+    "homeAdvs": [
+		{
+			"name":"科技前沿",
+			"id":"882035fa0ee27015fa164149e0002",
+			"details":[
+				{"id":"882035fa0ee27015fa164149e0002","hadTitle":"潮男养成","subTitle":"装备天地"},
+				{"id":"882035fa0ee27015fa164149e0002","hadTitle":"装备天地","subTitle":"装备天地"},
+				{"id":"882035fa0ee27015fa164149e0002","hadTitle":"科技前沿","subTitle":"装备天地"},
+				{"id":"882035fa0ee27015fa164149e0002","hadTitle":"男的好货","subTitle":"抢拼团 "}
+				]
+		}
+		
+	],
+    "pins": [
+        {
+            "id": "402882035fa0ee27015fa164149e0002",
+            "mercId": "402880e65f825ae8015f825db6030004",
+            "gsiState": 2,
+            "gsiIntro": "1",
+            "gstId": "402880e75f8ae99b015f8afa56cc000a",
+            "gsiName": "芭蒂娜品牌外套2020年冬季新款白色中长款大毛领时尚洋气羽绒服女 本白 XL",
+            "gsiUnit": 1,
+            "gsiPrice": 111,
+            "gsiWeight": 1,
+            "gsftId": "447164f8c56011e790cd00163e0a68ed",
+            "gsiFormat": "111",
+            "gstiCity": "402880e65f7c94b6015f7c9662670002",
+            "gsiPeriods": null,
+            "gsiType": 1,
+            "sklId": "",
+            "bpmStatus": "1",
+            "bgoodsServers": null,
+            "goodsPictureEntitys": null,
+            "gsiLotterydraw": null,
+            "goodsBannerEntity": [],
+            "bMerchantEntity": null,
+            "goodsInventories": null,
+            "gsiStartPrice": null,
+            "gsiEachincrease": null,
+            "bgoodsComments": null,
+            "sysCompanyCode": "A03",
+            "gstiProvince": "402880e65f7c94b6015f7c95dc7f0000",
+            "gsiNowprice": null,
+            "gsiInventory": 11,
+            "gsiMarketprice": 1,
+            "gsiLasttime": null,
+            "gsiGroupprice": 111,
+            "gsiConverintegral": 111,
+            "gsiAllowcoupon": 1,
+            "gsiSecondkill": 0,
+            "gsiOfferednumber": 1,
+            "gsiLimitcount": 0,
+            "gsiKilldate": null,
+            "gsiCurrentperiods": null,
+            "gsiLimittime": 1,
+            "gsiVolume": null,
+            "orderCount": null,
+            "gstTwo": null,
+            "gsiClick": null,
+            "groupOrder": [],
+			"group": [{ "mbId": "677"},{ "mbId": "567744"}],
+            "groupCount": 5,
+            "gstThree": null,
+            "arttId": null,
+            "orders": null
+        }
+    ],
+    "rifle": [
+        {
+            "id": "402882035fa0ee27015fa164149e0002",
+            "mercId": "1",
+            "gsiState": 2,
+            "gsiIntro": "1",
+            "gstId": "402880e75f8ae99b015f8aed3b740005",
+            "gsiName": "西部数据(Western Digital) 7.68TB 企业级SSD固态硬盘 U.2接口（NVMe协议）WD Gold 五年质保",
+            "gsiUnit": 1,
+            "gsiPrice": null,
+            "gsiWeight": null,
+            "gsftId": "447164f8c56011e790cd00163e0a68ed",
+            "gsiFormat": "",
+            "gstiCity": "",
+            "gsiPeriods": null,
+            "gsiType": 2,
+            "sklId": "",
+            "bpmStatus": "1",
+            "bgoodsServers": null,
+            "goodsPictureEntitys": null,
+            "gsiLotterydraw": null,
+            "goodsBannerEntity": [],
+            "bMerchantEntity": null,
+            "goodsInventories": null,
+            "gsiStartPrice": 10,
+            "gsiEachincrease": 1000,
+            "bgoodsComments": null,
+            "sysCompanyCode": "A03",
+            "gstiProvince": "",
+            "gsiNowprice": 566,
+            "gsiInventory": null,
+            "gsiMarketprice": 1200,
+            "gsiLasttime": null,
+            "gsiGroupprice": null,
+            "gsiConverintegral": null,
+            "gsiAllowcoupon": 1,
+            "gsiSecondkill": 0,
+            "gsiOfferednumber": null,
+            "gsiLimitcount": 0,
+            "gsiKilldate": null,
+            "gsiCurrentperiods": null,
+            "gsiLimittime": 1,
+            "gsiVolume": null,
+            "orderCount": null,
+            "gstTwo": "402880e75f8ae99b015f8afa56cc000a",
+            "gsiClick": null,
+            "groupOrder": null,
+            "groupCount": null,
+            "gstThree": "402882035fa0ee27015fa188db2d0006",
+            "arttId": null,
+            "orders": null
+        }
+    ],
+    "news": [
+		{
+            
+            "name": "为什么自动驾驶",
+            "type": 2,
+            "abHref": "3"
+        },
+		{
+		    
+		    "name": "2020数字中国创新大赛-数字政府赛道21强出炉",
+		    "type": 1,
+		    "abHref": "3"
+		}
+		]
+}

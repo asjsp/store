@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<style>
+			.area {
+				margin: 20px auto 0px auto;
+			}
+			
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			
+			.mui-input-group label {
+				width: 22%;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 78%;
+			}
+			
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 6px;
+			}
+			
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			
+			.mui-btn {
+				padding: 10px;
+			}
+			
+			.link-area {
+				display: block;
+				margin-top: 25px;
+				text-align: center;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: red;"></a>
+			<h1 class="mui-title">绑定手机号</h1>
+		</header>
+		<div class="mui-content" style="background-color: white;">
+			<form class="mui-content-padded">
+				<input onkeyup="ExistsData()" onblur="ExistsData()" id='account' type="number" style="width: 70%; border: 1px solid #EFEFF4;border-radius: 50px;background-color: #F9F9F9;" placeholder="请输入手机号">
+				<button id='auth' style="width: 28%; border: 1px solid red;border-radius: 50px;color:red">验证</button>
+				<input onkeyup="ExistsData()" onblur="ExistsData()" id='authword' type="text" style=" border: 1px solid #EFEFF4;border-radius: 50px;background-color: #F9F9F9;" class=" mui-input-password" placeholder="验证码">
+				<input onkeyup="ExistsData()" onblur="ExistsData()" id='password' type="password" style=" border: 1px solid #EFEFF4;border-radius: 50px;background-color: #F9F9F9;" class=" mui-input-password" placeholder="请输入密码">
+			</form>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="../js/server.js"></script>
+		<script>
+			var authButton = document.getElementById('auth');
+			var regButton = document.getElementById('reg');
+			var accountBox = document.getElementById('account');
+			var authwordBox = document.getElementById('authword');
+			var passwordBox = document.getElementById('password');
+			var petBox = document.getElementById('petword');
+			function ExistsData() {
+				authButton.disabled = "";
+				if(accountBox.value == "" || passwordBox.value == "" || authwordBox.value == "" || petBox.value == "") {
+					regButton.disabled = "disabled";
+					return;
+				}
+				regButton.disabled = "";
+			};
+
+			//----------------------------------------
+			(function($, doc) {
+				$.init();
+				var mbId;
+				$.plusReady(function() {
+					//var settings = app.getSettings();
+					mbId = plus.storage.getItem("mbId");
+					authButton.addEventListener('tap', function(event) {
+						if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(accountBox.value))) {
+							mui.toast("手机号码不规范");
+							accountBox.focus();
+							authButton.disabled = "disabled";
+							return false;
+						}
+						authButton.disabled = "disabled";
+						var data = {
+							phone: accountBox.value,
+							type: 1
+						};
+						var apiname = "msgAuthApi/sendCode" + ".do";
+						//alert(JSON.stringify(data));
+						console.log(JSON.stringify(data));
+						$.post(servername + apiname, data, function(rsp) {
+							var ss = JSON.stringify(rsp);
+							console.log(ss);
+							//alert(rsp.code);
+							if(rsp.code == 0) {
+								mui.toast(rsp.msg);
+							};
+						}, 'json');
+
+						console.log(servername + apiname);
+						//--------------------------------------
+					});
+					regButton.addEventListener('tap', function(event) {
+						var data = {
+							mbId: mbId,
+							phone: accountBox.value,
+							password: passwordBox.value,
+							authCode: authwordBox.value
+						};
+						//console.log(JSON.stringify(data));
+						//alert(JSON.stringify(data));
+						var apiname = "memberApi/bindPhone" + ".do";
+						mui.post(servername + apiname, data, function(rsp) {
+							var ss = JSON.stringify(rsp);
+							mui.toast(rsp.msg);
+							if(rsp.code == 0) {
+								
+								mui.back();
+							};
+						}, 'json');
+						console.log(servername + apiname);
+					});
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

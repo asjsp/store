@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<style>
+			html,body {
+				background-color: #efeff4;
+			}
+			.title{
+				margin: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+    margin: 0;
+    padding: 1px 5px;
+    vertical-align: top;
+    border-right: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+       #topPopover {
+				position: fixed;
+				top: 16px;
+				right: 6px;
+			}
+			
+			
+			.mui-popover {
+				height: 200px;
+				width: 100%;
+				padding: 8px;
+			}
+
+		</style>
+	</head>
+	<body>
+	
+		
+		<div class="mui-content" style="background-color: white;">
+			<!--弹出菜单-->
+		<div id="topPopover" class="mui-popover">
+			<div class="mui-popover-arrow"></div>
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view mui-grid-view"  style="padding: 8px;">
+						<a v-for="item in tindexTypes"  class="mui-control-item" href="#item2"><button type="button" class="mui-btn mui-btn-outlined" style="margin: 2vw;">{{item.name}}</button></a>     
+					</ul>
+				</div>
+			</div>
+		</div>
+			
+			<div  style="display: flex;display: -webkit-flex;">
+			<div style="width: 90vw;" class="mui-scroll-wrapper mui-slider-indicator  mui-segmented-control mui-segmented-control-inverted mui-segmented-control-negative">
+				<div class="mui-scroll" style="overflow: scroll;" >
+					<a class="mui-control-item" @tap="open_detail(item)"  v-for="item in tindexTypes">{{item.name}}</a>
+				</div>	
+		   </div>
+		  	<a href="#topPopover" class="mui-action-menu"  style="padding: 5px;  border-left: 0px solid gainsboro;color: gray;">
+		  		<span  class="mui-icon mui-icon-arrowdown" ></span>
+		  	</a>
+		    </div>
+			  
+			
+			<div id="slider" class="mui-slider" >
+					  <div class="mui-slider-group ">
+					    <!-- 第一张 -->
+					    <div class="mui-slider-item" @tap="open_href(item)"  v-for="item in indexTypes">
+					      <a href="#">
+					        <img :src="item.imgurl">
+					      </a>
+					    </div>
+										    
+					  </div>
+					  <div class="mui-slider-indicator">
+					    <div class="mui-indicator mui-active"></div>
+					    <div class="mui-indicator"></div>
+					    <div class="mui-indicator"></div>
+					    <div class="mui-indicator"></div>
+					    <div class="mui-indicator"></div>
+					   
+					  </div>
+			</div>
+		
+			<!--------------------------------------------------分类产品---------------------------------------------------------------------->
+			<div  class="mui-slider"  style="margin-top: 5vw;">
+			  <div class="mui-slider-group ">
+			    <!-- 第一张 -->
+			    <div class="mui-slider-item">
+			          <div id="fenlei" style="display: flex; display: -webkit-flex; -webkit-flex-wrap: wrap;
+ flex-wrap: wrap; background-color: white;  -webkit-align-items: center; align-items: center;"></div>
+			    </div>
+			    <!-- 第二张 -->
+			   <!-- <div class="mui-slider-item mui-hidden">
+			         <div id="fenleim" style="display: flex; display: -webkit-flex; -webkit-flex-wrap: wrap;
+ flex-wrap: wrap; background-color: white;  -webkit-align-items: center; align-items: center;"></div>
+			    </div>-->
+			  </div>
+			 <!-- <div class="mui-slider-indicator">
+			    <div class="mui-indicator mui-active"></div>
+			    <div class="mui-indicator"></div>
+			  </div>-->
+			</div>
+			
+		    <!----------------------------------------------------------------------------------------->
+		    <ul class="mui-table-view" style="margin-top: 5px;">
+		    	<li class="mui-table-view-cell" style="padding: 10px" onclick="clicked('listview.html')" >
+						<div style="border-left: 2px solid red;margin-left: 15px;">
+
+								<p style="padding-left: 10px;">
+								    <span style="padding:2px;border:1px solid orangered; border-radius: 5px; background-color:white; color:orangered">最新</span>
+									<span style="padding:6px;color: black">导购员不会告诉你</span>
+								</p>
+
+
+								<p style="padding-left: 10px;margin-top: 10px;">
+									<span style="padding:2px;border:1px solid orangered; border-radius: 5px; background-color:white; color:orangered">头条</span>
+									<span style="padding:6px;color: black">导购员不会告诉你</span>
+								</p>
+
+						</div>
+				</li>
+		   </ul>
+		    <!--------------热门品牌------------>
+			<ul class="mui-table-view">
+			  <li class="mui-table-view-cell" style="display: -webkit-flex;  -webkit-justify-content: space-between;-webkit-align-items: center;display: flex;justify-content: center; align-items: center;display: flex;align-items: center;justify-content: center;display: -webkit-flex;-webkit-align-items: center;-webkit-justify-content: center;">
+				 
+				   
+				    	<img src="../images/fire.png" style="width: 8vw;margin-right: 2px;">
+				    	<span>热门品牌</span>
+				   
+			   
+			  </li>
+			</ul>
+		    <ul id="rmpp" class="mui-table-view mui-grid-view mui-grid-9" style="background-color: white;"></ul>
+		    <div style=" box-shadow: 3px 1px 2px 0px rgba(0, 0, 0, 0.2); margin: 4vw;border: 0px solid red;display: -webkit-flex;  -webkit-justify-content: space-between;-webkit-align-items: center;display: flex;justify-content: space-between; align-items: center;border-radius: 0px 20px 20px 0px">
+		            	<span style="text-align:center;padding:5px;width:30vw;color:white;background: linear-gradient(to right, #ff8d22, #fe4334);border-radius: 0px 20px 20px 20px;">
+		            		惠当家<span style="margin-left: 9px;" class="mui-icon mui-icon-home"></span>
+		            	</span>
+		                <a style="color: orangered;">优惠好物 选会大家</a>
+		                <span class="mui-icon mui-icon-arrowright"></span>
+		     </div>   
+		   
+		    <!------惠当家-------->
+		    <ul id="hdj" class="mui-table-view mui-grid-view mui-grid-9" style="background-color: white;"></ul>
+		    <!-------拼单  抢单 领券--模块------------->
+		    <ul class="mui-table-view " id="pdbt"></ul>
+		    <!---我来当家---时尚潮流--买遍全球  好店---模块---------->
+		    <div  id="sscl"></div>
+			<div style="background-color: white;display: -webkit-flex;  -webkit-justify-content: center;-webkit-align-items:center;display: flex;align-items: center;justify-content: center;margin-top: 10px;">
+			    <span  style="width: 30vw;  border-top: 1px solid #c8c7cc;"></span>
+			    <span  style="display: -webkit-flex;  -webkit-justify-content: center;-webkit-align-items:center;display: flex;align-items: center;justify-content: center;"><img src="../images/ax.png" style="width: 8vw;margin: 5px;"><span>猜你喜欢</span></span>
+			    <span  style="width: 30vw;  border-top: 1px solid #c8c7cc;"></span>
+			</div>
+			<div id="cnxh" class="mui-table-view mui-grid-view " style="background-color: white;"></div>
+		    <!--------->
+		</div>
+	
+	    
+	</body>
+	<script src="../js/navdata.js"></script>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/server.js"></script>
+	<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script>      //--------------数据层--------
+		 /*---------拼单-----------*/
+		var jsondata1=[
+                         {"imgurl":"../images/m1.jpg","titles":"韩都衣舍2017韩版女装冬装新款潮大衣外套中长款毛呢外 ","pricenow":"69","pricelast":"169","pesonnumb":"20","presonimgarray":["../images/mm.jpg","../images/mm.jpg",],"buttonlabel":"去拼单","color":"orange"},
+                         {"imgurl":"../images/m3.jpg","titles":"韩都衣舍2017韩版女装冬装新款潮大衣外套中长款毛呢外 ","pricenow":"89","pricelast":"169","pesonnumb":"20","presonimgarray":["../images/mm.jpg","../images/mm.jpg",],"buttonlabel":"去拼单","color":"orange"},
+                         {"imgurl":"../images/m2.jpg","titles":"韩都衣舍2017韩版女装冬装新款潮大衣外套中长款毛呢外 ","pricenow":"89","pricelast":"169","pesonnumb":"44","presonimgarray":["../images/mm.jpg","../images/mm.jpg",],"buttonlabel":"去拼单","color":"orange"},
+                    ];
+         /*---------抢单-----------*/            
+        var jsondata2=[
+                     {"imgurl":"../images/v1.jpg","titles":"派蒙 银纤维防辐射服 201 ","pricenow":"1099","pricelast":"169","pesonnumb":"00:45:22","presonimgarray":[],"buttonlabel":"去抢单","color":"red"},
+                     {"imgurl":"../images/v2.jpg","titles":"派蒙 银纤维防辐射服 201 ","pricenow":"2899","pricelast":"169","pesonnumb":"00:45:22","presonimgarray":[],"buttonlabel":"去抢单","color":"red"},
+                     {"imgurl":"../images/v3.jpg","titles":"派蒙 银纤维防辐射服 201","pricenow":"2333","pricelast":"169","pesonnumb":"00:45:22","presonimgarray":[],"buttonlabel":"去抢单","color":"red"},
+                    
+        ];
+        /*---------领券-----------*/
+         var jsondata3=[
+                     {"imgurl":"../images/w1.jpg","titles":"史努比（snoopy）童装2017冬装新品男童加绒卫衣中小童男宝宝套头运动衫绒衫 ","pricenow":"1099","pricelast":"169","pesonnumb":"500","presonimgarray":[],"buttonlabel":"去拼单","color":"deeppink"},
+                     {"imgurl":"../images/w2.jpg","titles":"史努比（snoopy）童装2017冬装新品男童加绒卫衣中小童男宝宝套头运动衫绒衫 ","pricenow":"2899","pricelast":"169","pesonnumb":"300","presonimgarray":[],"buttonlabel":"去拼单","color":"deeppink"},
+                     {"imgurl":"../images/w3.jpg","titles":"史努比（snoopy）童装2017冬装新品男童加绒卫衣中小童男宝宝套头运动衫绒衫 ","pricenow":"2333","pricelast":"169","pesonnumb":"100","presonimgarray":[],"buttonlabel":"去拼单","color":"deeppink"},
+                    
+        ];
+        	/*---------------------优惠当家--------------------------------*/
+		var jsondata4=[
+            {"titles1":"抢拼团 ","titles2":" ","urls1":"sj20.jpg","urls2":"sj21.jpg","color":"red ","hrefs":"xsms.html"},
+            {"titles1":"有好货 ","titles2":" ","urls1":"sj22.jpg","urls2":"sj23.jpg","color":"orange ","hrefs":"sdpd.html"},
+            {"titles1":"超值购买 ","titles2":" ","urls1":"sj24.jpg","urls2":"sj25.jpg","color":"blue","hrefs":"sdpd.html"},
+            {"titles1":"0元抽奖","titles2":" ","urls1":"sj2.jpg","urls2":"sj26.jpg","color":"purple","hrefs":"sdpd.html"},
+        ];
+		/*---------------------我来当家--------------------------------*/
+        var jsondata5=[
+            {"titles1":"极有家 ","titles2":"生活更美好","urls1":"sj21.jpg","urls2":"sj2.jpg","color":"red "},
+            {"titles1":"生活家 ","titles2":"生活更美好 ","urls1":"sj22.jpg","urls2":"sj2.jpg","color":"orange "},
+            {"titles1":"品质好物 ","titles2":"生活更美好 ","urls1":"sj23.jpg","urls2":"sj2.jpg","color":"blue"},
+            {"titles1":"惠当家","titles2":"生活更美好 ","urls1":"sj24.jpg","urls2":"sj2.jpg","color":"purple"},
+        ];
+		/*---------------------潮流酷--------------------------------*/
+        var jsondata6=[
+            {"titles1":"抢拼团 ","titles2":"生活更美好 ","urls1":"sj25.jpg","urls2":"sj2.jpg","color":"red "},
+            {"titles1":"有好货 ","titles2":"生活更美好 ","urls1":"sj26.jpg","urls2":"sj2.jpg","color":"orange "},
+            {"titles1":"超值购买 ","titles2":"生活更美好 ","urls1":"sj23.jpg","urls2":"sj2.jpg","color":"blue"},
+            {"titles1":"0元抽奖","titles2":"生活更美好","urls1":"sj24.jpg","urls2":"sj2.jpg","color":"purple"},
+        ];
+		/*---------------------买遍--------------------------------*/
+        var jsondata7=[
+            {"titles1":"抢拼团 ","titles2":"找有品德家 ","urls1":"sj2.jpg","urls2":"sj21.jpg","color":"black"},
+            {"titles1":"有好货 ","titles2":"找有品德家 ","urls1":"sj25.jpg","urls2":"sj2.jpg","color":"black"},
+            {"titles1":"超值购买 ","titles2":"找有品德家","urls1":"sj23.jpg","urls2":"sj22.jpg","color":"black"},
+            {"titles1":"0元抽奖","titles2":"找有品德家 ","urls1":"sj24.jpg","urls2":"sj2.jpg","color":"black"},
+        ];
+		/*---------------------时尚大家--------------------------------*/
+        var jsondata8=[
+            {"titles1":"潮男养成 ","titles2":"有品有范有风尚","urls1":"sj21.jpg","urls2":"sj26.jpg","color":"black"},
+            {"titles1":"装备天地","titles2":"找有品德家","urls1":"sj22.jpg","urls2":"sj2.jpg","color":"black"},
+            {"titles1":"科技前沿 ","titles2":"找有品德家 ","urls1":"sj23.jpg","urls2":"sj25.jpg","color":"black"},
+            {"titles1":"男的好货","titles2":"找有品德家 ","urls1":"sj24.jpg","urls2":"sj23.jpg","color":"black"},
+        ];
+		/*---------------------今日好店--------------------------------*/
+       /* var jsondata9=[
+            {"titles1":"今日推荐 ","urls1":"sj23.jpg","urls2":"hd1.jpg","urls3":"hd2.jpg","color":"black"},
+            {"titles1":"有兴趣 ","urls1":"sj24.jpg","urls2":"hd3.jpg","urls3":"hd1.jpg","color":"black"},
+        ];*/
+
+        
+        /*---------喜欢 loves------------*/
+        var jsondataend=[
+            {"pid":"567833","imgurl":"../images/m1.jpg","titles":"2017冬装新款潮大衣外套中瘦修身中长款长袖呢长款毛呢外 ","pricenow":"69","pricelast":"169","pesonnumb":"20","presonimgarray":["../images/sj21.jpg","../images/sj22.jpg",],"buttonlabel":"拼","color":"orange"},
+            {"pid":"567834","imgurl":"../images/m2.jpg","titles":"外套显瘦修瘦修身中长款长袖呢身中长款长袖呢子大衣","pricenow":"89","pricelast":"169","pesonnumb":"20","presonimgarray":["../images/sj26.jpg","../images/sj25.jpg",],"buttonlabel":"拼","color":"orange"},
+            {"pid":"567836","imgurl":"../images/m3.jpg","titles":"女装新款秋冬季时尚韩版女装毛呢外套显瘦修身中长款长袖呢子大衣女zx1710536 焦糖色 S ","pricenow":"2899","pricelast":"169","pesonnumb":"00:45:22","presonimgarray":[],"buttonlabel":"抢","color":"red"},
+            {"pid":"567838","imgurl":"../images/m4.jpg","titles":"韩版女装毛呢外套显瘦修身中长款长袖呢子大衣女zx1710536 焦糖色 S ","pricenow":"2333","pricelast":"169","pesonnumb":"02:45:22","presonimgarray":[],"buttonlabel":"抢","color":"red"},
+
+        ];
+        
+	</script>
+	<script>      //--------------数据组装------
+		   function madepindanlike(pid,imgurl,titles,pricenow,pricelast,pesonnumb,presonimgarray,buttonlabel,color){
+			/*-------------------*/
+            var pesonimgs="";
+            for (y in presonimgarray) {
+                var mus=presonimgarray[y];
+                pesonimgs+='<img style="border-radius: 50%;width: 5vw;height: auto;" class="mui-media-object " src="'+mus+'">';
+            }
+			/*-----------------------*/
+            var pricedm="";
+             var cls="clicked('productdetail.html')";
+            if(color=="orange"){
+            	cls="clickpd('"+pid+"','"+imgurl+"','"+titles+"','"+pricenow+"','"+presonimgarray+"')";
+            	//alert(cls);
+                pricedm='<span class="mui-pull-left" style="color: '+color+';font-size:medium;">¥'+pricenow+
+					    '</span><span class="mui-pull-right">'+pesonimgs+'</span></p>';
+
+            }if(color=="red"){
+            	cls="clickqd('"+pid+"','"+imgurl+"','"+titles+"','"+pricenow+"','"+pricelast+"','"+pesonnumb+"')";
+            
+                pricedm='<span class="mui-pull-left" style="color: '+color+';font-size:medium;">¥'+pricenow+
+                    '</span><span class="mui-pull-right" style="color: '+color+';font-size:medium;">'+pesonnumb+'</span></p>';
+            }
+           
+            var htmlstr=
+                '<li  onclick="'+cls+'" class="mui-table-view-cell  mui-media mui-col-xs-6 mui-col-sm-6 "> '+
+                 '<div class="mui-card" style="padding: 0; margin: 1px;">'+
+                  '<p style="position: relative;z-index: 1;color:white; border-radius: 0px 0px 0px 25px; text-align:center; background-color:'+color+';right:-37vw;padding:0px;width:35px;height:25px">'+buttonlabel+'</p>'+
+                  '<img  src="'+imgurl+'" style="position: relative;top:-25px; width:100%;height:auto; border-radius: 0px;padding:0vw">'+
+                  '<div  style="margin-top: -25px;">'+
+                     '<div class="mui-ellipsis-2">'+titles+' </div>'+
+                      
+                      ' <p style="padding:8px">'+pricedm+
+                      
+                  '</div>'+
+                  '</div>'+
+                '</li>';
+                //alert(htmlstr);
+            return htmlstr;
+          //alert(htmlstr);
+        }
+		
+		/*---------生成拼单组件-----------------*/
+		function madepindan(imgurl,titles,pricenow,pricelast,pesonnumb,presonimgarray,buttonlabel,color){
+			/*-------------------*/
+			var pid="899999"
+			var pesonimgs="";
+			for (y in presonimgarray) {
+					var mus=presonimgarray[y];
+					pesonimgs+='<img style="border-radius: 50%;width: 5vw;height: auto;" class="mui-media-object " src="'+mus+'">';
+				}
+			/*-----------------------*/
+			var pricedm="";
+			 var cls="clicked('productdetail.html')";
+			if(color=="orange"){
+					cls="clickpd('"+pid+"','"+imgurl+"','"+titles+"','"+pricenow+"','"+presonimgarray+"')";
+            	
+				pricedm='<span style="color: '+color+';font-size:medium;">¥'+pricenow+'</span><span style="margin-left: 10px;font-size:small; text-decoration:line-through">¥'+pricelast+'</span></p>'+
+				 
+		                   ' <p >'+pesonimgs+
+		                    	'<span style="margin-left: 10px;font-size:small;">'+pesonnumb+'人正在拼单</span>'+
+		                    '</p>'+
+		                    '</br>'+
+		                     '<p >'+
+		                    	'<button  class="mui-btn" style="width: 30vw;color:white; background-color:'+color+'">'+buttonlabel+'</button>'+
+		                   ' </p>';
+				
+			}if(color=="red"){
+				cls="clickqd('"+pid+"','"+imgurl+"','"+titles+"','"+pricenow+"','"+pricelast+"','"+pesonnumb+"')";
+            
+				pricedm='<span style="color: '+color+';font-size:medium;">¥'+pricenow+'</span><span style="margin-left: 10px;font-size:small; ">市场价：'+pricelast+'</span></p>'+
+				          
+		                   ' <p ><button  class="mui-btn mui-btn-red mui-btn-outlined" style="width:30vw;border-radius: 20px;">'+pesonnumb+'</button></p>'+
+		                    '</br>'+
+		                     '<p >'+
+		                    	'<button  class="mui-btn" style="width: 30vw;color:white; background-color:'+color+'">'+buttonlabel+'</button>'+
+		                   ' </p>';
+			}if(color=="deeppink"){
+				pricedm='<span style="font-size:small; text-decoration:line-through ">现价：'+pricelast+'</span></p>'+
+				          
+				           '<p>卷后价：<span style="color: '+color+';font-size:small;">¥'+pricenow+'</span></p>'+
+		                   '</br>'+
+		                    '<p >'+
+		                       '<span style="border-radius: 2px; width: 8vw;color:white;padding:6px; background-color:'+color+'">卷</span>'+
+		                       '<span style="padding:5px;border:1px solid deeppink; border-radius: 0px; width: 12vw; background-color:white; color:'+color+'">'+pesonnumb+'元</span>'+
+		                   ' </p>';
+			}
+			var htmlstr=
+			        '<li onclick="'+cls+'" class="mui-table-view-cell  mui-row" style="border-bottom:1px solid #efeff4" > '+
+		               '<div  class="mui-media-body mui-col-xs-5 mui-col-sm-5">'+
+		                 	'<img  src="'+imgurl+'" style="width:99%;border-radius: 5px;">'+
+		               '</div>  '+
+		               '<div class="mui-media-body mui-col-xs-7 mui-col-sm-7" style="padding: 2vw;" >'+
+		                     '<div class="mui-ellipsis-2">'+titles+' </div>'+
+		                   
+		                   ' <p >'+pricedm+
+		                '</div>'+
+		             '</li>';
+			return htmlstr;	
+		};
+       function getdata (jsondata) {
+			var strs="";
+			for (x in jsondata) {
+					var imgurl=jsondata[x].imgurl;
+					var titles=jsondata[x].titles;
+					var pricenow=jsondata[x].pricenow;
+					var pricelast=jsondata[x].pricelast;
+					var pesonnumb=jsondata[x].pesonnumb;
+					var presonimgarray=jsondata[x].presonimgarray;
+					var buttonlabel=jsondata[x].buttonlabel;
+					var color=jsondata[x].color;
+					 strs+=madepindan(imgurl,titles,pricenow,pricelast,pesonnumb,presonimgarray,buttonlabel,color);
+					 
+				}
+			//alert(strs);
+			return strs;
+			
+		};
+       /*---------生成拼单标题-----------------*/
+		function madepindantitles(titles,titlestwo,imgicon,color,bgcolor){
+			var htmlstr=
+			        '<li class="mui-table-view-cell" style="background-color: '+bgcolor+';text-align: center;">'+
+		                '<div style="display: flex;align-items: center;justify-content: center;"><img src="../images/'+imgicon+'.png" style="width: 8vw;margin-right: 3px;"><span style="color: '+color+'">'+titles+'</span></div>'+
+		                '<div>'+titlestwo+'</div>'+
+		    	    '</li>';
+			return htmlstr;	
+		}
+		function madepindanmores(urls,color){
+			var htmlstr=
+			        '<li id="'+urls+'" onclick="clicked(this.id)" class="mui-table-view-cell" style="text-align: center;">'+
+		                '<a >'+
+		                '<span class="mui-icon mui-icon-more" style="background-color: '+color+';color: white;border-radius: 50%;"></span> <span >点击查看更多</span>'+
+                        '</a>'+
+		    	    '</li>';
+			return htmlstr;	
+		}
+
+	function madedj(titles1,titles2,urls1,urls2,color,hrefs){
+			var htmlstr=
+			    '<li   id="'+hrefs+'" onclick="clicked(this.id)" class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">'+
+		        '<a href="#">'+
+		           '<div style="text-align: left;margin:12px">'+
+		                 '<h4 style="color:'+color+'">'+titles1+'</h4>'+
+		                 '<h5>'+titles2+'</h5>'+
+		           '</div> '+
+		            '<div class="mui-grid-view">'+
+		            	'<img style="width: 45%;padding: 5px;"  src="../images/'+urls1+'" >'+
+		                '<img style="width: 45%;padding: 5px;"  src="../images/'+urls2+'" >'+
+		            '</div>'+
+		        '</a>'+
+		       '</li>';
+		      // alert(htmlstr);
+			return htmlstr;	
+		};
+	function madedp(titles1,urls1,urls2,urls3,color){
+            var htmlstr=
+                '<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">'+
+                '<div style="text-align: left;">'+
+                '	<h5 style="color:'+color+'">'+titles1+'</h5>'+
+                '</div> '+
+                '<div style="display: -webkit-flex;  -webkit-justify-content: center; -webkit-align-content: flex-start;display: flex;justify-content: center;align-content: flex-start">'+
+                      '<div style="width: 49%"><a><img style="width: 99%;padding: 2px;"  src="../images/'+urls1+'" ></a></div>'+
+                      '<div style="width: 49%"><a><img style=" width: 99%;padding: 2px;"  src="../images/'+urls2+'" ></a>'+
+				      '<a><img style="width: 99%;padding: 2px;"  src="../images/'+urls3+'" ></a></div>'+
+                '</div>'+
+                '</li>';
+            // alert(htmlstr);
+            return htmlstr;
+        }
+	function getdatahdj(jsondata) {
+			var strs="";
+			for (x in jsondata) {
+					var urls1=jsondata[x].urls1;
+					var titles1=jsondata[x].titles1;
+					var urls2=jsondata[x].urls2;
+					var titles2=jsondata[x].titles2;
+					var color=jsondata[x].color;
+					var hrefs=jsondata[x].hrefs;
+					 strs+=madedj(titles1,titles2,urls1,urls2,color,hrefs);
+					 
+				}
+			//alert(strs);
+			return strs;
+			
+	};
+	function getdatahdp(jsondata) {
+            var strs="";
+            for (x in jsondata) {
+                var titles1=jsondata[x].titles1;
+                var urls1=jsondata[x].urls1;
+                var urls2=jsondata[x].urls2;
+                var urls3=jsondata[x].urls3;
+                var color=jsondata[x].color;
+                strs+=madedp(titles1,urls1,urls2,urls3,color);
+            }
+            //alert(strs);
+            return strs;
+
+        };
+	/*------------*/
+	function madepics(imgurl,numb){
+		//alert("str");
+			imgurl='../images/'+imgurl;
+			str="";
+			strind="";
+			for (i=1;i<(numb+1);i++) {
+				str+='<div class="mui-slider-item"><a href="#"><img src="'+imgurl+i+'.jpg" /></a></div>';
+			};
+			for (j=1;j<numb;j++){
+				strind+='<div class="mui-indicator"></div>';
+			}
+	var str=
+	   ' <div class="mui-slider-group mui-slider-loop">'+
+            '<div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="'+imgurl+numb+'.jpg" /></a></div>'+
+              str+
+            '<div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="'+imgurl+'1.jpg" /></a></div>'+
+        '</div>'+
+       ' <div class="mui-slider-indicator">'+
+            '<div class="mui-indicator mui-active"></div>'+
+              strind+
+       ' </div>';
+       
+			return str;
+	};
+	function colorlabels(c1,c2,ts){
+		var str='<div style="position: relative;bottom: -11px;z-index: 2; margin-left:6px;text-align:center;padding:5px;width:30vw;color:white;background: linear-gradient(to right, '+c1+', '+c2+');border-radius: 0px 20px 20px 20px;">'+
+		           ts+
+		         '</div>';
+		return str;
+	};
+	/*-------------九宫格数据填充-*/
+
+ /*-------------------*/
+	function madeb9(tbs,pad,rad,xs,sm,wcolor,wd){
+		        var bs=wd+'px solid '+wcolor;
+		        var strs="";
+				var sarry=navData[tbs];
+				var y;
+				for (y in sarry) {
+					var hrefs=sarry[y].hrefs;
+					var tys=sarry[y].title;
+					var urs=sarry[y].imgsrc;
+					urs='"'+'../images/'+urs+'"';
+					strs+='<li id="'+hrefs+'" onclick="clicked(this.id)"  class="mui-table-view-cell mui-media mui-col-xs-'+xs+' mui-col-sm-'+sm+'" style=" background-color: white;border:'+bs+'">' +
+					    '<a href="#'+hrefs+'">'+
+		                    '<img style="border-radius: '+rad+'%; padding: '+pad+'px;" class="mui-media-object" src='+urs+'>'+
+		                   /* '<h6>'+tys+'</h6>'+*/
+		                '</a>' +
+		                '</li>';
+				}
+			//alert(strs);
+			return strs;
+	}
+	function madefenlei(tbs,pad,rad,xs,sm,wcolor,wd){
+		        var bs='0px solid gray ';
+		        var strs="";
+				var sarry=navData[tbs];
+				var y;
+				for (y in sarry) {
+					var hrefs=sarry[y].hrefs;
+					var tys=sarry[y].title;
+					var urs=sarry[y].imgsrc;
+					urs='"'+'../images/'+urs+'"';
+					strs+='<div id="'+hrefs+'" onclick="clicked(this.id)"   style="text-align:center; width:20vw; background-color: white;border:'+bs+'">' +
+					   
+		                    '<img style="width:10vw;height:auto; border-radius: '+rad+'%; padding: '+pad+'px;"  src='+urs+'>'+
+		                    '<p>'+tys+'</p>'+
+		               
+		                '</div>';
+				}
+			//alert(strs);
+			return strs;
+	}
+	</script>
+	<script>     /*---------页面跳转----------*/
+		mui.init({
+				swipeBack: false,
+				/*pullRefresh: {
+					container: '.mui-content',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}*/
+			});
+			function pulldownRefresh() {
+				setTimeout(function() {
+					
+					 //------------------------获取主页信息---------------------------
+		
+				
+					mui('.mui-content').pullRefresh().endPulldownToRefresh(); //refresh completed
+				}, 1000);
+			}
+			/** ----上拉加载具体业务实现---*/
+		    var count = 0;
+			function pullupRefresh() {
+				setTimeout(function() {
+					mui('.mui-content').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
+					//sscls.innerHTML=html.join('');
+					//cnxhs.innerHTML=getdatalike(jsondataend);
+				}, 1000);
+			}		
+	
+		/*-------首页内容-------------*/
+		var vh = new Vue({
+				el: '.mui-content',
+				data: {
+					tindexTypes:[],        //-------顶部分类
+					indexTypes:[]        //-------首页banner列表
+					},
+			});
+			
+		/*-------顶部分类按钮-跳转------------*/
+		function open_detail(item) {
+			    // alert(item.id);
+			}
+		/*-------首页banner列表-跳转------------*/
+		function open_href(item) {
+			     //alert(item.abHref);
+			}
+		/*------打开新页面----------*/
+		function clicked(id){
+			//alert(id);
+			if(id==""){
+				return false;
+			}
+			
+			plus.webview.open(id,id,{},"slide-in-right");
+			
+           };
+	</script>
+	<script>  //--------------数据填充--------
+
+		mui.getJSON(servername+"homePageApi/index.do",function(rsp) {						
+								//console.log(JSON.stringify(rsp.homeAdvs));
+								//var stt=convertloves(rsp.homeAdvs);
+								
+								//console.log(JSON.stringify(rsp.quan));
+								//console.log(JSON.stringify(rsp.loves));
+								//console.log(JSON.stringify(rsp.rifle));
+								/*-------顶部分类按钮-------------*/
+								vh.tindexTypes=rsp.indexTypes;
+								//console.log(JSON.stringify(rsp.banners));
+								vh.indexTypes=convert(rsp.banners);
+								
+								console.log(JSON.stringify(rsp.loves));
+								jsondataend=convertloves(rsp.loves);
+								 cnxhs.innerHTML=getdatalike(jsondataend);
+								 //var  controls = document.getElementById("hds");
+								//controls.querySelector('.mui-control-item').classList.add('mui-active');
+								//console.log(vm.indexTypes[0].name);		
+						});	
+	  
+		/*-------横幅广告--------滑动图片----------------------------------------------------*/
+		   //-----21.	获取首页banner列表					
+		//mui.getJSON(servername+"appbannerApi/getBanner.do",function(rsp) {				
+								//console.log(JSON.stringify(rsp));
+								//vh.indexTypes=convert(rsp);
+                                // console.log(rsp.length);
+							//});
+		/*---banner列表---数据转换-----*/					
+		function convert(items) {
+				var newItems = [];
+				items.forEach(function(item) {
+					var nmg=getserverimg(item.id,1);
+					newItems.push({
+						id: item.id,
+						abHref: item.abHref,
+						abTurntype: item.abTurntype,
+						imgurl: nmg
+						
+					});
+				});
+				return newItems;
+			}	
+		/*---首页loves---数据转换-----*/					
+		function convertloves(items) {
+				var newItems = [];
+				items.forEach(function(item) {
+				 var nmg=getserverimg(item.id,6);
+				 console.log(nmg);
+				  var pa="";
+				  var pb="";
+				  if(item.gsiType==1){
+				  	    pa="拼";
+				        pb="orange";
+				  	}
+				  if(item.gsiType==2){
+				  	    pa="抢";
+				        pb="red";
+				  	}
+					
+					newItems.push({
+					pid:item.id,
+					imgurl: nmg,
+					titles:item.gsiName,
+					pricenow:item.gsiMarketprice,
+					pricelast:item.gsiMarketprice,
+					pesonnumb:item.gsiEndDate,
+					presonimgarray:item.group,
+					buttonlabel:pa,
+					color:pb
+	
+					});
+				});
+				return newItems;
+			}	
+			
+	    //var slids= document.getElementById("slider");
+       // slids.innerHTML=madepics("b",2);
+       
+		/*-----------分类导航按钮---限时拼杀 闪电拼单等-------------------------*/
+       var  fenleis = document.getElementById("fenlei");/*--导航按钮第一页------分类*/
+            fenleis.innerHTML=madefenlei("fenlei",0,0,0,0);
+      // var  fenleism = document.getElementById("fenleim");/*---导航按钮第二页------分类*/
+           // fenleism.innerHTML=madefenlei("fenleim",0,0,0,0);
+      	/*---------------热门品牌---------------------------------------*/
+		var  rmpps = document.getElementById("rmpp");
+		     rmpps.innerHTML=madeb9("pinpa",0,0,3,3);
+		/*--------------惠当家------------------------------------------*/
+		var  hdjs = document.getElementById("hdj");
+		     hdjs.innerHTML=getdatahdj(jsondata4);
+		     
+       //------------------------------------------------------------------------------
+		var html = [];
+		var pdbts = document.getElementById("pdbt");   //----拼单--抢单-领卷---专区-容器-------
+		var sscls = document.getElementById("sscl");     //----我来当家---潮流酷玩--每日好店铺-----等等-容器-------
+		/*------拼单专区-------------------------------------*/
+		var strs=madepindantitles("拼单专区","一起拼单，优惠多多","hand1","orange","#fffbf2");
+		html.push(strs);
+		strs=getdata(jsondata1);
+		html.push(strs);
+		strs=madepindanmores("sdpd.html","orange");
+		html.push(strs);
+		/*------------------*/
+		/*------抢单专区----------*/
+		var strs=madepindantitles("抢单专区","超低价格，谁青岛归属","hand","red","#fff1f1");
+		html.push(strs);
+		strs=getdata(jsondata2);
+		html.push(strs);
+		strs=madepindanmores("sdqd.html","red");
+		html.push(strs);
+		/*------领卷专区----------*/
+		var strs=madepindantitles("领券购","先领券，再购物","lj","deeppink","#feedf3");
+		html.push(strs);
+		strs=getdata(jsondata3);
+		html.push(strs);
+		strs=madepindanmores("h.html","deeppink");
+		html.push(strs);
+		/*-----拼单--抢单-领卷---专区----模块组装完毕-------------------------------------------*/
+		//pdbts.innerHTML=html.join('');
+		//--------------------------------------------------
+		html = [];
+		/*-------我来当家-----------*/
+		strs=colorlabels("#ff8d22","#fe4334","我来当家");
+		html.push(strs);
+		
+		strs=madepics("a",2);
+		html.push('<div class="mui-slider" >'+strs+'</div>');
+		
+		strs=getdatahdj(jsondata5);
+		html.push('<div class="mui-table-view mui-grid-view mui-grid-9" style="background-color: white;" >'+strs+'</div>');
+	
+		/*-------潮流酷玩-----------*/
+		strs=colorlabels("#18baff","#2780ff","潮流酷玩");
+		html.push(strs);
+		
+		strs=madepics("s",2);
+		html.push('<div class="mui-slider" >'+strs+'</div>');
+		
+		strs=getdatahdj(jsondata6);
+		html.push('<div class="mui-table-view mui-grid-view mui-grid-9" style="background-color: white;" >'+strs+'</div>');
+		/*-------买遍全球-----------*/
+		strs=colorlabels("#62d57a","#14b991","买遍全球");
+		html.push(strs);
+		
+		strs=madepics("a",2);
+		html.push('<div class="mui-slider" >'+strs+'</div>');
+		
+		strs=getdatahdj(jsondata7);
+		html.push('<div class="mui-table-view mui-grid-view mui-grid-9" style="background-color: white;" >'+strs+'</div>');
+		
+		/*----------------------------*/
+		/*-------时尚大家-----------*/
+		strs=colorlabels("#d144e1","#7a28e6","时尚大家");
+		html.push(strs);
+		
+		strs=madepics("b",2);
+		html.push('<div class="mui-slider" >'+strs+'</div>');
+		
+		strs=getdatahdj(jsondata8);
+		html.push('<div class="mui-table-view mui-grid-view mui-grid-9" style="background-color: white;" >'+strs+'</div>');
+		
+		/*----------------------------*/
+		/*-------每日好店铺-----------*/
+		/*strs=colorlabels("#ff6378","#fe3233","每日好店");
+		html.push(strs);
+		
+		strs=madepics("a",2);
+		html.push('<div class="mui-slider" >'+strs+'</div>');
+
+        strs=getdatahdp(jsondata9);
+        html.push('<div class="mui-table-view mui-grid-view mui-grid-9" style="background-color: white;" >'+strs+'</div>');
+*/
+        /*-------我来当家---潮流酷玩--每日好店铺-----等等----模块组装完毕------------------------*/
+		//sscls.innerHTML=html.join('');
+	
+	     /*--------------猜你喜欢---------------------------------*/
+        var  cnxhs = document.getElementById("cnxh");
+            // cnxhs.innerHTML=getdatalike(jsondataend);
+	   /*-----------------------------------------------*/
+	</script>
+	
+</html>

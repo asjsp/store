@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<style>
+			.mui-input-group:before {
+				position: absolute;
+				top: 0;
+				right: 0;
+				left: 0;
+				height: 0px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc;
+			}
+			
+			.mui-checkbox input[type=checkbox]:checked:before,
+			.mui-radio input[type=radio]:checked:before {
+				color: #FF4B4A;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FF4B4A;"></a>
+			<h1 class="mui-title">付款</h1>
+		</header>
+		<div class="mui-content">
+			<!--------------->
+			<!--商品内容-->
+			<div id="item1" style="padding:20px; margin-bottom: 6px;background-color: white;">
+
+				<div style="display: flex;align-items: center;margin-bottom: 15px;">
+					<img style=" margin-right: 9px;width: 18px;" src="../images/logo13.png">
+					<span style="margin-left: 9;font-size: 14px;color: #333333;">{{mercName}}</span>
+				</div>
+				<!-------->
+				<div style="display:flex;justify-content: space-between;align-items: flex-start; align-items: -webkit-flex-start;display: -webkit-flex; -webkit-justify-content: space-between;">
+					<div style="width:70px;height: 70px;overflow: hidden;">
+						<img src="../images/demo/v3.jpg" style="width:100%;">
+					</div>
+					<div style="font-size: 15px; color: #333333;width:75vw;margin-left: 15px;">
+						<div style="display: flex; justify-content: space-between;display: -webkit-flex; -webkit-justify-content: space-between;">
+							<span class="mui-ellipsis" style="width:40vw;">{{gsiName}}</span>
+							<span>¥55</span>
+						</div>
+						<p style="margin-top: 10px; font-size: 14px; color: #949494; display: flex; justify-content: space-between;display: -webkit-flex; -webkit-justify-content: space-between;">
+							<span>{{gsarContent}}</span>
+							<span style="text-decoration:line-through">¥{{gsiMarketprice}}</span>
+						</p>
+					</div>
+				</div>
+				<!-------------->
+			</div>
+
+			<!---------->
+			<form style=" background-color: white;font-size: 15px; color: #333333;padding-top: 18px;">
+				<!--{{paytype}}-->
+				<div class="mui-input-row mui-radio mui-right hdj-center" style="padding: 12px;">
+					<div class="hdj-center">
+						<span><img style="width: 24px;" src="../images/zhifu_yue.png" ></span>
+						<span style="margin-left: 18px;padding-bottom: 6px;">余额支付（余额<span>{{mbBalance}}</span>)</span>
+					</div>
+					<input style="padding-top: 6px;" v-model="paytype" value=3 type="radio">
+
+				</div>
+				<div class="mui-input-row mui-radio mui-right" style="padding: 12px;">
+					<div class="hdj-center">
+						<span><img style="width: 24px;" src="../images/zhifu_mengbi.png" ></span>
+						<span style="margin-left: 18px;padding-bottom: 6px;">盟币支付（余额<span>{{mbAlliance}}</span>)</span>
+					</div>
+					<input style="padding-top: 6px;" v-model="paytype" value=4 type="radio">
+				</div>
+				<div class="mui-input-row mui-radio mui-right hdj-center" style="padding: 12px;">
+					<div class="hdj-center">
+						<span><img style="width: 24px;" src="../images/zhifu_huibi.png" ></span>
+						<span style="margin-left: 18px;padding-bottom: 6px;">惠币支付（余额<span>{{mbFavourable}}</span>)</span>
+					</div>
+					<input style="padding-top: 6px;" v-model="paytype" value=5 type="radio">
+				</div>
+				<!------------>
+
+				<div class="mui-input-row mui-radio mui-right" style="padding: 12px;">
+					<div class="hdj-center">
+						<span><img style="width: 24px;" src="../images/zhifu_weixin.png" ></span>
+						<span style="margin-left: 18px;padding-bottom: 6px;">微信支付</span>
+					</div>
+					<input style="padding-top: 6px;" v-model="paytype" value=1 type="radio">
+				</div>
+				<div class="mui-input-row mui-radio mui-right" style="padding: 12px;padding-bottom: 24px;">
+					<div class="hdj-center">
+						<span><img style="width: 24px;" src="../images/zhifu_zhifubao.png" ></span>
+						<span style="margin-left: 18px;padding-bottom: 6px;">支付宝支付</span>
+					</div>
+					<input style="padding-top: 6px;" v-model="paytype" value=2 type="radio">
+				</div>
+			</form>
+
+			<div style="padding:20px;margin-top: 6px; margin-bottom: 5px;background-color: white;">
+				<div style="font-size: 14px;">
+					<span>合计：<span  style="color: #f85b4f;font-size:18px;">¥233</span></span>
+					<button id="subPay" style="width: 110px; background-color: #f85b4f; font-size:13px;" @tap="payorder()" data-loading-text="提交中" class="mui-pull-right mui-btn mui-btn-red">
+		    	 		立即支付
+		    	 	</button>
+				</div>
+			</div>
+			<!------------->
+
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/server.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.ready(function() {
+				//预加载详情页
+				vm.mbId = h5_mbinfo.mbId
+				//var lauchFlag = plus.storage.getItem("lauchFlag");
+				//向服务端请求会员信息
+				if(localStorage.getItem("lauchFlag")) {
+					//---15.	获取用账户信息--------------
+					//initData();
+					var odetail=JSON.parse(localStorage.getItem('pay_detail'));
+                    get_paydetail(odetail);
+				}				
+			});
+			function initData(){
+				var data = {
+						mbId: vm.mbId
+					};
+					var apiname = "memberApi/accountInfo" + ".do";
+					//alert(data.mbId);
+					mui.post(servername + apiname, data, function(rsp) {
+						// ss=JSON.stringify(rspdata);
+						console.log(JSON.stringify(rsp));
+						if(rsp.code == 0) {
+							vm.mbAlliance = rsp.mbAlliance; //盟币
+							vm.mbFavourable = rsp.mbFavourable; //惠币
+							vm.mbBalance = rsp.mbBalance; //余额
+						}
+
+					}, 'json');
+			}
+			/*----------*/
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					mbId: '',
+					mbAlliance: null,
+					mbFavourable: null,
+					mbBalance: null,
+					SettleMoney: null,
+					odId: '',
+					paytype: 3,
+					totalMoney: 0,
+					gsarContent: '',
+					mercName: '',
+					gsiId: '',
+					gsiName: '',
+					gsiPrice: '',
+					gsiMarketprice: '',
+					totalMoney: 0,
+					freigMoney: 0
+				}
+			});
+			function get_paydetail(eventdetail) {
+				vm.mercName = eventdetail.mercName;
+				vm.gsiId = eventdetail.gsiId;
+				vm.gsiName = eventdetail.gsiName;
+				vm.gsiPrice = eventdetail.gsiPrice;
+				vm.gsiMarketprice = eventdetail.gsiMarketprice;
+				vm.totalMoney = eventdetail.totalMoney;
+				vm.freigMoney = eventdetail.freigMoney;
+				vm.odId = eventdetail.odId;
+				vm.totalMoney = eventdetail.totalMoney;
+				vm.gsarContent = eventdetail.gsarContent;
+				initData();
+				console.log("<--导入订单id-----:" + vm.odId + "---" + vm.gsarContent);
+			};
+
+			function payorder() { //alert("支付？？"+vm.paytype);
+				//mui('#subPay').button('loading');
+				open_paysucess();
+				var data = {
+					odId: vm.odId,
+					payType: vm.paytype
+				}
+				var apiname = "orderApi/pay" + ".do";
+				console.log(servername + apiname + "?odId=" + vm.odId + "&payType=" + vm.paytype);
+				mui.post(servername + apiname, data, function(rsp) {
+					setTimeout(function() { 
+				        mui('#subPay').button('reset');
+				   }.bind(this), 150);		
+					if(rsp.code == 0) {
+						open_paysucess();
+					} else {
+						mui.toast(rsp.msg);
+					}
+
+				}, 'json');
+
+			}
+
+			function open_paysucess() {
+				setTimeout(function() {
+					mui.openWindow('paysucess.html');
+				}, 150);
+
+				/*  var	paysucess_view =preload("paysucess.html");
+				mui.fire(paysucess_view, 'paysucess_detail', {
+					
+				});
+				setTimeout(function () {
+					paysucess_view.show("slide-in-right", 300);
+				},150);*/
+			};
+		</script>
+	</body>
+
+</html>

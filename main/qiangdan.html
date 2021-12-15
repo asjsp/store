@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+	    <style>
+	    	.mui-table-view:before {
+				    height: 0px;
+				}
+			.mui-table-view:after {
+				    height: 0px;
+				}
+			.mui-table-view-cell:after {
+				    height: 0px;
+				}	
+	    </style>
+	</head>
+
+	<body >
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back()" style="color:#FF4B4A;"></a>
+			<h1 class="mui-title">抢单列表</h1>
+		</header>
+	<div class="mui-content" >	
+	 
+	        <ul class="mui-table-view" style="margin-top: 2px;margin-bottom: 1px;">	
+				<li class="mui-table-view-cell hdj-space-between" >
+					
+						<span class="hdj-center">
+							<img style="width: 24px;margin-right:9px;height: auto;" src="../images/lst.png">
+						    <span>抢单记录</span>
+						</span>
+						<span class="hdj-gray">
+							
+						</span>
+					
+				</li>
+			</ul>	
+	  
+		<p v-if="seen" style="text-align: center;">
+			暂无内容
+		</p>
+		    <ul class="mui-table-view" id="list" style="padding: 15px;">
+		    	  <!--<li v-for="item in offerList" class="mui-table-view-cell  mui-media" style="display: -webkit-flex;-webkit-align-items:center;-webkit-justify-content: space-between;display:flex;justify-content: space-between; align-items: center;">
+                       <div  style="display:flex;align-items: center; display: -webkit-flex;-webkit-align-items:center;border: 0px solid red">
+                           <img style="width: 8vw;border-radius:50%;"   :src="getserverimg(item.memberEntity.id,0)">
+                           <span  style="margin-left: 8px;padding: 4px">
+                             	{{item.memberEntity.mbPetname}}
+                           </span>
+					   </div>
+					   <div style="color: red;">¥{{item.goOfferprice}}</div>
+				</li>-->
+				<li v-for="(item,index) in offerList" class="mui-table-view-cell hdj-space-between">
+					<div class="hdj-center">
+						<img class="hdj-head" :src="getserverimg(item.memberEntity.id,0)">
+						<span v-bind:style="{color: ctc(index),}" style="margin-left: 8px;">
+                             	{{item.memberEntity.mbPetname}}
+                        </span>
+					</div>
+					<div  v-bind:style="{color: ctc(index),}">¥{{item.goOfferprice}}</div>
+				</li>
+		    	
+		    </ul>
+       
+	</div>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/server.js"></script>
+	<script>
+		mui.init({
+			pullRefresh: {
+			   container: '#list',
+			   down: {
+						style: 'circle',
+						color:'#FF4B4A',
+						offset: '60px',
+						auto: false,
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+		});
+		var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					seen:false,
+					mbId:'',
+					gsiIds:'',
+					periods:'',
+					offerList:[]
+					}
+				});
+		var count = 1;
+		var totalCount ;
+			function pullupRefresh() {
+				count++;
+				setTimeout(function() {
+					mui('#list').pullRefresh().endPullupToRefresh((count > totalCount)); //参数为true代表没有更多数据了。
+					 getofferlist(count*3);
+				}, 1000);
+			}		
+		function pulldownRefresh() {
+			if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+								plus.nativeUI.toast('似乎已断开与互联网的连接', {
+									verticalAlign: 'top'
+								});
+								return;
+						}
+	        getofferlist(count*3);
+		}
+		document.addEventListener('offer_detail', function(event) {
+			//alert("offer-----")
+			 vm.mbId = event.detail.mbId;
+			   vm.offerList = event.detail.offerList;
+			    vm.gsiIds = event.detail.gsiIds;
+			    vm.periods = event.detail.periods;
+			    console.log("<--导入货品id-----:"+vm.gsiIds);
+			   // getofferlist();
+			    
+			    
+			 });
+		 /*---------82.	获取竞拍列表-----------*/
+		function getofferlist(rw){
+			     var data ={
+			             	gsiId: vm.gsiIds,
+			             	periods:vm.periods,
+			             	mbId: vm.mbId,
+			             	page:1,
+			             	rows:rw
+			               };
+			               //-------
+			               var apiname="offerApi/offerList"+".do";
+			               // var apiname = "offerApi/restTimeInfo" + ".do";
+						// console.log(servername+apiname+"?gsiId="+vm.goodsinfo.id);
+						 mui.getJSON(servername+apiname,data, function(rsp) {
+						 	       mui('#list').pullRefresh().endPulldown();
+						            console.log("获取竞拍列表:"+JSON.stringify(rsp));
+						             //vm.offerList =rsp.offers
+						            if(rsp.rows&& rsp.rows.length>0){
+						            	   vm.offerList = rsp.rows;
+						            	   totalCount=rsp.totalCount;
+						            }else{
+						            	vm.seen=false;
+						            }
+						         });
+					   //---------------
+					    };
+		</script>
+	</body>
+
+</html>

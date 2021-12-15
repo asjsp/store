@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<style>
+			.mui-btn {
+				font-size: 15px;
+				padding: 8px;
+				margin: 3px;
+			}
+			.mui-input-group:before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 0px;
+    content: '';
+    -webkit-transform: scaleY(.5);
+    transform: scaleY(.5);
+    background-color: #c8c7cc;
+}
+.mui-checkbox input[type=checkbox]:checked:before, .mui-radio input[type=radio]:checked:before {
+    color: #FF4B4A;
+}
+		</style>
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FF4B4A;"></a>
+			<h1 class="mui-title">转币</h1>
+		</header>
+		<!--<nav class="mui-bar mui-bar-tab" style="background-color: white;border: 0px solid white;">
+			
+		</nav>-->
+			
+	<div  id='list'  class="mui-content mui-scroll-wrapper " style="background-color: white;">	
+	   <div class="mui-scroll">
+            <ul class="mui-table-view mui-table-view-chevron">
+		<img id="ht" name="zb2" src="../images/zb2.jpg" style="width: 100%;margin: 10px 0px 30px 0px;">
+	  
+	     <label style="margin: 20px;" id="mb" class="hdj-balck hdj-fsize1">
+	     	       <span>盟币总额度：</span>
+	     	       <span style="margin-left: 10px;">¥ <span>{{mbAlliance}}</span></span>
+	     </label>
+	     <div style="margin: 20px;" class="hdj-balck hdj-fsize1">
+	     	       <span id="yh">可转币额度：</span>
+	     	       <span style="margin-left: 10px;">¥ <span>{{canSettleMoney}}</span></span>
+	     </div>
+	    
+	    <form class="mui-input-group mui-content-padded">
+	         <div class=" ">
+	             <input v-on:blur="disbtn" v-on:keyup="disbtn"  v-model="SettleMoney"  type="number" class="mui-input-clear" placeholder="请输入转币金额（元）">
+	         </div>
+	     </form>
+		<!-------->
+		
+		<!---------->
+		<div style="padding: 20px;">
+			<button  v-bind:disabled="setdisabled" v-on:click="resetData"  class="mui-btn mui-btn-block mui-btn-red hdj-redbg" style="color: white;border-radius: 50px;">
+			    确认转币
+		   </button>
+			    
+		</div>
+		<!------------>
+		
+		<!------------->
+         </ul>		
+	  </div>  
+	</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/server.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+		mui.init({
+				pullRefresh: {
+					container: '#list',
+					down: {
+						style: 'circle',
+						color: '#FF4B4A',
+						offset: '60px',
+						auto: true,
+						callback: pulldownRefresh
+					}
+				}
+			});
+		function pulldownRefresh() {
+				if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+					plus.nativeUI.toast('似乎已断开与互联网的连接', {
+						verticalAlign: 'top'
+					});
+					return;
+				}
+				//------------------------------------
+				get_mm();
+				
+				get_canConvertToBalance();
+			}
+		//------获取可转盟币-----------
+		function get_canConvertToBalance(){
+						 var data ={ mbId: vm.mbId};
+						 var apiname="memberApi/canConvertToBalance"+".do";
+						 mui.post(servername+apiname,data, function(rsp) {
+						 	            mui('#list').pullRefresh().endPulldownToRefresh();
+						               console.log(JSON.stringify(rsp));
+						               if(rsp.code==0){
+						                  	// mui.toast('获取可转盟币---'+rsp.msg);
+					                         vm.canConvertToBalance= rsp.msg;  //盟币
+					                         vm.canSettleMoney=vm.canConvertToBalance;
+					                          /*--------演示数据----*/
+					                         if(vm.mode){vm.canSettleMoney=vm.mbBalance;}
+					                         
+					                         
+						                 }
+		                          },'json');
+		}
+		//------获取盟币-----余额------
+		function get_mm(){
+				var data = {mbId: vm.mbId};
+				var apiname = "memberApi/accountInfo" + ".do";
+				mui.post(servername + apiname, data, function(rsp) {
+					//console.log(JSON.stringify(rsp));
+					if(rsp.code == 0) {
+						vm.mbAlliance = rsp.mbAlliance; //盟币
+						//vm.mbFavourable = rsp.mbFavourable; //惠币
+						vm.mbBalance = rsp.mbBalance; //余额
+						
+						// vm.canSettleMoney=vm.mbBalance; 
+					}
+				}, 'json');
+		}
+		
+		//------触发父页面的自定义事件(refresh),从而进行刷新--------
+		/*mui.back = function() {
+				      var list = plus.webview.currentWebview().opener();
+                          list.show();
+                          mui.fire(list, 'refresh');
+			}*/
+		/*mui.plusReady(function() {
+				    vm.mbId=plus.storage.getItem("mbId"); 
+				    vm.canSettleMoney=vm.canConvertToBalance; 
+				var lauchFlag = plus.storage.getItem("lauchFlag");
+				if(lauchFlag){};
+			});*/
+		
+  
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					mbId:h5_mbinfo.mbId,
+					mbAlliance: 0,
+					mbBalance: 0,
+					mode:0,
+					canConvertToBalance:0,
+					canSettleMoney: 0,
+					SettleMoney: null,
+					setdisabled:true},
+				methods: {
+					resetData: function() {//重置数据
+						
+							//------获取可提现金额-------------
+						 var data ={
+						             mbId: this.mbId,
+						             count:this.SettleMoney
+					              };
+						 var apiname="memberApi/convertToBalance"+".do";
+						    
+						     var data ={
+						             mbId: this.mbId,
+						             money:this.SettleMoney
+					              };
+						   var apiname="memberApi/convertToMbFavourable"+".do";
+						 
+						 mui.post(servername+apiname,data, function(rsp) {
+                                      // ss=JSON.stringify(rspdata);
+						                  console.log(JSON.stringify(rsp));
+						                  mui.toast(rsp.msg);
+						               if(rsp.code==0){
+						                  	 pulldownRefresh();
+						                    // mui.back();
+						                  }
+						                  
+		                          },'json');
+						//----------------
+					},
+					disbtn: function() {
+						//alert(this.canSettleMoney);
+						if(this.SettleMoney<=this.canSettleMoney)
+						{
+							//alert(this.SettleMoney);
+							this.setdisabled=false;
+						}else{this.setdisabled=true;}
+					}
+				}
+			});
+		     
+		    //监听自定义事件，获取新闻详情
+		/*	document.addEventListener('jhm', function(event) {
+				vm.mbAlliance = event.detail.mb;
+				vm.mbBalance = event.detail.ye;
+			});*/
+		
+		</script>
+		
+		<script>
+			    var htButton = document.getElementById('ht');
+				var mbButton = document.getElementById('mb');
+				var yhButton = document.getElementById('yh');
+				
+					htButton.addEventListener('tap', function(event) {
+						//alert(this.name);
+						vm.setdisabled=true;
+						vm.SettleMoney=null;
+						if(this.name=="zb2"){
+						    this.src="../images/zb1.jpg";	
+						    this.name="zb1";
+						    mbButton.style.display="none";
+						    yhButton.innerHTML="余额：";
+						    vm.canSettleMoney=vm.mbBalance; 
+						    vm.mode=1;
+						}else{
+							this.name="zb2";
+							this.src="../images/zb2.jpg";
+							 mbButton.style.display="block";
+						    yhButton.innerHTML="可转币额度：";
+						  
+						    vm.canSettleMoney=vm.canConvertToBalance; 
+						    vm.mode=0;
+						}
+						  
+					});
+		</script>
+	</body>
+
+</html>

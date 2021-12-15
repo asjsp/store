@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<title></title>
+		<style>
+			.mui-scroll-wrapper {}
+			
+			#topPopover {
+				position: fixed;
+			}
+			
+			.mui-popover-arrow {
+				display: none;
+			}
+			
+			.mui-popover {
+				border-radius: 0;
+				width: 100%;
+				left: 0%;
+				right: 0%;
+				margin: 0 auto;
+			}
+			
+			.mui-segmented-control.mui-scroll-wrapper {
+				height: 40px;
+			}
+			
+			.mui-bar {
+				position: fixed;
+				z-index: 10;
+				right: 0;
+				left: 0;
+				height: 40px;
+				padding: 0px;
+			}
+			
+			mui-segmented-control.mui-scroll-wrapper .mui-scroll {
+				width: auto;
+				height: 40px;
+				white-space: nowrap;
+			}
+			
+			.mui-segmented-control.mui-scroll-wrapper .mui-control-item {
+				display: inline-block;
+				width: auto;
+				padding: 0 5px;
+				margin: 0 10px;
+				border: 0;
+			}
+			
+			.mui-bar .mui-segmented-control {
+				top: 0px;
+				width: auto;
+				margin: 0 auto;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back" style="color:red;"></a>
+			<h1 class="mui-title">有好货</h1>
+		</header>
+		<div class="mui-content" style="background-color: white;">
+			<!--导航条-->
+			<div style="background-color: white;" class="hdj-flex">
+				<div style="width: 88%;" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-negative">
+					<div class="mui-scroll ">
+						<a @tap="goto(index)" :class="{'mui-active':index==stateh}" v-for="(item, index) in indexTypes" class="mui-control-item">
+							{{item.bgName}}
+						</a>
+					</div>
+				</div>
+				<a @tap="hpop()" class="mui-action-menu" style="color: gray;align-self: center;">
+					<span class="mui-icon mui-icon-arrowdown "></span>
+				</a>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/server.js"></script>
+		<script>
+			var cvw = null;
+			/*---------页面跳转----------*/
+			mui.init({
+				subpages: [{
+					url: 'havegood_refresh.html',
+					id: 'havegood_refresh',
+					styles: {
+						top: '85px',
+						bottom: '0px',
+					}
+				}]
+			});
+			
+			var vt = new Vue({
+				el: '.mui-content',
+				data: {
+					stateh: 0,
+					indexTypes: [], //-------顶部分类导航-----
+				},
+			});
+
+			mui.getJSON(servername + "foregroundApi/haveNiceType.do", function(rsp) {
+				console.info('rsp:'+JSON.stringify(rsp))
+				vt.indexTypes = rsp;
+				
+				localStorage.setItem('indexTypes',JSON.stringify(rsp));
+				setTimeout(function(){
+					goto(0);
+				},200);
+
+			});
+
+			/*-父页面导入-按钮激活状态更新-*/
+			function backgoto(n) {
+				vt.stateh = n;
+			}
+			/*-子页面--弹出选择--*/
+			function hpop() {
+				havegood_refresh.window.pop();
+			}
+			/*-子页面--分类刷新数据-*/
+			function goto(n) {
+				vt.stateh = n;
+				havegood_refresh.window.ref(n);
+			}
+		</script>
+	</body>
+
+</html>

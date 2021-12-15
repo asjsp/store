@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: red;" onclick="back()"></a>
+			<h1 class="mui-title">
+				<div class="mui-input-row mui-search" style="height: 36px;">
+					<input onkeyup="enterSearch(event)" id='search'  type="search" class="mui-input-clear hdj-balck hdj-fsize5" placeholder="搜索类别" style="background-color: white;border: 1px solid #cacaca;">
+				</div>
+			</h1>
+		</header>
+	<div class="mui-content" style="background-color: white;">	
+	    <!--------------->
+	           <div class="mui-content-padded">
+	               <p class="hdj-balck hdj-fsize1" style="margin: 18px;margin-bottom: 0px;">热门搜索</p>             
+                   <div id="list" class=" mui-grid-view" >
+                   	      <span @tap="open_hotSearch(item.hsName)"  v-for="item in hotSearchList"   type="button" class="mui-btn mui-btn-outlined" style="width: 98px; margin: 15px;">
+                   	      	   {{item.hsName}}
+                   	      </span>
+                   	
+                   </div>
+	           <div>
+	</div>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/server.js"></script>
+	<script>
+		mui.init({
+			pullRefresh: {
+			   container: '#list',
+			   down: {
+						style: 'circle',
+						color:'#FF4B4A',
+						offset: '60px',
+						auto: true,
+						callback: pulldownRefresh
+					}
+				}
+		});
+		mui.plusReady(function() {
+				vm.mbId=plus.storage.getItem("mbId");
+		});
+		var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					mbId: '',
+					gsiName:'',
+					hotSearchList:[]
+					}
+				});
+		function pulldownRefresh() {
+			if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+								plus.nativeUI.toast('似乎已断开与互联网的连接', {
+									verticalAlign: 'top'
+								});
+								return;
+							}
+	         getCurrent("hotSearchApi/getHotSearch");            
+		}
+		function getCurrent(apiname){
+		 	     //36.	热门搜索获取 
+		 	     var data ={ id: ''};
+		 	     //console.log(JSON.stringify(data));
+		 	    // console.log(servername+apiname+".do?id="+vm.mbId);
+							mui.getJSON(servername+apiname+".do",data,function(rsp) {
+								//var ss=JSON.stringify(rsp);
+								mui('#list').pullRefresh().endPulldown();
+								console.log(JSON.stringify(rsp));
+								
+								if(rsp&&rsp.length > 0) {
+									//lastId = rsp[0].id; //保存最新消息的id，方便下拉刷新时使用]
+									vm.hotSearchList=rsp;
+								}
+							});
+		 }
+		
+		/*document.getElementById("search").addEventListener('input',function(){
+			var st=document.getElementById("search").value;
+			open_search(st);
+
+        });*/
+       function enterSearch(e) {
+
+    if(e.keyCode == 13) {
+
+           //mui("#search").blur();
+      var st=document.getElementById("search").value;
+           open_search(st);
+       /* mui.openWindow({
+
+            id: 'search_ok.html',
+
+            url: 'search_ok.html',
+
+            extras: {
+
+                keyword: mui("#searchInput").val()
+
+            }
+
+        })*/
+
+    }
+
+}
+
+
+       
+		function open_search(item){
+			//console.log("--->导出homeAdvs货品id"+item.id+"--"+item.hadTitle);
+			var adview=preload("searchview.html");
+			      mui.fire(adview, 'searchview', {
+				    gsiName:item
+				});
+			setTimeout(function () {
+					adview.show("slide-in-right", 300);
+				},150);
+			}
+	     /*-------进入商品详情---传递----mercId-----*/
+		function open_hotSearch(item) {
+			var adview=preload("searchview.html");
+			      mui.fire(adview, 'searchview', {
+				    gsiName:item
+				});
+			setTimeout(function () {
+					adview.show("slide-in-right", 300);
+				},150);
+			/*console.log("热门搜索--->id"+item.id);
+			    mui.fire(pdview_detail, 'goods_info', {
+				    goodsinfo:item
+				});
+			setTimeout(function () {
+					pdview_detail.show("slide-in-right", 300);
+				},150);*/
+			} 
+		function back(){
+			plus.webview.currentWebview().close();
+		};
+	
+	</script>
+	
+		</body>
+
+</html>

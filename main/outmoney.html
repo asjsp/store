@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<!--App自定义的css-->
+		<style>
+			.mui-btn {
+				font-size: 15px;
+				padding: 8px;
+				margin: 3px;
+			}
+			.mui-input-group:before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 0px;
+    content: '';
+    -webkit-transform: scaleY(.5);
+    transform: scaleY(.5);
+    background-color: #c8c7cc;
+}
+.mui-checkbox input[type=checkbox]:checked:before, .mui-radio input[type=radio]:checked:before {
+    color: #FF4B4A;
+}
+		</style>
+
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FF4B4A;"></a>
+			<h1 class="mui-title">提现</h1>
+		</header>
+	<div id='list' class="mui-content mui-scroll-wrapper  mui-content-padded" style="background-color: white;">	
+		<div class="mui-scroll">
+            <ul class="mui-table-view mui-table-view-chevron">
+	    <!--------------->
+	    </br>
+	     <label style="margin: 20px; font-size: 16px;color: #555555;">可提现额度：¥ <span>{{canSettleMoney}}</span></label>
+	     </br></br>
+	    <form class="mui-input-group mui-content-padded">
+	         <div class="mui-input-row " >
+	             <input v-on:keyup="disbtn"  v-model="SettleMoney" type="number"  class="mui-input-clear" placeholder="请输入提现金额（元）">
+	         </div>
+	     </form>
+		<!-------->
+		</br></br>
+		<!---------->
+		<!--<div >{{SettleMoney}}</div>-->
+		<!------------>
+		<!--<button  v-bind:disabled="setdisabled" v-on:click="resetData"  style="width: 90vw; text-align: center;color: white;margin: 4vw; background-color: #FF4B4A;padding: 10px;border-radius: 50px;">
+			    提现
+		</button>-->	
+		<div style="padding: 20px;">
+			      <button id='tix'  v-bind:disabled="setdisabled" v-on:click="resetData"  class="mui-btn mui-btn-block mui-btn-red hdj-redbg" style="color: white;border-radius: 50px;">
+			                            提现
+		           </button>	
+		</div>
+		<!------------->
+        </ul>		
+	  </div>
+	</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/server.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+		mui.init({
+				pullRefresh: {
+					container: '#list',
+					down: {
+						style: 'circle',
+						color: '#FF4B4A',
+						offset: '60px',
+						auto: true,
+						callback: pulldownRefresh
+					}
+				}
+			});
+		function pulldownRefresh() {
+				if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+					plus.nativeUI.toast('似乎已断开与互联网的连接', {
+						verticalAlign: 'top'
+					});
+					return;
+				}
+				getcanSettleMoney();
+
+			}
+		//------触发父页面的自定义事件(refresh),从而进行刷新--------
+		/*mui.back = function() {
+				      var list = plus.webview.currentWebview().opener();
+                          list.show();
+                          mui.fire(list, 'refresh');
+			}*/
+		//mui.plusReady(function() {
+				
+				//vm.mbId=plus.storage.getItem("mbId");
+				//var lauchFlag = plus.storage.getItem("lauchFlag");
+				//向服务端请求会员信息
+				//if(lauchFlag){};
+			//});
+		
+        function getcanSettleMoney(){
+        	//vm.canSettleMoney=100;  //盟币
+					//------获取可提现金额-------------
+						 var data ={
+						             mbId: vm.mbId
+					               };
+						 var apiname="mbSettleApi/canSettleMoney"+".do";
+						 mui.post(servername+apiname,data, function(rsp) {
+                                      // ss=JSON.stringify(rspdata);
+                                      mui('#list').pullRefresh().endPulldownToRefresh();
+						                  console.log(JSON.stringify(rsp));
+						               if(rsp.code==0){
+						                  	 //mui.toast('获取会员信息成功---'+mbId);
+					                         //vm.canSettleMoney= rsp.msg;  //盟币
+					                         var nunm=parseInt(rsp.msg);
+					                          console.log(rsp.msg);
+					                          console.log(nunm);
+					                           vm.canSettleMoney=nunm;
+					                          //vm.canSettleMoney=30;
+						                 
+						                  }
+						                  
+		                          },'json');
+        }
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {mbId:h5_mbinfo.mbId,canSettleMoney: 0,SettleMoney: null,setdisabled:false},
+				methods: {
+					resetData: function() {//重置数据
+						//mui.openWindow("smrz.html")
+						  mui('#tix').button('loading');
+							//------获取可提现金额-------------
+						 var data ={
+						             mbId: this.mbId,
+						             money:this.SettleMoney
+					               };
+					      //alert(data.mbId+"-------"+data.money); 
+					      // mui.back();
+						 var apiname="mbSettleApi/applySettle"+".do";
+						 mui.post(servername+apiname,data, function(rsp) {
+						 	            
+						 	             setTimeout(function() {
+				                          mui('#tix').button('reset');
+				                         }.bind(this), 150);
+                                      // ss=JSON.stringify(rspdata);
+						                 // console.log(JSON.stringify(rsp));
+						                  //mui.toast(rsp.msg);
+						               if(rsp.code==0){
+						                  	 //mui.toast('获取会员信息成功---'+mbId);
+					                        // vm.canSettleMoney= rsp.msg;  //盟币
+					                          mui.toast(rsp.msg);
+					                          pulldownRefresh();
+						                     // mui.back();
+						                     // mui.openWindow("mymoney.html");
+						                  }
+						                  
+		                          },'json');
+						//----------------
+					},
+					disbtn: function() {
+						
+						if(this.SettleMoney<=this.canSettleMoney&&this.SettleMoney>0)
+						{
+							//alert(this.SettleMoney);
+							this.setdisabled=false;
+						}else{this.setdisabled=true;}
+					}
+				}
+			});
+		</script>
+	</body>
+
+</html>

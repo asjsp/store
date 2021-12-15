@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" href="../css/hdj.css">
+		<style>
+			.mui-table-view.mui-grid-view .mui-table-view-cell {
+				font-size: 17px;
+				display: inline-block;
+				margin-right: -1px;
+				padding: 6px 0 0 10px;
+				text-align: center;
+				vertical-align: middle;
+				background: 0 0;
+			}
+			
+			.red {
+				background-color: red;
+			}
+			
+			.orange {
+				background-color: orange;
+			}
+			
+			.mui-card {
+				font-size: 14px;
+				position: relative;
+				overflow: hidden;
+				margin: 5px;
+				border-radius: 1px;
+				background-color: #fff;
+				background-clip: padding-box;
+				box-shadow: 1 1px 1px rgba(0, 0, 0, .2);
+			}
+			
+			.mui-table-view:before {
+				height: 0px;
+			}
+			
+			.mui-table-view:before {
+				height: 0px;
+			}
+			
+			.mui-table-view-cell:after {
+				height: 0px;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-action-back  mui-icon mui-icon-left-nav mui-pull-left" style="color:red;"></a>
+			<h1 class="mui-title">我的足迹</h1>
+		</header>
+		<div id='list' class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<div v-for="entity in goodsList">
+					<div class="hdj-center" style="background-color: white;padding: 15px;border-top: 0px;border-bottom: 0px;">
+						<span class="hdj-balck hdj-fsize1">{{entity.date}}</span>
+						<span class="hdj-line" style="width: 80%;"></span>
+					</div>
+					<ul class="mui-table-view  mui-grid-view" style="background-color: white;" >
+						<li @tap="open_goods(item.gsiId)" v-for="item in entity.browses" class="mui-table-view-cell  mui-col-xs-6 mui-col-sm-6 ">
+							<div style="border: 1px solid gainsboro;">
+								<div class="hdj-img-wrap1">
+									<p :class="[item.gsiId.gsiType==1?'orange':'red']" class="hdj-imglabel-p">
+										{{item.gsiId.gsiType==1?"拼":"抢"}}
+									</p>
+									<img :src="getserverimg(item.gsiId.id,6)" class="hdj-img-cont">
+								</div>
+								<div style="padding-left: 7px;padding-right: 10px; padding-top: 5px; padding-bottom: 20px;">
+									<div class="mui-ellipsis  hdj-balck hdj-fsize2">{{item.gsiId.gsiName}}</div>
+									<p style="padding:10px 0px">
+										<span class="mui-pull-left  hdj-red hdj-fsize1">
+											<span class="hdj-fsize6">¥ </span> {{item.gsiId.gsiType==1?item.gsiId.gsiPrice:item.gsiId.gsiNowprice}}
+										</span>
+										<span class="mui-pull-right">
+	                 		                  <img  :src="getserverimg(gp.mbId,0)" v-for="gp in item.gsiId.group" style="border-radius: 50%;width: 5vw;height: auto;" class="mui-media-object " >
+	                 	               </span>
+									</p>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/server.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.init({
+				swipeBack: false,
+				pullRefresh: {
+					container: '#list',
+					down: {
+						style: 'circle',
+						color: '#FF4B4A',
+						offset: '60px',
+						auto: true,
+						callback: pulldownRefresh
+					}/*,
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}*/
+				}
+			});
+			/*mui.plusReady(function() {
+				vm.mbId = plus.storage.getItem("mbId");
+			});*/
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					mbId: '',
+					createDate: '10月13',
+					goodsList: []
+				}
+			});
+			vm.mbId = h5_mbinfo.mbId;
+			function pulldownRefresh(){
+				pullupRefresh();
+			}
+			function pullupRefresh() {
+				if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+					plus.nativeUI.toast('似乎已断开与互联网的连接', {
+						verticalAlign: 'top'
+					});
+					return;
+				}
+				var data = {
+					mbId: vm.mbId
+				};
+				var apiname = "bMberbrowseApi/list" + ".do";
+				//alert(data.mbId);
+				mui.post('../json/goodscare.json', function(rsp) {
+					vm.goodsList = rsp;
+					console.info('结果:'+JSON.stringify(rsp));
+					mui('#list').pullRefresh().endPulldownToRefresh();
+				}, 'json');
+			}
+		</script>
+	</body>
+
+</html>

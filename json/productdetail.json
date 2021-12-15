@@ -1,0 +1,405 @@
+{
+  "id": "000000006016766001601693c0540032", 
+  "mercId": "00000000601676600160167f446b0002", 
+  "gstId": "00000000601676600160168994f8001c", 
+  "gstiCity": null,
+  "gsiName": "芭蒂娜短外套冬季白色短款加厚高端大牌品牌羊皮毛大毛领羽绒服女 米白 M",
+  "gsiPrice": 40.0,
+  "gsiFormat": "规格", 
+  "gsiWeight": 500.0, 
+  "gsiUnit": 1, 
+  "gsiState": 2, 
+  "gsiIntro": "芭蒂娜短外套冬季白色短款加厚高端大牌品牌羊皮毛大毛领羽绒服女 米白 M", 
+  "gsiType": 1, 
+  "gsftId": "4028ef815fc28ea3015fc34b60d30028", 
+  "sklId": "",
+  "arttId": "000000006016766001601686d1920014", 
+  "gstTwo": "00000000601676600160168a45950020", 
+  "orders": null,
+  "concerned": false,
+  "comments": [
+    
+  ],
+  "gstThree": "00000000601676600160168a8d770022", 
+  "gsiClick": 1, 
+  "gsiSendintegral": 1000, 
+  "gsiMarketprice": 169.0, 
+  "gsiGroupprice": 39.0, 
+  "gsiSecondkill": 0, 
+  "gsiConverintegral": 100, 
+  "gsiPeriods": null, 
+  "gsiNowprice": null, 
+  "gsiLasttime": null, 
+  "gsiCurrentperiods": 1, 
+  "gsiEachincrease": null, 
+  "gsiStartPrice": null, 
+  "gsiCreaseprice": 10.0, 
+  "goodsAttr": [ 
+    {
+      "id": "0000000060167660016016871e9e0016",
+      "gsaName": "颜色", 
+      "relations": [ 
+        {
+          "id": "000000006016766001601693c0560042",
+          "gsiId": "000000006016766001601693c0540032",
+          "gsaId": "0000000060167660016016871e9e0016",
+          "gsarPrice": 0.0, 
+          "gsarGroupprice": 0.0, 
+          "gsarContent": "黄色" 
+        },
+        {
+          "id": "000000006016766001601693c0560043",
+          "gsiId": "000000006016766001601693c0540032",
+          "gsaId": "0000000060167660016016871e9e0016",
+          "gsarPrice": 10.0,
+          "gsarGroupprice": 5.0,
+          "gsarContent": "蓝色"
+        },
+        {
+          "id": "000000006016766001601693c0560044",
+          "gsiId": "000000006016766001601693c0540032",
+          "gsaId": "0000000060167660016016871e9e0016",
+          "gsarPrice": 20.0,
+          "gsarGroupprice": 10.0,
+          "gsarContent": "白色"
+        }
+      ]
+    },
+    {
+      "id": "00000000601676600160168743b80018",
+      "gsaName": "尺码",
+      "relations": [
+        {
+          "id": "000000006016766001601693c055003f",
+          "gsiId": "000000006016766001601693c0540032",
+          "gsaId": "00000000601676600160168743b80018",
+          "gsarPrice": 10.0,
+          "gsarGroupprice": 5.0,
+          "gsarContent": "160cm"
+        },
+        {
+          "id": "000000006016766001601693c0560040",
+          "gsiId": "000000006016766001601693c0540032",
+          "gsaId": "00000000601676600160168743b80018",
+          "gsarPrice": 20.0,
+          "gsarGroupprice": 10.0,
+          "gsarContent": "165cm"
+        },
+        {
+          "id": "000000006016766001601693c0560041",
+          "gsiId": "000000006016766001601693c0540032",
+          "gsaId": "00000000601676600160168743b80018",
+          "gsarPrice": 30.0,
+          "gsarGroupprice": 15.0,
+          "gsarContent": "170cm"
+        }
+      ]
+    }
+  ],
+  "goodsInventories": [  
+    {
+      "id": "3",
+      "giCount": 1000, 
+      "giGsino": "HS12001", 
+      "attrs": [
+        {
+          "gsarId": "000000006016766001601693c0560041", 
+          "gsaId": "00000000601676600160168743b80018",
+          "gsarContent": "170cm" 
+        },
+        {
+          "gsarId": "000000006016766001601693c0560042",
+          "gsaId": "0000000060167660016016871e9e0016",
+          "gsarContent": "黄色"
+        }
+      ],
+      "giSalecount": 0 
+    },
+    {
+      "id": "2",
+      "giCount": 1000,
+      "giGsino": "HS12000",
+      "attrs": [
+        {
+          "gsarId": "000000006016766001601693c0560040",
+          "gsaId": "00000000601676600160168743b80018",
+          "gsarContent": "165cm"
+        },
+        {
+          "gsarId": "000000006016766001601693c0560042",
+          "gsaId": "0000000060167660016016871e9e0016",
+          "gsarContent": "黄色"
+        }
+      ],
+      "giSalecount": 0
+    },
+    {
+      "id": "1",
+      "giCount": 1000,
+      "giGsino": "HS19999",
+      "attrs": [
+        {
+          "gsarId": "000000006016766001601693c055003f",
+          "gsaId": "00000000601676600160168743b80018",
+          "gsarContent": "160cm"
+        },
+        {
+          "gsarId": "000000006016766001601693c0560042",
+          "gsaId": "0000000060167660016016871e9e0016",
+          "gsarContent": "黄色"
+        }
+      ],
+      "giSalecount": 32
+    },
+    {
+      "id": "5",
+      "giCount": 1000,
+      "giGsino": "HS12003",
+      "attrs": [
+        {
+          "gsarId": "000000006016766001601693c0560041",
+          "gsaId": "00000000601676600160168743b80018",
+          "gsarContent": "170cm"
+        },
+        {
+          "gsarId": "000000006016766001601693c0560044",
+          "gsaId": "0000000060167660016016871e9e0016",
+          "gsarContent": "白色"
+        }
+      ],
+      "giSalecount": 0
+    },
+    {
+      "id": "4",
+      "giCount": 1000,
+      "giGsino": "HS12002",
+      "attrs": [
+        {
+          "gsarId": "000000006016766001601693c055003f",
+          "gsaId": "00000000601676600160168743b80018",
+          "gsarContent": "160cm"
+        },
+        {
+          "gsarId": "000000006016766001601693c0560043",
+          "gsaId": "0000000060167660016016871e9e0016",
+          "gsarContent": "蓝色"
+        }
+      ],
+      "giSalecount": 0
+    }
+  ],
+  "orderCount": null,
+  "bMerchantEntity": { 
+    "id": "00000000601676600160167f446b0002",  
+    "mercCity": "370200",
+    "mercOrg": "370202",
+    "mercName": "joker", 
+    "mercEmail": "278518173@qq.com",
+    "mercPhone": "15288987267",
+    "mercQq": "278518173",
+    "mercIntro": "自我介绍,我是.....", 
+    "mercProvince": "370000",
+    "mercAddress": "商户地址"
+  },
+  "bgoodsServers": [
+    {
+      "id": "000000006016766001601684e5960010",
+      "gsName": "24小时发货",
+      "gsState": 1
+    },
+    {
+      "id": "000000006016766001601684fcd10012",
+      "gsName": "48小时发货",
+      "gsState": 1
+    },
+    {
+      "id": "4028ef815f95706c015f957205fd0001",
+      "gsName": "无条件退款",
+      "gsState": 1
+    },
+    {
+      "id": "4028ef815f9aa418015f9acd35b0002f",
+      "gsName": "全场包邮",
+      "gsState": 1
+    }
+  ],
+  "goodsBannerEntity": [
+    {
+      "id": "000000006016766001601693c0540033",
+      "gsiId": "000000006016766001601693c0540032",
+      "gbOrder": 1,
+      "gbState": 1
+    },
+    {
+      "id": "000000006016766001601693c0540034",
+      "gsiId": "000000006016766001601693c0540032",
+      "gbOrder": 2,
+      "gbState": 1
+    },
+    {
+      "id": "000000006016766001601693c0540035",
+      "gsiId": "000000006016766001601693c0540032",
+      "gbOrder": 3,
+      "gbState": 1
+    },
+    {
+      "id": "000000006016766001601693c0540036",
+      "gsiId": "000000006016766001601693c0540032",
+      "gbOrder": 4,
+      "gbState": 1
+    }
+  ],
+  "groupCount": 26, 
+  "groupOrder": [ 
+    {
+      "id": "40289fe460310f310160318e35620000", 
+      "gsiId": "000000006016766001601693c0540032", 
+      "mercId": "00000000601676600160167f446b0002", 
+      "gsiName": null,
+      "mbId": "00000000602e906501602ed42f040000",
+      "gpoState": 3, 
+      "gpoUrl": "ce683d1468204328b1c6ef71a5c53389",
+      "gpoType": 1,
+      "gpoExpire": null,
+      "gpoNeednum": 1,
+      "gpoCompletenum": 0,
+      "gpoPeriods": null
+    },
+    {
+      "id": "40289fe460310f310160318f225e0001",
+      "gsiId": "000000006016766001601693c0540032",
+      "mercId": "00000000601676600160167f446b0002",
+      "gsiName": null,
+      "mbId": "00000000602e906501602ed42f040000",
+      "gpoState": 2,
+      "gpoUrl": "c40015e9c64c41d686118a8a9f9c927f",
+      "gpoType": 1,
+      "gpoExpire": null,
+      "gpoNeednum": 1,
+      "gpoCompletenum": 2,
+      "gpoPeriods": null
+    },
+    {
+      "id": "40289fe460310f31016031af201b0005",
+      "gsiId": "000000006016766001601693c0540032",
+      "mercId": "00000000601676600160167f446b0002",
+      "gsiName": null,
+      "mbId": "00000000602e906501602ed42f040000",
+      "gpoState": 2,
+      "gpoUrl": "b79a750425a5488f91752eb171432838",
+      "gpoType": 1,
+      "gpoExpire": null,
+      "gpoNeednum": 1,
+      "gpoCompletenum": 1,
+      "gpoPeriods": null
+    },
+    {
+      "id": "40289fe4603e364701603e4b147b000b",
+      "gsiId": "000000006016766001601693c0540032",
+      "mercId": "00000000601676600160167f446b0002",
+      "gsiName": null,
+      "mbId": "00000000602e906501602ed42f040000",
+      "gpoState": 3,
+      "gpoUrl": "e9b199f089234798883c7dcc614e04c2",
+      "gpoType": 1,
+      "gpoExpire": 1512959996000,
+      "gpoNeednum": 1,
+      "gpoCompletenum": 0,
+      "gpoPeriods": null
+    },
+    {
+      "id": "40289fe4603e364701603e54b290000e",
+      "gsiId": "000000006016766001601693c0540032",
+      "mercId": "00000000601676600160167f446b0002",
+      "gsiName": null,
+      "mbId": "00000000602e906501602ed42f040000",
+      "gpoState": 3,
+      "gpoUrl": "f8e90113853e4486a3235596b8d77e73",
+      "gpoType": 1,
+      "gpoExpire": 1512960626000,
+      "gpoNeednum": 1,
+      "gpoCompletenum": 0,
+      "gpoPeriods": null
+    }
+  ],
+  "gsiLotterydraw": 0,
+  "gsideadline": null,
+  "gsideadsecound": 60,
+  "goodsPictureEntitys": [ 
+    {
+      "id": "000000006016766001601693c0540037",
+      "gsiId": "000000006016766001601693c0540032",
+      "gpsOrder": null
+    },
+    {
+      "id": "000000006016766001601693c0550038",
+      "gsiId": "000000006016766001601693c0540032",
+      "gpsOrder": null
+    },
+    {
+      "id": "000000006016766001601693c0550039",
+      "gsiId": "000000006016766001601693c0540032",
+      "gpsOrder": null
+    },
+    {
+      "id": "000000006016766001601693c055003a",
+      "gsiId": "000000006016766001601693c0540032",
+      "gpsOrder": null
+    }
+  ],
+  "reestTimeInfo": { 
+    "id": "0000000060167660016016e6979a02a8",
+    "time": 0.0,
+    "gsiNowprice": 1200.0,
+    "gsiCurrentperiods": 13,
+    "lotteryMbId": null,
+    "offers": [
+      {
+        "id": "40289fe4604a3b6501604b41f5600055",
+        "gsiId": "0000000060167660016016e6979a02a8",
+        "goPrice": 10.0,
+        "goPaytype": 3,
+        "gsiPeriods": 13,
+        "goOfferprice": 1100.0,
+        "memberEntity": {
+          "id": "4028ef816033daa9016033e0b2ae0003",
+          "mbCity": null,
+          "mbOrg": null,
+          "mbPetname": "joker3",
+          "mbSex": null,
+          "mbAuth": 0,
+          "mbProvince": null,
+          "mbBirthday": null,
+          "mbCityName": null,
+          "mbProvinceName": null,
+          "mbOrgName": null,
+          "mbInvite": null
+        }
+      },
+      {
+        "id": "40289fe4604a3b6501604b441cca0057",
+        "gsiId": "0000000060167660016016e6979a02a8",
+        "goPrice": 10.0,
+        "goPaytype": 3,
+        "gsiPeriods": 13,
+        "goOfferprice": 1200.0,
+        "memberEntity": {
+          "id": "4028ef816033daa9016033e0b2ae0003",
+          "mbCity": null,
+          "mbOrg": null,
+          "mbPetname": "joker3",
+          "mbSex": null,
+          "mbAuth": 0,
+          "mbProvince": null,
+          "mbBirthday": null,
+          "mbCityName": null,
+          "mbProvinceName": null,
+          "mbOrgName": null,
+          "mbInvite": null
+        }
+      }
+    ],
+    "can": 1
+  },
+  "gsiVolume": 1.0
+}

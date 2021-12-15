@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en" class="feedback">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>问题反馈</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/hdj.css" />
+		<style>
+			.mui-input-group:before {
+				position: absolute;
+				top: 0;
+				right: 0;
+				left: 0;
+				height: 0px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc;
+			}
+			
+			.mui-checkbox input[type=checkbox]:checked:before,
+			.mui-radio input[type=radio]:checked:before {
+				color: #FF4B4A;
+			}
+			.mui-btn {
+				font-size: 15px;
+				padding: 8px;
+				margin: 3px;
+			}
+			.mui-table-view:before {
+				    height: 0px;
+				}
+			
+		</style>
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FF4B4A;"></a>
+			<h1 class="mui-title">填写物流信息</h1>
+		</header>
+		<nav class="mui-bar mui-bar-tab" style="background-color: white;">
+			<div style="padding: 20px;padding-top: 10px;">
+			<div onclick="addwulininfo()" class="mui-btn mui-btn-block mui-btn-outlined mui-btn-red hdj-fsize2" style="border-radius: 6px;">
+				确定
+			</div>
+			</div>
+		</nav>
+		<div class="mui-content" style="background-color: white;">
+			
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<div class="mui-input-row hdj-balck hdj-fsize1">
+							
+							<label>
+								<img style="margin-bottom: -5px;margin-left: -15px; width: 20px;" src="../images/dh.png">
+							</label>
+							<input type="number" placeholder="请输入物流订单号" >
+						</div>
+					</li>
+				</ul>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right" href="#mPopover">
+							<img style="margin-bottom: -5px; margin-right: 10px;width: 24px;" src="../images/wuliu.png">
+							<span class="hdj-balck hdj-fsize1">
+				                     	请选择物流<span style="color: red;">*</span>
+							</span>
+							<span class="mui-badge mui-badge-red">{{lgsName}}</span>
+						</a>
+					</li>
+				</ul>
+			
+			<form id="mPopover" style="height: 55vh;" class="mui-input-group mui-popover">
+		
+			<div class="mui-scroll-wrapper">
+			   <div class="mui-scroll">
+			     <div @tap='convertr(item)'  class="mui-input-row mui-radio" v-for="item in loglist">
+					<label class="hdj-balck hdj-fsize2">{{item.lgsName}}</label>
+					<input  v-model="lgsId" :value="item.id" type="radio">
+			    </div>
+			   </div>
+			</div>
+				
+			</form>
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/server.js"></script>
+		<script type="text/javascript">
+			/*退款原因*/
+			function convertr(item) {
+				vm.lgsName=item.lgsName;
+				vm.lgsId=item.id;
+				
+				console.info(item.lgsName);
+				console.info(vm.lgsId);
+				//return '';
+			}
+			mui.init();
+			
+			//mui.plusReady(function() {
+				//vm.mbId = plus.storage.getItem("mbId");
+				//var lauchFlag = plus.storage.getItem("lauchFlag");
+			//});
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					mbId: h5_mbinfo.mbId,
+					reId: '',
+					lgsId: '',
+					lgsName: '',/*----*/
+					loglist: '',
+					/*物流列表*/
+					order: ''
+				}
+			});
+			//get_loglist();
+			backwl();
+			//document.addEventListener('backwl_detail', 
+			function backwl() {
+				var wl=JSON.parse(localStorage.getItem("wlinfo"));
+				vm.order = wl.order;
+				vm.reId = wl.reId;
+				vm.lgsId =wl.lgsId;
+				
+				get_loglist();
+			};
+
+			function select_lgsid(item) {
+				console.log("订单列表" + item.id);
+				vm.lgsId = item.id;
+			}
+
+			function get_loglist() {
+				var apiname = "logisticsApi/list" + ".do";
+				mui.getJSON(servername + apiname, function(rsp) {
+					console.log("订单列表" + JSON.stringify(rsp));
+					vm.loglist = rsp;
+					//vm.lgsName=vm.loglist[0].lgsName;
+					mui('.mui-scroll-wrapper').scroll();
+				});
+			}
+
+			function addwulininfo() {
+
+				var data = {
+
+					reId: vm.reId,
+					/*退款ID*/
+					lgsId: vm.lgsId,
+					/*物流ID*/
+					order: vm.order,
+					/*订单号*/
+					mbId: vm.mbId
+				};
+				console.log(JSON.stringify(data))
+				var apiname = "refundApi/appyLgsOrder" + ".do";
+				mui.post(servername + apiname, data, function(rsp) {
+					console.log(JSON.stringify(rsp));
+					mui.toast(rsp.msg);
+					mui.back();
+					if(rsp.code == 0) {
+						mui.back();
+					}
+
+				}, 'json');
+
+			}
+		</script>
+	</body>
+
+</html>

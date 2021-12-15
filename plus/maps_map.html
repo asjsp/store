@@ -1,0 +1,190 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>附近的洗车机</title>
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<style type="text/css">
+        #container {
+	width: 100%;
+	/* position: fixed; */
+	top: 45px;
+	bottom: 0px;
+	line-height: 200px;
+	text-align: center;
+	background: #FFFFFF;
+	position: sticky;
+	min-height: 70vh;
+    }
+	.popinfo{
+		position: relative;
+		width: 100%;
+		
+		background-color: ghostwhite;
+		padding-top: 1rem;
+		border-radius: 10px;
+		font-size: calc(10px + 1vmin);
+	}
+	.scollinfo{
+		padding-top: 1rem;
+		
+		width: 100%;
+		background-color: ghostwhite;
+		max-height: 60vh;
+		overflow-y: scroll;
+		
+	}
+	.infoitem{
+		width: 100%;
+		background-color: white;
+		padding: 1rem;
+		
+		margin-bottom: .5rem;
+	}
+    </style>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/vue.min.js"></script>
+	<script src="https://webapi.amap.com/maps?v=2.0&key=d9c57d1198a6e6b21b5117d4fb4b296e&plugin=AMap.PlaceSearch,Map3D,AMap.DistrictSearch"></script>
+	
+	</head>
+	<body >
+		<header  id="header" class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-action-back  mui-icon mui-icon-left-nav mui-pull-left" style="color:red;"></a>
+			<h1 class="mui-title">附近的洗车机</h1>
+			<a class="mui-icon mui-icon-map mui-pull-right" style="color: red;" onclick="resetMap();"></a>
+		</header>
+		<div id="container">地图加载中...</div>
+		<div class="popinfo" id="App">
+			<div class="scollinfo" >
+				<div class="infoitem"  v-for="(item,index) in datainfo" @tap="centermap(item.location)">
+					{{item.name}}
+					<p>地址：{{item.address}}</p>
+					<p>电话：{{item.tel}}</p>
+					
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+<script type="text/javascript">
+	mui.init();
+	var vm = new Vue({
+			el: '#App',
+			data: {
+				datainfo:[]
+				}
+			});
+	// 初始化地图
+	var map = new AMap.Map("container", {
+		viewMode: '2D',
+		zoom: 14,
+		center: [ 120.350415, 36.064394],
+		showIndoorMap: false,
+	    resizeEnable: true
+	});
+	
+	// 获取搜索信息
+	 function autoInput(){
+	   var keywords = '洗车机';
+	   AMap.plugin('AMap.PlaceSearch', function(){
+	     var autoOptions = {
+	       city: '青岛'
+	     }
+	     var placeSearch = new AMap.PlaceSearch(autoOptions);
+	     placeSearch.search(keywords, function(status, result) {
+	       // 搜索成功时，result即是对应的匹配数据
+			 //console.log(JSON.stringify(result.poiList));
+			  vm.datainfo=result.poiList.pois;
+			  //console.log(JSON.stringify(vm.datainfo[0]))
+			   addmark();
+			  
+	   
+	     })
+	   })
+	 }
+	
+	 autoInput();
+	// 创建 AMap.Icon 实例：
+	function centermap(location){
+		var st=JSON.stringify(location);
+		/* JSON.parse(st)[0], JSON.parse(st)[1] */
+		console.log(JSON.parse(st)[0]);
+		console.log(JSON.parse(st)[1]);
+		  var zoom =  17;
+		    map.setZoomAndCenter(zoom, [JSON.parse(st)[0], JSON.parse(st)[1]]); //同时设置地图层级与中心点
+		    //map.setCenter([JSON.parse(st)[0], JSON.parse(st)[1]]); //设置地图中心点
+	}
+	
+	function addmark(){
+		
+		var startIcon = new AMap.Icon({
+		        // 图标尺寸
+		        size: new AMap.Size(25, 25),
+		        // 图标的取图地址
+		        image: '../images/xicheji.png',
+		        // 图标所用图片大小
+		        imageSize: new AMap.Size(25, 25),
+		        // 图标取图偏移量
+		        imageOffset: new AMap.Pixel(0, 0)
+		    });
+		
+		var markerList = [];
+		for (let i = 0; i < vm.datainfo.length; i++) { // 结果为 0、1、2
+		 var st=JSON.stringify(vm.datainfo[i].location);
+		 
+		 //console.log(JSON.parse(st)[0]);
+		  var marker = new AMap.Marker({
+		      position: new AMap.LngLat(JSON.parse(st)[0], JSON.parse(st)[1]),
+		      offset: new AMap.Pixel(-10, -10),
+		      icon: startIcon, // 添加 Icon 图标 URL
+		      title: 'qd'
+		  });
+		  
+		  markerList.push(marker);
+		  
+		}
+			
+		map.add(markerList);
+	} 
+	 
+	 
+	 
+	 
+	//------------获取洗车机--
+	function getgps(longs,lats){
+				//console.log("用户定位经度："+longs+"-纬度-"+lats);
+			    var serv="http://39.106.31.13:8081/HdjInterface/machineApi/near.do";	
+	            mui.getJSON(serv,{lat:lats,lon:longs},function(rsp) {
+		                     //alert(JSON.stringify(rsp));
+		                     if(rsp){addmores(rsp);}
+		                       
+	                            });
+                 };
+
+    function addmores(cararr){
+    	  for (x in cararr) {
+				                        var  miLng=cararr[x].miLng;
+				                        var miLat=cararr[x].miLat;
+				                        var miSn=cararr[x].miSn;
+				                        console.log("周边洗车机经度："+miLng+"纬度:"+miLat+"sn"+miSn);
+				                        createMarker(miLng,miLat,miSn)
+				                        /*------------*/
+		                              }
+    }
+    //添加图标-
+    function createMarker(miLng,miLat,miSn){
+	alert("周边洗车机经度："+miLng+"-纬度-"+miLat+"sn"+miSn);
+	
+    }
+
+    function resetMap(){
+	     // map.centerAndZoom(user_point, 15);
+	      mui.toast("重置地图");
+      }
+	
+	
+	
+</script>

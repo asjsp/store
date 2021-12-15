@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<!--<link rel="stylesheet" type="text/css" href="css/icons-extra.css" />-->
+		<link rel="stylesheet" href="css/hdj.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.mui-bar-tab .mui-tab-item.mui-active {
+             color: #FF4B4A;
+            }
+            .mui-bar-tab .mui-tab-item {
+    
+    overflow: hidden;
+    width: 1%;
+    height: 50px;
+    text-align: center;
+    vertical-align: bottom;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #929292;
+    padding: 0px;
+    margin: 0px;
+}
+ .mui-bar-tab{
+ 	margin: 0;
+	padding: 0;
+ }
+.mui-tab-item {
+	margin: 0;
+	padding: 0;
+	}
+	.mui-bar {
+
+    height: 50px;
+    }
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav " style="background-color: white;">
+			<h1 class="mui-title">
+				我的
+			</h1>
+		</header>
+		
+		<nav class="mui-bar mui-bar-tab" >
+			<a id="defaultTab" class="mui-tab-item mui-active" href="main/nav.html">
+				<img src="images/shouye.png" class="hdj-btnhome">
+				<p class="mui-tab-label hdj-btnfh">首页</p>
+			</a>
+			
+			<a class="mui-tab-item" href="main/tabsearch.html">
+				<img src="images/sousuo.png" class="hdj-btnhome">
+				<p class="mui-tab-label hdj-btnfh">搜索</p>
+			</a>
+			
+			<a class="mui-tab-item" href="main/tabme.html">
+				<img src="images/wode_s.png" class="hdj-btnhome">
+				<p class="mui-tab-label hdj-btnfh-active">我的</p>
+			</a>
+		</nav>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+		    var subpages = ['main/nav.html', 'main/tabnew.html', 'main/tabsearch.html','main/tabmsg.html', 'main/tabme.html'];
+			var subpage_style = {
+				top: '51px',
+				bottom: '51px',
+				bounceBackground: '#f8f8f8'
+			};
+			var activeTab = subpages[4];
+			mui.init({
+				subpages:[{
+				url:subpages[4],
+				id:'tabme',
+				styles:subpage_style
+			   }]
+		});
+			
+			mui('.mui-bar-tab').on('tap', 'a', function(e) {
+			  
+				var targetTab = this.getAttribute('href');
+				if (targetTab == activeTab) {
+					return;
+				}
+				//更换标题
+				if(targetTab==subpages[0]){
+				      mui.openWindow('index.html');
+				}
+				if(targetTab==subpages[1]){
+				      mui.openWindow('index1.html');
+				}
+				if(targetTab==subpages[2]){
+				      mui.openWindow('index2.html');
+				}
+				if(targetTab==subpages[3]){
+				      mui.openWindow('index3.html');
+				}
+				
+			});
+           
+		</script>
+	</body>
+
+</html>

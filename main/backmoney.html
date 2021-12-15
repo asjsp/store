@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../css/app.css" />
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"  style="color:#FF4B4A;"></a>
+			<h1 class="mui-title">退款详情</h1>
+		</header>
+	<div class="mui-content" style="background-color: white;">	
+		 <div style="background-color: #FF4B4A;border-radius: 10px;padding: 4vw;"class="mui-content-padded">
+			 <div style="color: white;text-align: center;padding: 20px;">
+					               <p style="color: white;">
+					               <span class="mui-icon mui-icon mui-icon-checkmarkempty" style="font-size: x-large; border: 2px solid white;border-radius: 50%;"></span>
+						退款成功
+					                </p>
+					             <p style="color: white;">2017年5月6日 </p>
+		      </div>
+		      <div style="color: white;border-top: 1px solid white;padding: 1vw;">
+		      	         <br>
+		      	         <span>退款总金额：68</span>
+		      	         <br><br>
+		      	         <span>退回到：68</span>
+		      </div>
+		</div>
+		<!---->
+		
+		<div class="mui-table">
+				   <div class="mui-table-view-cell" style="display: flex;align-items: center;">
+					    <img style="margin-right: 5px;width: 8vw;" src="../images/logo13.png">
+						店铺名称
+					
+				   </div>
+				  <div class="mui-table-view-cell" >
+					            <img style="width: 20vw;margin-right: 15px; float: left;" src="../images/m1.jpg">
+					            <div style="margin-left: 15px;">
+					                <div class="mui-ellipsis"> 2017冬装新款潮大衣外套中长款毛呢</div>
+					                <p > 重量：500g  x1</p>
+					                <span > ¥ 68</span>
+					            </div>
+					</div>
+					    
+			</div>
+	
+	    <div class="mui-action-back" style="text-align: center;color: white;margin: 4vw; background-color: #FF4B4A;padding: 10px;border-radius: 50px;">
+			                   返回
+		</div>
+		
+	   	
+	</div>
+		<script src="../js/mui.min.js"></script>
+		<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		function back(){
+			plus.webview.currentWebview().close();
+		}
+		//document.getElementById("about").addEventListener('tap',function () {
+			//获得主页面的webview
+			// plus.webview.currentWebview().hide();
+			//触发主页面的gohome事件
+			//mui.fire(main,'gohome');
+		//});
+	</script>
+	</body>
+
+</html>

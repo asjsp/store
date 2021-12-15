@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<!--App自定义的css-->
+		<!--<link rel="stylesheet" type="text/css" href="../css/app.css" />-->
+		<style>
+
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"  style="color:red;"></a>
+			<h1 class="mui-title">退款售后</h1>
+		</header>
+		<div id="list" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<!----商品列表----->
+<ul class="mui-table-view mui-table-view-chevron" style="background-color: gainsboro;">
+
+				<div v-for="item in orderList" class="hdj-balck hdj-fsize2" style="background-color: white; margin-top: 5px;padding: 20px;">
+				<div style="margin-bottom: 8px;">
+						<span>Mayr</span >
+                      <!-- <span >{{item.bOrderEntity.boOrder}}</span >-->
+                </div>
+                <div  class="hdj-flex ">
+                    <div  class="mui-media-body mui-col-xs-3 mui-col-sm-3">
+                           <div class="hdj-img-wrap1" style="background-color: white;">
+                                <img  src="../images/demo/sj27.jpg" class="hdj-img-cont" style="width: 90%;">
+                           </div>
+                           <span :class="[item.boType==2?'hdj-imglabel-red':'hdj-imglabel-orange']" >{{convert(item.bOrderEntity.boType)}}</span>
+					</div>
+					<div class="mui-media-body mui-col-xs-9 mui-col-sm-9" style="margin-left: 5px;">
+						<div class="hdj-space-between">
+							<span class="mui-ellipsis hdj-fsize3" style="width:80%;">{{item.bOrderEntity.gsiName}}</span>
+							<span class="hdj-fsize1">¥{{item.bOrderEntity.boOrderprice}}</span>
+						</div>
+						<p class="hdj-fsize4" style=" text-align:right">X 8{{item.bOrderEntity.boCount}}</p>
+						<!-- <p class="hdj-fsize4"  style="text-align:right">
+                        	
+                        </p>-->
+						<p class="hdj-gray hdj-fsize5" style="text-align:right">
+							结算：<span class="hdj-red hdj-fsize0">¥6{{item.bOrderEntity.boActprice}}</span>
+						</p>
+					</div>
+			</div>
+
+			<div class="hdj-fsize5 hdj-space-between" style="margin-top: 5px; margin-bottom: 10px;border-radius: 20px;border:1px solid gainsboro;">
+				<span style="margin-left: 20px;">退款：{{item.rnMoney}}元</span>
+				<span v-bind:style="{color: convertcolor(item.rnPaystate),}">
+                       	    {{convertfun(item.rnState)}}
+                </span>
+				<div @tap="see_order(item.bOrderEntity)" style="width: 115px;  text-align:center; padding:6px; padding-left: 12px; padding-right: 12px;  border-radius: 20px;color:white; background-color:#fe5858">
+					查看订单详情
+				</div>
+				<!--<div v-if="item.rnState==5"  @tap="" style="width: 115px;  text-align:center; padding:6px; padding-left: 12px; padding-right: 12px;  border-radius: 20px;color:white; background-color:#fe5858">
+					查看钱款去向
+				</div>-->
+			</div>
+
+			</div>
+
+</ul>
+		</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/server.js"></script>
+
+		<script>
+			var order_view = null;
+			mui.init({
+				pullRefresh: {
+					container: '#list',
+					down: {
+						/*style: 'circle',
+						color: '#FF4B4A',
+						offset: '60px',*/
+						auto: true,
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			/*mui.plusReady(function() {
+				order_view = preload("order_detail.html");
+				vm.mbId = plus.storage.getItem("mbId");
+			});*/
+			var test = []
+			/*------------------------------------------------*/
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					mbId: '',
+					orderList: test
+				}
+			});
+			vm.mbId = h5_mbinfo.mbId;
+			
+			var count = 1;
+			var totalCount;
+			var rows = 4;
+			var noData = false;
+			function pullupRefresh() {
+				count++;
+				setTimeout(function() {
+					mui('#list').pullRefresh().endPullupToRefresh(noData); //参数为true代表没有更多数据了。
+					open_indexTypes(count , rows);
+				}, 1000);
+			}
+
+			function pulldownRefresh() {
+				if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+					plus.nativeUI.toast('似乎已断开与互联网的连接', {
+						verticalAlign: 'top'
+					});
+					return;
+				}
+				count = 1;
+				open_indexTypes(count , rows);
+				/// mui('#list').pullRefresh().endPulldown();
+			}
+			/*-------61.	订单列表------------*/
+			function open_indexTypes(page,rows) {
+				
+				var data = {
+					mbId: vm.mbId,
+					page: page,
+					rows: rows
+				};
+				var apiname = "refundApi/list" + ".do";
+				//console.log(servername+apiname+"?sklId="+vm.tim.id+"&page=1&rows=4");
+				mui.getJSON('../json/refund.json', function(rsp) {
+					 console.log("订单列表"+JSON.stringify(rsp.rows));
+					/*mui('#list').pullRefresh().endPulldown();
+					if(rsp.rows && rsp.rows.length > 0) {
+						vm.orderList = rsp.rows;
+						totalCount = rsp.totalCount;
+					} else {
+						mui.toast("暂无数据");
+						vm.orderList = test;
+					}*/
+					
+					var len = vm.orderList.length;
+					mui.each(rsp.rows, function(index, value) {
+						vm.$set(vm.orderList, len + index, value);
+					})
+					mui('#list').pullRefresh().endPulldownToRefresh();
+					
+				});
+			}
+			/*------------查看订单详情----------*/
+			//order_view = preload("order_detail.html");
+			function see_order(item) {
+				//alert(item);
+				console.log("查看订单" + item.id);
+				localStorage.setItem("orderinfo", JSON.stringify(item));
+			    mui.openWindow("order_detail.html");
+				/*mui.fire(order_view, 'order_detail', {
+					orderinfo: item
+				});
+				setTimeout(function() {
+					order_view.show("slide-in-right", 300);
+				}, 150);*/
+			};
+
+			function convert(item) {
+				var str = '';
+				if(item == 1) {
+					str = "拼单订单"
+				};
+				if(item == 2) {
+					str = "抢单订单"
+				};
+				return str
+			};
+
+			function convertfun(item) {
+				console.info(item);
+				var str = '';
+				if(item == 1) {
+					str = "等待卖家处理"
+				};
+				if(item == 2) {
+					str = "卖家同意退款"
+				};
+				if(item == 3) {
+					str = "卖家否决"
+				};
+				if(item == 4) {
+					str = "等待卖家放款"
+				};
+				if(item == 5) {
+					str = "退款完成"
+				};
+				if(item == 0){
+					str = '退款取消'
+				}
+				return str ? str : item;
+			};
+
+			function convertcolor(item) {
+				var str = 'red';
+				if(item == 1) {
+					str = "orange"
+				};
+				if(item == 2) {
+					str = "green"
+				};
+				if(item == 3) {
+					str = "red"
+				};
+				return str
+			};
+
+			function back() {
+				plus.webview.currentWebview().close();
+			};
+		</script>
+
+	</body>
+
+</html>

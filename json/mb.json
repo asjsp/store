@@ -1,0 +1,30 @@
+{
+    "rows": [
+        {
+            "id": "40289fe4603a90d001603a98ca640004",
+            "bmerchantEntity": { 
+                "id": "00000000601676600160167f446b0002",
+                "mercProvince": "370000",
+                "mercAddress": "商户地址",
+                "mercName": "joker",
+                "mercCity": "370200",
+                "mercPhone": "15288987267",
+                "mercQq": "278518173",
+                "mercOrg": "370202",
+                "mercIntro": "自我介绍,我是.....",
+                "mercEmail": "273@qq.com"
+            },
+            "mbId": "4028ef816033daa9016033e0b2ae0003"
+        }
+    ],
+    "firstResult": 0,
+    "attach": null,
+    "previousPage": 1,
+    "pageSize": 10,
+    "totalCount": 1,
+    "firstPage": true,
+    "pageNo": 1,
+    "lastPage": true,
+    "totalPage": 1,
+    "nextPage": 1
+}

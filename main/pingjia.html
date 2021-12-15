@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<style>
+			 .mui-table-view:before{
+				    height: 0px;
+				}
+			.mui-table-view:after{
+				    height: 0px;
+				}
+			/*.mui-table-view-cell:after {
+				    height: 0px;
+				}	*/
+		</style>
+		<style type="text/css">
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto 4;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			p img {
+				max-width: 100%;
+				height: auto;
+			}
+		</style>
+
+	</head>
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FF4B4A;"></a>
+			<h1 class="mui-title">评价</h1>
+		</header>
+	<div id="list" class="mui-content mui-scroll-wrapper" style="background-color: white;">	
+		<div class="mui-scroll">
+	    <!--------------->
+	    <ul class="mui-table-view mui-table-view-chevron"  style="margin-top: 15px;">
+		   <li  v-for="item of orderList" class="mui-table-view-cell" style="margin-bottom: 10px;">
+		           <div class="hdj-space-between">
+						<p class="hdj-center">
+						   <img  class="hdj-head" src="../images/demo/sj26.jpg" >
+						   <span class="hdj-balck  hdj-fsize2" style="margin-left: 10px;">昵称</span>
+						</p>
+						<span>
+							<i v-for="x in 5"  class="hdj-fsize2 mui-icon mui-icon-star-filled"  v-bind:style="{color: ctcolor(x>item.cmtScore),}">
+								
+							</i>
+						</span>
+					</div>
+					<div style="padding-left: 40px;padding-top: 10px;">
+						<p class="hdj-balck hdj-fsize5" style="padding-bottom: 10px;color: #555555;">{{unescape(item.cmtContent)}}</p>
+					
+						<ul  class="mui-table-view mui-grid-view">
+							<li   v-for="(mg,key) of item.pictures" class="mui-table-view-cell  mui-col-xs-4 mui-col-sm-4" style="margin: 0px;padding: 1px;">
+								<div class="hdj-img-wrap1" >
+						           <img src="../images/demo/v1.jpg"  class="hdj-img-cont" data-preview-src="" data-preview-group="1">
+				                </div>
+							</li>
+						</ul>
+					</div>
+			</li>
+		</ul> 
+		</div>
+	</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	    <script src="../js/server.js"></script>
+	    <script src="../js/mui.zoom.js"></script>
+	<script src="../js/mui.previewimage.js"></script>
+	   <!-- <script type="text/javascript">
+    mui.plusReady(function() {
+      var images = [].slice.call(document.querySelectorAll('.hdj-img-wrap1 img'));
+      var urls = [];
+      images.forEach(function(item) {
+        urls.push(item.src);
+      });
+      mui('.hdj-img-wrap1').on('tap', 'img', function() {
+        var index = images.indexOf(this);
+        plus.nativeUI.previewImage(urls, {
+          current: index,
+          loop: false,
+          indicator: 'number'
+        });
+      });
+    });
+  </script>-->
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: '#list',
+					down: {
+						auto: true,
+						callback:pulldownRefresh
+					},
+					up: {
+						
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			
+			});
+			 mui.ready(function() {
+			 	  mui.previewImage();
+			 });
+
+           
+        var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					   orderList:[],
+					   gsid:''
+					   
+				}
+			}); 
+//监听自定义事件，获取新闻详情
+		//document.addEventListener('pj_detail', function(event) {
+			vm.gsid=localStorage.getItem('pjid');
+			console.log("商品id"+vm.gsid);
+			pjtest(count*4);			
+			//console.log(getserverimg(mg.id,10));
+		//});
+		var count = 1;
+		var totalCount ;
+			function pullupRefresh() {
+				count++;
+				setTimeout(function() {
+					mui('#list').pullRefresh().endPullupToRefresh((count*4 > totalCount)); //参数为true代表没有更多数据了。
+					pjtest(count*4);
+				}, 1000);
+			}	
+	    function pulldownRefresh() {
+			if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+								plus.nativeUI.toast('似乎已断开与互联网的连接', {
+									verticalAlign: 'top'
+								});
+								return;
+							}
+	         
+	         pjtest(count*4);
+		}
+	    function pjtest(rw){
+			           //  console.log("获取商品评价信息"+vm.gsid);
+			             var data ={gsiId:vm.gsid,page:1,rows:rw};
+					       
+						 var apiname="commentApi/list"+".do";
+						// console.log(servername+apiname+"?gsiId="+vm.gsid);
+						
+						 mui.getJSON('../json/pjinfo.json', function(rsp) {
+						            // console.log("评价列表"+JSON.stringify(rsp.rows));
+						            mui('#list').pullRefresh().endPulldownToRefresh();
+						            if(rsp.rows&&rsp.rows.length > 0) {
+						            	vm.orderList=rsp.rows;
+						            	totalCount=rsp.totalCount;
+						            	//var sid=vm.orderList[0].pictures[0].id
+						            	//console.log(getserverimg(sid,10));
+						            }
+		                          });
+		}
+	    function  convertdom(strcn){
+	    	var str='';
+	    	//console.log(strcn);
+	    	//var theid = encodeURI(encodeURI(strcn));
+	    	str=unescape(strcn);
+	    	//console.log(str);
+	    	return str;
+	    	     
+	    }
+	    /*-------nativeui--------*/
+	   /* function preimg(mg,key){
+	    	var urls = [];
+            mg.forEach(function(item) {
+            	  var url=getserverimg(item.id,10);
+                  urls.push(url);
+            });
+            plus.nativeUI.previewImage(urls, {
+                    current: key,
+                    loop: false,
+                    indicator: 'number'
+               });
+          }*/
+	    //------------------------
+	  
+
+	      
+		</script>
+	</body>
+
+</html>

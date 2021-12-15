@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<style>
+			.mui-table-view:before {
+				height: 0px;
+			}
+			
+			.mui-table-view:after {
+				height: 0px;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FF4B4A;"></a>
+			<h1 class="mui-title">我的积分</h1>
+		</header>
+		<div id="list" class="mui-content mui-scroll-wrapper" style="background-color: white;">
+			<div class="mui-scroll">
+				<!----数据列表----->
+				<ul class="mui-table-view mui-table-view-chevron" style="padding-top: 10px;">
+					<div v-for="item in scorelist" class="hdj-space-between hdj-dp1">
+
+						<div class="hdj-center">
+							<div class="hdj-img-wrap">
+								<img style="width: 100%;" :src="item.face">
+							</div>
+							<div v-if='item.merchannt' style="margin-left: 15px;">
+								<span>{{item.merchannt.mercName}}</span>
+								<p class="hdj-fsize3 hdj-gray" style="margin-top: 10px;">销售总量： {{item.merchannt.mercSalecount}}</p>
+							</div>
+						</div>
+
+						<div>
+							<span class="hdj-fsize0 hdj-red">{{item.mercIntegral}}</span>
+							<span style="color: #ea7d7c;margin-left: 5px;">积分</span>
+						</div>
+					</div>
+				</ul>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/server.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: '#list',
+					down: {
+						style: 'circle',
+						color: '#FF4B4A',
+						offset: '60px',
+						auto: true,
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			//vm.mbId='0000000060353247016039d900d70059';     
+			mui.plusReady(function() {
+				vm.mbId = plus.storage.getItem("mbId");
+				console.log(vm.mbId);
+				//var lauchFlag = plus.storage.getItem("lauchFlag");
+				//mui.toast('是否登录---'+lauchFlag);
+				//mui.toast('获取会员信息成功---'+mbId);
+				// if(lauchFlag){};
+			});
+
+			//-------------------------------------
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					mbId: '',
+					scorelist: [] //-----充值流水---------
+				}
+			});
+			vm.mbId = h5_mbinfo.mbId;
+			var count = 1;
+			var totalCount;
+
+			function pullupRefresh() {
+				count++;
+				setTimeout(function() {
+					mui('#list').pullRefresh().endPullupToRefresh((count > totalCount)); //参数为true代表没有更多数据了。
+					getscore(count * 4);
+				}, 1000);
+			}
+
+			function pulldownRefresh() {
+				if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+					plus.nativeUI.toast('似乎已断开与互联网的连接', {
+						verticalAlign: 'top'
+					});
+					return;
+				}
+				getscore(count * 4);
+				/// 
+			}
+
+			function getscore(rw) {
+				//39.	会员积分列表--------------
+				//vm.mbId='0000000060353247016039d900d70059';
+				var data = {
+					mbId: vm.mbId,
+					page: 1,
+					rows: rw
+				};
+				// alert(JSON.stringify(data));  
+				var apiname = "mbMercIntegralApi/list" + ".do";
+				//mui.post(servername + apiname, data, function(rsp) {
+					rsp={
+						"firstResult":0,
+						"rows":[
+							{"id":"4028ef815f9559e0015f955c22650001","mercIntegral":100,"mercId":"402880e65f825ae8015f825db6030004","mbId":"402880e65f86e191015f86f1605a0001","merchannt":{"id":"402880e65f825ae8015f825db6030004","mercProvince":"402880e65f7c94b6015f7c95dc7f0000","mercAddress":"地址","mercLoginpwd":"96e79218965eb72c92a549dd5a330112","mercPerson":"姓名","mercIdcard":"身份证号","mercBankcard":"卡号","mercCity":"402880e65f7c94b6015f7c9662670002","mercOrg":"402880e65f7c94b6015f7c971a230004","mercName":"姓名","mercEmail":"email","mercPhone":"电话","mercQq":"qq","mercIntro":"介绍","bkId":"402880e55f7b1736015f7b20408d0005"}}],"attach":null,"previousPage":1,"totalCount":1,"pageSize":10,"totalPage":1,"lastPage":true,"firstPage":true,"nextPage":1,"pageNo":1};
+					
+					mui('#list').pullRefresh().endPulldownToRefresh();
+					console.log(JSON.stringify(rsp));
+					if(rsp.rows && rsp.rows.length > 0) {
+						vm.scorelist = rsp.rows; //数据
+						mui.each(vm.scorelist,function(index,item){
+							item.face = servername+'merchantApi/face.do?id='+item.merchannt.id;
+							console.info(item.face)
+							//localhost:8081/HdjInterface/merchantApi/face.do?id=00000000601676600160167f446b0002
+						})
+						//vm.scorelist.push(rsp.rows[1]);  //数据
+						totalCount = rsp.totalCount;
+					} else {
+						mui.toast("暂无数据");
+						//vm.scorelist=test;
+					}
+
+				//}, 'json');
+			}
+
+			function back() {
+				//plus.webview.currentWebview().close();
+			}
+		</script>
+	</body>
+
+</html>

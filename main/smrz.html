@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+	</head>
+
+	<body >
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FF4B4A;"></a>
+			<h1 class="mui-title">实名认证</h1>
+		</header>
+	<div class="mui-content" >	
+	    <!--------------->
+	  	<div class="mui-card" style="margin: 5vw;border-radius: 10px;border: 1ps solid white;">
+				<div class="mui-card-header mui-card-media" style="height:20vw;background-image:url(../images/rzbg.jpg)">
+					
+				</div>
+				<div class="mui-card-content">
+					<div class="mui-card-content-inner">
+						 <form class="mui-input-group">
+						     <div class="mui-input-row">
+						         <label>真实姓名</label>
+						         <input v-model="name" type="text" class="mui-input-clear " placeholder="请输入真实姓名">
+						     </div>
+						     <div class="mui-input-row">
+						         <label>身份证号</label>
+						         <input v-model="cardNo"  type="number" class="mui-input-clear" placeholder="请输入身份证号">
+						     </div>
+						     <div class="mui-input-row">
+						         <label>银行卡号</label>
+						         <input v-model="idCard" type="number" class="mui-input-clear" placeholder="请输入银行卡号">
+						     </div>
+						    <!-- <div class="mui-input-row">
+						        
+						     </div>-->
+						 </form>
+					</div>
+				</div>
+				
+		</div>
+	
+		
+		
+	    </br>
+	   
+		
+		<!------------>
+		<div v-on:click="tjsh" style="text-align: center;color: white;margin: 4vw; background-color: #FF4B4A;padding: 10px;border-radius: 50px;">
+			  提交审核
+		</div>	
+		<!------------->
+
+	</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/server.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		mui.ready(function() {
+				vm.mbId = h5_mbinfo.mbId;
+			});
+		var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					mbId:'',
+					name:null,
+					cardNo:null,
+					idCard:null
+				    },
+				 methods: {
+					tjsh: function() {//重置数据
+						 var data ={
+						             mbId: this.mbId,
+						             name: this.name,
+						             cardNo:this.cardNo,
+						             idCard:this.idCard
+					               };
+					          console.log(JSON.stringify(data));      
+						 var apiname="memberApi/memberAuth"+".do";
+						 mui.post(servername+apiname,data, function(rsp) {
+						                console.log(JSON.stringify(rsp));
+						                //vm.addressList=rsp;
+						                  mui.toast(rsp.msg);
+						                  if(rsp.code==0){
+						                  	localStorage.setItem('smrz','true');
+						                  }
+						                  
+						                  
+						                   // plus.storage.setItem("authFlag", true);
+		                          },'json');
+						  //----------------
+					   }
+					}
+		       });
+	</script>
+	</body>
+
+</html>

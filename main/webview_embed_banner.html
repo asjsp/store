@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<link rel="stylesheet" href="../css/mui.min.css">
+
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"  style="color:red;"></a>
+			<h1 class="mui-title">Banner</h1>
+		</header>
+		
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script>
+	 var burl= null;
+	 if(localStorage.getItem("bannerurl")){
+	       burl=localStorage.getItem("bannerurl");
+	          alert("b"+burl);
+	         // burl="https://www.baidu.com/";
+	  }
+	
+			/*---------页面跳转----------*/
+			mui.init({
+				subpages: [{
+					url: burl,
+					styles: {
+						top: '45px',
+						bottom: '0px',
+					}
+				}]
+			});
+	</script>
+	<!--<script type="text/javascript" src="../js/immersed.js" ></script>-->
+</html>

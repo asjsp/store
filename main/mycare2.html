@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+	<link rel="stylesheet" href="../css/hdj.css">
+		<style>
+			.mui-table-view.mui-grid-view .mui-table-view-cell {
+    font-size: 17px;
+    display: inline-block;
+    margin-right: -1px;
+    padding: 6px 0 0 10px;
+    text-align: center;
+    vertical-align: middle;
+    background: 0 0;
+}
+			.mui-card {
+    font-size: 14px;
+    position: relative;
+    overflow: hidden;
+    margin: 5px;
+    border-radius: 1px;
+    background-color: #fff;
+    background-clip: padding-box;
+    box-shadow: 1 1px 1px rgba(0,0,0,.2);
+}
+		</style>
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-action-back  mui-icon mui-icon-left-nav mui-pull-left" style="color:red;"></a>
+			<h1 class="mui-title">我的关注</h1>
+		</header>
+	<div class="mui-content" style="background-color: white;">	
+		<!-----你喜欢------------------>
+		<div id="slider" class="mui-slider">
+			<div  class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-negative">
+					<a id="citem1" class="mui-control-item " href="#item1">商品关注</a>
+					<a id="citem2" class="mui-control-item " href="#item2">商铺关注</a>
+					
+		    </div>
+	        <div  class="mui-slider-progress-bar mui-col-xs-6"></div>
+	        <div  class="mui-slider-group">
+		    <div id="item1" class="mui-slider-item mui-control-content " >
+		    	   <p v-if="seen1" style="text-align: center;">暂无内容</p>
+			 <div class="mui-table-view mui-grid-view" style="background-color: white;">
+			 <!--商品关注列表-->
+			 <li @tap="open_goods(item)"  v-for="item in goodsList"  class="mui-table-view-cell  mui-media mui-col-xs-6 mui-col-sm-6 "> 
+               <div class="mui-card" style="padding: 0; margin: 1px;">
+                  <p style="position: relative;z-index: 1;color:white; border-radius: 0px 0px 0px 25px; text-align:center; background-color:orange;right:-37vw;padding:0px;width:35px;height:25px">拼</p>
+                  <img  :src="getserverimg(item.bGoodsinfoEntity.id,6)" style="position: relative;top:-25px; width:100%;height:auto; border-radius: 0px;padding:0vw">
+                  
+                  <div  style="margin-top: -25px;">
+                         <div class="mui-ellipsis">{{item.bGoodsinfoEntity.gsiName}}</div>
+                         <p style="padding:6px">
+                         	<span class="mui-pull-left"  style="color: red">¥{{item.bGoodsinfoEntity.gsiPrice}}</span>
+                         	<!--<span >市场价¥{{item.bGoodsinfoEntity.gsiMarketprice}}</span>-->
+                         	<span class="mui-pull-right" >
+                         		<img  :src="getserverimg(gp.mbId,0)" v-for="gp in item.bGoodsinfoEntity.group" style="border-radius: 50%;width: 5vw;height: auto;" class="mui-media-object " >
+                         	</span>
+                         </p>
+                         <!--<P>{{getserverimg(item.bGoodsinfoEntity.id,6)}}</P>-->
+                  </div>
+               </div>
+              </li>
+               <!------->
+			  </div>			
+	     	    </div>
+		    <div id="item2" class="mui-slider-item mui-control-content " >
+					 <p v-if="seen2" style="text-align: center;">暂无内容</p>
+					 
+					 <div  @tap="open_dp(item.bmerchantEntity)"  v-for="item in mercList" class="mui-table-view-cell" >
+                       <div class="hdj-dp hdj-space-between">
+					   <div class="hdj-center">
+                      	 <div class="hdj-img-wrap" style="border: 1px solid #EEEEEE;border-radius: 3px;padding: 2px;">
+						     <img style="width: 100%;" src="../images/logo13.png">
+					     </div>
+					     <div  style="margin-left: 15px;">
+						     <p class="hdj-balck hdj-fsize1">{{item.bmerchantEntity.mercName}}</p>
+						     <p  class="hdj-fsize3 hdj-gray" style="margin-top: 10px;">销售总量：{{item.bmerchantEntity.mercSalecount}}</p>
+					     </div>
+					  </div>
+					<p class="hdj-btn-red-outlined">
+						进入店铺
+					</p>
+			    	</div>
+					 </div>
+					 
+					
+		    </div>
+	         </div>
+		</div>
+		
+			
+		    <!--------->
+	</div>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/server.js"></script>
+	<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		
+        mui.plusReady(function() {
+				vm.mbId=plus.storage.getItem("mbId");
+				var lauchFlag = plus.storage.getItem("lauchFlag");
+				//向服务端请求会员信息
+				if(lauchFlag){
+				    get_goodslist();
+					get_dplist();
+				};
+			});
+		var vm = new Vue({
+				el: '.mui-content',
+				data: {mbId:'',seen1:false,seen2:false,care:'',goodsList:[],mercList:[]}
+			});
+		 var test=[{
+"id": "40289fe4603a90d001603a98ca640004",
+"bmerchantEntity": { //商户信息
+"id": "00000000601676600160167f446b0002",
+"mercProvince": "370000",
+"mercAddress": "商户地址",
+"mercName": "joker",
+"mercCity": "370200",
+"mercPhone": "15288987267",
+"mercQq": "278518173",
+"mercOrg": "370202",
+"mercIntro": "自我介绍,我是.....",
+"mercEmail": "278518173@qq.com"
+            },
+"mbId": "4028ef816033daa9016033e0b2ae0003"
+        }];
+        var se=document.querySelector(".mui-segmented-control");
+		var sg=document.querySelector(".mui-slider-group");
+		activedom(se,1);
+		activedom(sg,1);
+        document.addEventListener('mycare', function(event) {
+			    vm.care = event.detail.care;
+			    console.log("关注类型"+vm.care);
+			    if(vm.care==="dp"){
+			    	           //  alert("店铺")
+			    	             activedom(se,1);
+		                         activedom(sg,1);
+		                        //document.getElementById("item2").classList.add("mui-active");
+			    	            // get_dplist();
+			    }else  if(vm.care==="goods"){
+			    	//alert("商品")
+			    	activedom(se,0);
+			    	activedom(sg,0);
+			    	//get_goodslist();       
+			    	
+			    }
+			    
+			 });	
+		function activedom(dome,ind){
+			var c=dome.children;
+			console.log(dome.className+"--"+c.length)
+			for (i=0; i<c.length; i++){
+				  //  console.log(c[i].className+"--"+i);
+				   //console.log(c[i].nodeName+"--"+c[i].innerHTML) ;
+		            c[i].classList.remove("mui-active");
+		           // console.log(c[i].className+"--"+i);
+	            };
+	        c[ind].classList.add("mui-active");  
+	        console.log(c[ind].className+"--"+ind)
+		}
+		/*获取商品关注列表*/
+		function get_goodslist(){
+			      var data ={
+						             mbId: vm.mbId,
+						             page:1,
+						             rows:4
+					               };
+					    // alert(JSON.stringify(data));         
+						 var apiname="goodsConernApi/list"+".do";
+						 //console.log(servername+apiname+"?mbId="+vm.mbId);
+						 mui.post(servername+apiname,data, function(rsp) {
+						 	/* mui('#slider').slider({
+								 	            interval:5000//自动轮播周期，若为0则不自动播放，默认为0；
+								 	});  */
+						            //console.log(JSON.stringify(rsp.rows.bGoodsinfoEntity));
+						           // console.log(JSON.stringify(rsp.rows));
+						            if(rsp.rows&&rsp.rows.length > 0) {
+						            	 vm.goodsList=rsp.rows;
+						            }else{vm.seen1=true}
+						               
+						                //alert(vm.goodsList);
+		                          },'json');
+		}
+		/*获取店铺关注列表*/
+		function get_dplist(){
+			       var data ={
+						             mbId: vm.mbId,
+						             page:1,
+						             rows:4
+					               };
+						var apiname2="mbMercConcernApi/getMbMercConcern"+".do";
+						//console.log(servername+apiname2+"?mbId="+vm.mbId+"&page=1&rows=2")
+						mui.post(servername+apiname2,data, function(rsp) {
+						                console.log(JSON.stringify(rsp.rows));
+						                if(rsp.rows&&rsp.rows.length > 0) {
+						            	          vm.mercList=rsp.rows;
+						                     }else{
+						                     	vm.seen2=true;
+						                     	//vm.mercList=test;
+						                     }
+						                
+		                          },'json');  
+			
+		}
+		/*-------进入商品详情---传递----mercId-----*/
+		function open_goods(item) {
+			console.log("--->导出货品id"+item.bGoodsinfoEntity.id);
+			    mui.fire(pdview_detail, 'goods_info', {
+				    goodsinfo:item.bGoodsinfoEntity
+				});
+			setTimeout(function () {
+					pdview_detail.show("slide-in-right", 300);
+				},150);
+			}
+		/*-----------------*/
+		function open_dp(item) {
+			     console.log("商户ID"+item.id);
+			     var dpview_detail =preload("dianpu.html");
+			     mui.fire(dpview_detail, 'dp_detail', {
+					dpid: item.id
+				});
+				setTimeout(function () {
+					dpview_detail.show("slide-in-right", 300);
+				},150);
+			};
+		/*var item2 = document.getElementById('item2');
+		document.getElementById("item1").classList.remove("mui-active");
+		document.getElementById("item2").classList.add("mui-active");
+		document.getElementById("citem1").classList.remove("mui-active");
+		document.getElementById("citem2").classList.add("mui-active");*/
+		
+		document.getElementById('slider').addEventListener('slide', function(e) {
+					if (e.detail.slideNumber === 1) {
+						         activedom(se,1);
+		                         activedom(sg,1);
+		                          //get_dplist();
+						/*if (item2.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								item2.querySelector('.mui-scroll').innerHTML =getdata(jsondata1);
+							}, 100);
+						}*/
+					} 
+					else if (e.detail.slideNumber === 0) {
+						         activedom(se,0);
+		                         activedom(sg,0);
+		                        // get_goodslist();   
+						/*if (item2.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								item2.querySelector('.mui-scroll').innerHTML =getdata(jsondata1);
+							}, 100);
+						}*/
+					} 
+				});		
+	</script>			
+	</body>
+
+</html>

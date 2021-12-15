@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<!--<link rel="stylesheet" type="text/css" href="../css/app.css" />-->
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FF4B4A;"></a>
+			<h1 class="mui-title">选择优惠卷</h1>
+		</header>
+	<div class="mui-content" style="background-color: white;">	
+	    <!--------------->
+	
+	  	<div id="segmentedControl" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-negative">
+					<a class="mui-control-item mui-active" href="#item1">可用</a>
+					<a class="mui-control-item" href="#item2">不可用</a>
+		</div>
+	
+	
+		<div id="item1" class="mui-control-content mui-active" >
+			<div class="mui-scroll" id="pingjia">
+				  <div  @tap="open_detail(item)"  v-for="item in scorelist"  class="mui-table-view" style="display: -webkit-flex; -webkit-align-items:center;display:flex;align-items: center; background-color: #f8f4f5;margin: 3vw;">
+                       <div class="mui-col-xs-4 mui-col-sm-4" style=" background-color: #ff4b4a;padding-right: 5px;">
+                            <div  style="align-self: stretch; -webkit-align-self: stretch;color: white; border-left: 3px dotted white; border-right: 1px dashed white;height: 100%">
+
+                                 <div style="font-size: smaller; padding: 10px">{{item.shopTitle}}</div>
+                                 <div style="text-align: center;padding: 10px"><span>¥</span><span style="font-size: x-large">{{item.couponInfo}}</span></div>
+
+                            </div>
+					   </div>
+					   <div class="mui-col-xs-7 mui-col-sm-7" style="margin-left: 2px;padding: 8px">
+							<p class="mui-ellipsis">{{item.title}}</p>
+							<p>{{item.zkFinalPrice}}</p>
+                            <p>{{item.couponStartTime}}</p>
+					    </div>
+                 </div>
+			</div>			
+		</div>
+		<div id="item2" class="mui-control-content" >
+			<div class="mui-scroll" id="pingjia2">
+				<div  @tap="open_detail(item)"  v-for="item in scorelist"  class="mui-table-view" style="display: -webkit-flex; -webkit-align-items:center;display:flex;align-items: center; background-color: #f8f4f5;margin: 3vw;">
+                       <div class="mui-col-xs-4 mui-col-sm-4" style=" background-color: #c3c3c3;padding-right: 5px;">
+                            <div  style="align-self: stretch; -webkit-align-self: stretch;color: white; border-left: 3px dotted white; border-right: 1px dashed white;height: 100%">
+
+                                 <div style="font-size: smaller; padding: 10px">{{item.shopTitle}}</div>
+                                 <div style="text-align: center;padding: 10px"><span>¥</span><span style="font-size: x-large">{{item.couponInfo}}</span></div>
+
+                            </div>
+					   </div>
+					   <div class="mui-col-xs-7 mui-col-sm-7" style="margin-left: 2px;padding: 8px">
+							<p class="mui-ellipsis">{{item.title}}</p>
+							<p>{{item.zkFinalPrice}}</p>
+                            <p>{{item.couponStartTime}}</p>
+					    </div>
+                 </div>
+			</div>
+		</div>
+	</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/server.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script>
+		mui.init({
+			     pullRefresh: {
+			     	container: '.mui-content',
+					down: {
+						style: 'circle',
+						color:'#2BD009',
+						offset: '60px',
+						auto: true,
+						callback: function() {
+							if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+								plus.nativeUI.toast('似乎已断开与互联网的连接', {
+									verticalAlign: 'top'
+								});
+								return;
+							}
+							
+				vm.mbId = plus.storage.getItem("mbId");
+				var lauchFlag = plus.storage.getItem("lauchFlag");
+				
+				//mui.toast('是否登录---'+lauchFlag);
+				//mui.toast('获取会员信息成功---'+mbId);
+				if(lauchFlag){	
+					//39.	会员积分列表--------------
+						 var data ={
+						             mbId: vm.mbId,
+						             page:1,
+						             rows:2
+					               };
+					    // alert(JSON.stringify(data));  
+						 var apiname="couponGoodsInfo/list"+".do";
+						 mui.post(servername+apiname,data, function(rsp) {
+                                     mui('.mui-content').pullRefresh().endPulldown();
+						               console.log(JSON.stringify(rsp.rows));
+						               vm.scorelist= rsp.rows;  //数据
+						             
+						           },'json');
+						 
+						
+				};
+							
+						}
+					}
+			     }
+		});
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					mbId:'',
+					scorelist:[]     //-----充值流水---------
+				}
+			});
+		
+		function open_detail(item) {
+			/*mui.openWindow({
+				       url:item.couponClickUrl
+			     });*/
+			/*mui.openWindow({
+				       url:item.pictUrl
+			     }); */
+			                  var data ={
+						             mbId: vm.mbId,
+						             cpId:item.id
+					               };
+					   alert(JSON.stringify(data));  
+						 var apiname="couponApi/receiveCoupon"+".do";
+						 mui.post(servername+apiname,data, function(rsp) {
+                                     mui('.mui-content').pullRefresh().endPulldown();
+						               console.log(JSON.stringify(rsp));
+						              // vm.scorelist= rsp.rows;  //数据
+						             
+						           },'json');    
+			     
+		}
+		//初始化单页view
+		var jsondata1=[
+                      {"price":"满199减20","titles":"仅限于我的店铺 ","timelimit":"2017-09-10","score":10,"color":"#ff4b4a"},
+                      {"price":"满199减20","titles":"仅限于我的店铺 ","timelimit":"2017-09-10","score":330,"color":"#ff4b4a"},
+            {"price":"满199减20","titles":"仅限于我的店铺 ","timelimit":"2017-09-10","score":10,"color":"#ff4b4a"},
+            {"price":"满199减20","titles":"仅限于我的店铺 ","timelimit":"2017-09-10","score":330,"color":"#ff4b4a"},
+
+            {"price":"满199减20","titles":"仅限于我的店铺 ","timelimit":"2017-09-10","score":10,"color":"#ff4b4a"},
+            {"price":"满199减20","titles":"仅限于我的店铺 ","timelimit":"2017-09-10","score":330,"color":"#ff4b4a"},
+
+
+        ];
+        var jsondata2=[
+                      {"price":"满199减20","titles":"仅限于我的店铺 ","timelimit":"2017-09-10","score":10,"color":"#c3c3c3"},
+                      {"price":"满199减20","titles":"仅限于我的店铺 ","timelimit":"2017-09-10","score":330,"color":"#c3c3c3"},
+ 
+        ];
+        function madepindan(prices,titles,timslimits,scores,colors){
+			/*-------------------*/
+			/*-----------------------*/
+			
+			var htmlstr=
+			        '<div class="mui-table-view" style="display: -webkit-flex; -webkit-align-items:center;display:flex;align-items: center; background-color: #f8f4f5;margin: 3vw;">'+
+                       '<div class="mui-col-xs-4 mui-col-sm-4" style=" background-color: '+colors+';padding-right: 5px;">' +
+                            '<div  style="align-self: stretch; -webkit-align-self: stretch;color: white; border-left: 3px dotted white; border-right: 1px dashed white;height: 100%">' +
+
+                                 '<div style="font-size: smaller; padding: 10px">店铺卷</div>'+
+                                 '<div style="text-align: center;padding: 10px"><span>¥</span><span style="font-size: x-large">'+scores+'</span></div>'+
+
+                            '</div>'+
+					   '</div>'+
+					   '<div class="mui-col-xs-7 mui-col-sm-7" style="margin-left: 2px;padding: 8px">'+ titles+
+							'<p>'+prices+'</p>'+
+                            '<p>'+timslimits+'</p>'+
+					    '</div>'+
+                      /*'<div class="mui-col-xs-2 mui-col-sm-2 " ><span class="mui-badge mui-badge-red ">×</span></div>'+*/
+					'</div>';
+			return htmlstr;	
+		};
+        function getdata (jsondata) {
+
+			var strs="";
+			for (x in jsondata) {
+					var prices=jsondata[x].price;
+					var titles=jsondata[x].titles;
+					var timelimits=jsondata[x].timelimit;
+					var scores=jsondata[x].score;
+					var colors=jsondata[x].color;
+					
+					strs+=madepindan(prices,titles,timelimits,scores,colors);
+					 
+				}
+			//alert(strs);
+			return strs;
+			
+		};
+      //  var pingjias = document.getElementById("pingjia");/*---------------分类*/
+			//pingjias.innerHTML=getdata(jsondata1);
+		//var pingjias2 = document.getElementById("pingjia2");/*---------------分类*/
+			//pingjias2.innerHTML=getdata(jsondata2);
+		</script>
+	</body>
+
+</html>

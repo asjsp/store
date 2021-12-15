@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<title></title>
+		<style>
+			.mui-scroll-wrapper {}
+			
+			#topPopover {
+				position: fixed;
+			}
+			
+			.mui-popover-arrow {
+				display: none;
+			}
+			
+			.mui-popover {
+				border-radius: 0;
+				width: 100%;
+				left: 0%;
+				right: 0%;
+				margin: 0 auto;
+			}
+			
+			.mui-segmented-control.mui-scroll-wrapper {
+				height: 40px;
+			}
+			
+			.mui-bar {
+				position: fixed;
+				z-index: 10;
+				right: 0;
+				left: 0;
+				height: 40px;
+				padding: 0px;
+			}
+			
+			mui-segmented-control.mui-scroll-wrapper .mui-scroll {
+				width: auto;
+				height: 40px;
+				white-space: nowrap;
+			}
+			
+			.mui-segmented-control.mui-scroll-wrapper .mui-control-item {
+				display: inline-block;
+				width: auto;
+				padding: 0 5px;
+				margin: 0 10px;
+				border: 0;
+			}
+			
+			.mui-bar .mui-segmented-control {
+				top: 0px;
+				width: auto;
+				margin: 0 auto;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back" style="color:red;"></a>
+			<h1 class="mui-title">闪电拼单</h1>
+		</header>
+		<div class="mui-content" style="background-color: white;">
+		
+			
+			<!--导航条-->
+			<div style="background-color: white;" class="hdj-flex">
+				<div style="width: 88%;" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-negative">
+					<div class="mui-scroll ">
+						<a @tap="goto(index)" :class="{'mui-active':index==stateh}" v-for="(item, index) in indexTypes" class="mui-control-item">
+							{{item.bgName}}
+						</a>
+					</div>
+				</div>
+				<a @tap="hpop()" class="mui-action-menu" style="color: gray;align-self: center;">
+					<span class="mui-icon mui-icon-arrowdown "></span>
+				</a>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/server.js"></script>
+		<script>
+			var cvw = null;
+			/*---------页面跳转----------*/
+			mui.init({
+				subpages: [{
+					url: 'sdpd_refresh.html',
+					id: 'sdpd_refresh',
+					styles: {
+						top: '85px',
+						bottom: '0px',
+					}
+				}]
+			});
+			
+			var vt = new Vue({
+				el: '.mui-content',
+				data: {
+					stateh: 0,
+					indexTypes: [], //-------顶部分类导航-----
+				},
+			});
+
+			//mui.getJSON(servername + "foregroundApi/findByParentId.do?parentId=40289fe46026e7d0016026ee926f0008", function(rsp) {
+				rsp=[
+					{"id":"40289fe46026e7d0016026eedc07000a","bgState":1,"bgName":"女装"},
+					{"id":"40289fe46026e7d0016026eedc07000a","bgState":1,"bgName":"电脑"},
+					{"id":"40289fe46026e7d0016026eedc07000a","bgState":1,"bgName":"食品"},
+					{"id":"40289fe46026e7d0016026eedc07000a","bgState":1,"bgName":"手机"},
+					{"id":"40289fe46026e7d0016026eedc07000a","bgState":1,"bgName":"家装"},
+					{"id":"40289fe46026e7d0016026eedc07000a","bgState":1,"bgName":"健康"},
+					]
+				console.info('rsp:'+JSON.stringify(rsp))
+				vt.indexTypes = rsp;
+				localStorage.setItem('indexTypes',JSON.stringify(rsp));
+				/* mui.plusReady(function() {
+					cvw = plus.webview.getWebviewById('sdpd_refresh');
+					setTimeout(function(){
+            	          goto(0);
+                         },500)
+				});*/
+				setTimeout(function(){
+					/*----*/
+					/*if(localStorage.getItem("index")){
+				          vt.stateh =localStorage.getItem("index");
+				          goto(vt.stateh);
+			          }else{*/
+			             	goto(0);
+			              // }
+				},200)
+
+			//});
+
+			/*子页面  导航处理--*/
+			/*-父页面导入-按钮激活状态更新-*/
+			//document.addEventListener('backgoto', 
+			function backgoto(n) {
+				vt.stateh = n;
+			}
+			//});
+			
+			//document.addEventListener('sdpd', function(event) {
+			
+				
+				
+			//});
+			/*-子页面--弹出选择--*/
+			function hpop() {
+				sdpd_refresh.window.pop();
+			//	mui('#topPopover').popover('toggle');
+				//var cvw = plus.webview.getWebviewById('sdpd_refresh');
+				/*mui.fire(cvw, 'pop', {
+					indexTypes: vt.indexTypes
+				});*/
+			}
+			/*-子页面--分类刷新数据-*/
+			function goto(n) {
+				//alert(n);
+				vt.stateh = n;
+				//sdpd_refresh.window.ref(n);
+				//localStorage.setItem("state",n);
+			
+				//var cvw = plus.webview.getWebviewById('sdpd_refresh');
+				/*mui.fire(cvw, 'goto', {
+					state: n,
+					indexTypes: vt.indexTypes
+				});*/
+			}
+		</script>
+	</body>
+
+</html>

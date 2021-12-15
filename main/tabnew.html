@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<!--App自定义的css-->
+		
+		<style>
+			.mui-table-view.mui-grid-view .mui-table-view-cell {
+    font-size: 17px;
+    display: inline-block;
+    margin-right: -1px;
+    padding: 6px 0 0 10px;
+    text-align: center;
+    vertical-align: middle;
+    background: 0 0;
+}
+			.mui-card {
+    font-size: 14px;
+    position: relative;
+    overflow: hidden;
+    margin: 5px;
+    border-radius: 1px;
+    background-color: #fff;
+    background-clip: padding-box;
+    box-shadow: 1 1px 1px rgba(0,0,0,.2);
+}
+.mui-slider-indicator .mui-active.mui-indicator {
+    background: #FF4C4A;
+}
+.mui-slider-indicator .mui-indicator {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin: 1px 6px;
+    cursor: pointer;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+   /* -webkit-box-shadow: 0 0 1px 1px rgba(130,130,130,.7);
+    box-shadow: 0 0 1px 1px rgba(130,130,130,.7);*/
+}
+		</style>
+	</head>
+
+	<body style="background-color: white;">
+		<!--<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="back()" style="color:red;"></a>
+			<h1 class="mui-title">我的足迹</h1>
+		</header>-->
+	<div id="list"  class="mui-content mui-scroll-wrapper" style="background-color: white;">
+		<div class="mui-scroll">	
+	   
+		<ul   class="mui-table-view mui-table-view-chevron mui-grid-view" style="background-color: white;">
+			    <div  class="mui-slider" >
+					  <div class="mui-slider-group ">
+					    <div    v-for="item in banners" class="mui-slider-item">
+					       <img :src="getserverimg(item.id,1)">
+					    </div>		    
+					  </div>
+					  <div class="mui-slider-indicator">
+					       <div v-for="(x,index) in banners" class="mui-indicator" :class="{'mui-active':(index==0)}"></div>
+					  </div>
+	            </div>
+			 <!--商品关注列表-->
+			 <li @tap="open_goods(item)"  v-for="item in goodsList"  class="mui-table-view-cell mui-col-xs-6 mui-col-sm-6 "> 
+              <div style="border: 1px solid gainsboro;">
+                 <!-- <img  :src="getserverimg(item.id,6)" style=" width:100%;height:auto; border-radius: 0px;padding:0vw">-->
+                  <div class="hdj-img-wrap1" >
+							 <img :src="getserverimg(item.id,6)" class="hdj-img-cont" >
+				  </div>
+                  <div style="padding-left: 7px;padding-right: 10px;padding-top: 5px; padding-bottom: 20px;">
+							<div class="mui-ellipsis-2 hdj-balck hdj-fsize2">{{item.gsiName}}</div>
+							<p style="padding:10px 0px">
+								<span class="mui-pull-left hdj-red hdj-fsize1">
+									<span class="hdj-fsize4">¥</span> {{item.gsiPrice}}
+								</span>
+								<!--<span >市场价¥{{item.gsiMarketprice}}</span>-->
+								 <span class="mui-pull-right hdj-img-wrap-head" >
+                         		       <img  :src="getserverimg(gp.mbId,0)" v-for="gp in item.group"  class="hdj-head-small" >
+                         	     </span>
+							</p>
+				  </div>
+               </div>
+              </li>
+		</ul>
+		
+		</div>
+	</div>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/server.js"></script>
+	<script>
+		var lastId = ''; //最新新闻的id
+		mui.init({
+			pullRefresh: {
+			   container: '#list',
+					down: {
+						
+						auto: true,
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+		});
+		var count = 1;
+		var totalCount ;
+		var noData = false;
+		getBanner();
+		
+		function pullupRefresh() {
+				count++;
+				setTimeout(function() {
+					mui('#list').pullRefresh().endPullupToRefresh(noData); //参数为true代表没有更多数据了。
+					callgoodslist(count);
+				}, 1000);
+			}	
+		function pulldownRefresh() {
+			if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+								plus.nativeUI.toast('似乎已断开与互联网的连接', {
+									verticalAlign: 'top'
+								});
+								return;
+							}
+			count = 1;
+	        callgoodslist(count);          
+		}
+		var vm = new Vue({
+				el: '.mui-content',
+				data: {banners:[],goodsList:[]}
+				});
+		 //-----------广告-------------------		
+		 function getBanner(){
+	    	       mui.getJSON(servername+"appbannerApi/getBanner.do",function(rsp) {
+	    		                //console.log(JSON.stringify(rsp));
+	    		                 vm.banners=rsp;
+	    		                 setTimeout(function(){
+									  mui(".mui-slider").slider(); 
+				                      var  gallery = mui('.mui-slider');
+                                          gallery.slider().gotoItem(0);
+									},100)
+	    	         });
+		 }
+	    //44.	获取新品列表
+	    function callgoodslist(rw){
+	    	console.info('打开页码'+rw);
+	    	if(rw == 1) {
+				//mui('#list').pullRefresh().enablePullupToRefresh();
+				noData = false;
+				vm.goodsList = [];
+			}
+	         /*---------------------*/
+	        var data ={page:rw,rows:2};
+			var apiname="goodsInfoApi/showNew"+".do";
+				//console.log(servername+apiname+"?"+"&page=1&rows=4");
+			mui.getJSON(servername+apiname,data, function(rsp) {
+				console.log("订单列表" + JSON.stringify(rsp));
+					if(rsp.lastPage || rsp.rows.length <= 0) {
+						noData = true;
+					}
+					var len = vm.goodsList.length;
+					mui.each(rsp.rows, function(index, value) {
+						vm.$set(vm.goodsList, len + index, value);
+					})
+					mui('#list').pullRefresh().endPulldownToRefresh();
+					
+//				            mui('#list').pullRefresh().endPulldown();
+//				            //console.log(JSON.stringify(rsp.rows));
+//				            if(rsp.rows&& rsp.rows.length > 0) {
+//				            	vm.goodsList=rsp.rows;
+//				            	totalCount=rsp.totalCount;
+//				            	
+//				            	//vm.goodsList.push(rsp.rows[0]);
+//				            	//alert(vm.goodsList.length)
+//				            	//totalCount=8;
+//				            	//console.log(getserverimg(rsp.rows[0].id,6))
+//				            }
+            });
+	    }
+      /*-------进入商品详情---传递----mercId-----*/
+		/*function open_goods(item) {
+			console.log("打开商品详情页--->id"+item.id);
+		    mui.fire(pdview_detail, 'goods_info', {
+			    goodsinfo:item
+			});
+			setTimeout(function () {
+					pdview_detail.show("slide-in-right", 300);
+				},300);
+			}	*/		   
+	</script>
+	</body>
+
+</html>

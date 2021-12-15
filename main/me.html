@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<link href="../css/mui.picker.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<!--App自定义的css-->
+		<style>
+			.mui-btn {
+				font-size: 15px;
+				padding: 8px;
+				margin: 3px;
+			}
+			.head {
+				height: 40px;
+			}
+			#head {
+				line-height: 40px;
+			}
+			.head-img {
+				width: 40px;
+				height: 40px;
+			}
+			#head-img1 {
+				position: absolute;
+				bottom: 10px;
+				right: 40px;
+				width: 40px;
+				height: 40px;
+				border-radius: 50%;
+			}
+			.mui-popover-arrow{
+				display: none;
+			}
+			.mui-popover {
+				
+				width: 80%;
+				left: 10%;
+				right: 10%;
+				margin: 0 auto;
+			}
+			#picture {
+				
+				width: 100%;
+			    left: 0%;
+				right: 0%;
+				margin:0;
+			}
+			.mui-checkbox input[type=checkbox]:checked:before, .mui-radio input[type=radio]:checked:before {
+               color: #FF4B4A;
+             }
+             .mui-table-view:before{
+				    height: 0px;
+				}
+			.mui-table-view:after{
+				    height: 0px;
+				}
+			.mui-table-view-cell:after {
+				    height: 0px;
+				}	
+			.mui-badge{
+				font-size: 15px;
+				color: #999999;
+			}
+		</style>
+
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FF4B4A;"></a>
+			<h1 class="mui-title">个人资料</h1>
+		</header>
+	    <div id="list" class="mui-content" style="background-color: white;">	
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								<a id="head" class="mui-navigate-right" href="#picture">头像
+								<span class="mui-pull-right head">
+									<img class="head-img mui-action-preview" id="head-img1" src=""/>
+								</span>
+							</a>
+							</li>
+							<li class="mui-table-view-cell">
+						         <a class="mui-navigate-right" href="#pet">
+						         	昵称
+						         	<span class="mui-badge mui-badge-inverted">{{petname}}</span>
+						         </a>
+					        </li>
+							<li class="mui-table-view-cell">
+								 <a class="mui-navigate-right" href="#sex">
+								 	性别
+								 	<span class="mui-badge mui-badge-inverted">{{convert(sex)}}</span>
+								 </a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a  class="mui-navigate-right" id='showCityPicker3'>
+					                                                常住地
+						            <span class="mui-badge mui-badge-inverted" id='cityResult3'>
+						            	{{address}}
+						            </span>
+					             </a>
+							</li>
+							<li id='pickDateBtn' data-options='{"type":"date"}'  class="mui-table-view-cell">
+								<a  class="mui-navigate-right">
+					                                               生日
+						              <span  class="mui-badge mui-badge-inverted">{{birthday}}</span>
+					             </a>
+							</li>
+							<!--<li class="mui-table-view-cell">
+						         <a class="mui-navigate-right" href="#qm">
+						         	个性签名
+						         	<span class="mui-badge mui-badge-inverted">{{gxname}}</span>
+						         </a>
+					       </li>-->
+						</ul>
+		<!------------>
+		</br></br>
+		
+		<!------------->
+         <div style="padding: 20px;">
+             <div id="exit"  class="mui-btn mui-btn-block mui-btn-red hdj-redbg" style="color: white;border-radius: 50px;">
+			    退出登录
+		     </div>
+		  <!--<img :src='headimg' style="width: 10vw;" class="">-->
+		</div>
+		<div  id="pet"  class="mui-input-group mui-popover ">
+			        <div style="text-align: center;padding: 15px;border-bottom: 1px solid gainsboro;" class="hdj-balck hdj-fsize2">
+						修改昵称
+					</div>
+					<div class="mui-input-row hdj-balck hdj-fsize5">
+									<label>昵称</label>
+									<input  v-model="petname" type="text" class="mui-input-clear" placeholder="请输入昵称">
+					</div>
+								
+					<div class="mui-button-row" style="padding: 30px;">
+							<button :disabled="!petname"  @tap="save('pet')"    class="mui-btn mui-btn-outlined mui-btn-red " style="margin-right: 40px; width: 80px; border-radius: 20px;padding: 4px;" >
+								保存
+							</button>
+							<a href="#pet"  class="mui-btn mui-btn-outlined mui-btn-red " style="width: 80px; border-radius: 20px;padding: 4px;"  >
+								取消
+							</a>
+					</div>	
+					<p style="height: 10px;padding: 15px;"></p>
+		</div>
+		<div id="sex"  class="mui-input-group mui-popover ">
+			       <div style="text-align: center;padding: 15px;border-bottom: 1px solid gainsboro;" class="hdj-balck hdj-fsize2">
+						选择性别
+					</div>
+			       <div class="mui-input-row mui-radio">
+						<label>男</label>
+						<input v-model="sex" value="1" type="radio">
+					</div>
+					<div class="mui-input-row mui-radio">
+						<label>女</label>
+						<input v-model="sex" value="2" type="radio">
+					</div> 
+					<div class="mui-button-row" style="padding: 15px;">
+							<button  @tap="save('sex')"    class="mui-btn mui-btn-outlined mui-btn-red " style="margin-right: 40px; width: 80px; border-radius: 20px;padding: 4px;" >
+								保存
+							</button>
+							<a href="#sex"  class="mui-btn mui-btn-outlined mui-btn-red " style="width: 80px; border-radius: 20px;padding: 4px;"  >
+								取消
+							</a>
+					</div>	
+					<p style="height: 10px;padding: 15px;"></p>
+		</div>
+		<div id="qm"  class="mui-input-group mui-popover ">
+					<div style="text-align: center;padding: 15px;border-bottom: 1px solid gainsboro;" class="hdj-balck hdj-fsize2">
+						修改签名
+					</div>
+					<div class="mui-input-row hdj-balck hdj-fsize5">
+									<label>个性签名</label>
+									<input  v-model="gxname" type="text" class="mui-input-clear" placeholder="请输入签名">
+					</div>
+								
+					<div class="mui-button-row" style="padding: 30px;">
+							<button :disabled="!gxname"  @tap="save('qm')"   class="mui-btn mui-btn-outlined mui-btn-red " style="margin-right: 40px; width: 80px; border-radius: 20px;padding: 4px;" >
+								保存
+							</button>
+							<a href="#qm"  class="mui-btn mui-btn-outlined mui-btn-red " style="width: 80px; border-radius: 20px;padding: 4px;"  >
+								取消
+							</a>
+					</div>	
+					<p style="height: 10px;padding: 15px;"></p>
+		</div>
+		
+	    </div>
+	    
+	     <input type="file" name="cam" capture="camera"  accept="image/*"  id="cam" onchange="readURL(this)" style="display:none;" />
+    
+	    <input type="file" name="file" accept="image/png,image/jpg,image/jpeg"  id="file" onchange="readURL(this)" style="display:none;" />
+       
+	    <div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<p onclick="getImage()" class="hdj-balck hdj-fsize2">拍照</p>
+				</li>
+				<li class="mui-table-view-cell">
+					<p onclick="galleryImg()" class="hdj-balck hdj-fsize2">从手机相册选择</p>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a href="#picture"><span style="color: black;">取消</span></a>
+				</li>
+			</ul>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.picker.min.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script src="../js/city.data-3.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/server.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		 <script>
+		 	(function($, doc) {
+				$.init();
+				$.ready(function() {
+		           var _getParam = function(obj, param) {
+						return obj[param] || '';
+					};
+                   	//					//级联示例
+					var cityPicker3 = new $.PopPicker({
+						layer: 3
+					});
+					cityPicker3.setData(cityData3);
+					var showCityPickerButton = doc.getElementById('showCityPicker3');
+					var cityResult3 = doc.getElementById('cityResult3');
+					showCityPickerButton.addEventListener('tap', function(event) {
+						cityPicker3.show(function(items) {
+							vm.address =_getParam(items[0], 'text') + " " + _getParam(items[1], 'text') + " " + _getParam(items[2], 'text');
+							
+							vm.mbaProvince=_getParam(items[0], 'value');
+							vm.mbaCity=_getParam(items[1], 'value');
+							vm.mbaOrg=_getParam(items[2], 'value');
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+							
+						});
+					}, false);
+					
+				});
+			})(mui, document);
+         </script>
+		<script>
+		mui.init({
+			pullRefresh: {
+			  container: '#list',
+			  down: {
+					
+						auto: false,
+						callback: pulldownRefresh
+					}
+				}
+		});	
+	
+		var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					mbId:'',
+					headimg:'../images/demo/mm.jpg',/*-上传用户头像-base64--*/
+					birthday:'',
+					sex:1,
+					address:'',
+					mbaProvince:370000,
+					mbaCity:370200,
+					mbaOrg:370203,
+					petname:'昵称',
+					gxname:null
+				}
+		});
+		vm.mbId = h5_mbinfo.mbId;
+				var lauchFlag = localStorage.getItem("lauchFlag");
+				//向服务端请求会员信息
+				if(lauchFlag){	
+					 var hm=document.getElementById("head-img1");
+					 hm.src='../images/demo/mm.jpg'
+					 //getme();
+				};
+				//------------------
+				//-------------退出--------------------------	
+		var exitButton =document.getElementById('exit');
+		exitButton.addEventListener('tap', function(event) {
+		               // plus.storage.removeItem("mbId");
+					   // plus.storage.removeItem("lauchFlag");
+					   // alert(plus.storage.getItem("lauchFlag"));
+					    //alert(plus.storage.getItem("mbId"));
+					    tjhistroy(vm.mbId);
+					    
+					    localStorage.clear();
+					    mui.toast('退出');
+					    mui.openWindow('../index.html');
+					   /* var h=plus.webview.getLaunchWebview();
+					         h.show();
+		                 mui.fire(h,'gohome');	*/									    
+					});
+		function tjhistroy(mid) {
+				var hs = localStorage.getItem('histroy_info');
+				console.info("我的足迹---" + hs);
+				console.info(mid);
+			}			
+		function pulldownRefresh() {
+			if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+								plus.nativeUI.toast('似乎已断开与互联网的连接', {
+									verticalAlign: 'top'
+								});
+								return;
+							}
+	       // getme();
+	        mui('#list').pullRefresh().endPulldownToRefresh();
+		}
+		/*-----获取个人资料-------*/
+		function getme(){
+			             var data = {
+					mbId: vm.mbId
+				};
+				console.info('个人信息请求:'+JSON.stringify(data));
+				var apiname = "memberApi/showInfo" + ".do";
+				mui.getJSON(servername + apiname, data, function(rsp) {
+					mui('#list').pullRefresh().endPulldownToRefresh();
+					console.log(JSON.stringify(rsp));
+					vm.petname = rsp.mbPetname;
+					vm.sex = rsp.mbSex;
+					vm.birthday = rsp.mbBirthday;
+					var d = new Date(rsp.mbBirthday);
+					vm.birthday = '' + d.getFullYear() + "-" + ((d.getMonth() + 1)<10?'0'+(d.getMonth() + 1):(d.getMonth() + 1)) + "-" + (d.getDate()<10?'0'+d.getDate():d.getDate());
+					vm.address = rsp.mbProvinceName + rsp.mbCityName + rsp.mbOrgName;
+				});
+		}
+		
+		function save(pop){
+			//alert(pop);
+			saveme();
+			setTimeout(function() {
+								    mui('#'+pop).popover('toggle');
+							       }, 1000);
+		}
+		/*-----保存个人资料-------*/
+		function saveme(){
+			         var data = {
+					mbId: vm.mbId,
+					mbPetname: vm.petname,
+					mbSex: vm.sex?vm.sex:'',
+					/* headimgs:vm.headimg,*/
+					mbBirthdayStr: vm.birthday?vm.birthday:'',
+					mbProvince: vm.mbaProvince?vm.mbaProvince:'',
+					mbCity: vm.mbaCity?vm.mbaCity:'',
+					mbOrg: vm.mbaOrg?vm.mbaOrg:''
+				};
+				//alert(JSON.stringify(data));     
+				console.info('请求保存:'+JSON.stringify(data));
+				var apiname = "memberApi/updateData" + ".do";
+				console.info('请求地址:'+servername + apiname)
+				mui.post(servername + apiname, data, function(rsp) {
+					console.log('请求返回:'+JSON.stringify(rsp));
+					mui.toast(rsp.msg);
+					if(rsp.code == 0) {}
+				}, 'json');
+		}
+		
+		function convert(item){
+				var str='';
+				if(item==1){str="男"}
+				if(item==2){str="女"}
+				return str;
+			}
+		document.getElementById("pickDateBtn").addEventListener('tap', function() {
+		                var _self = this;
+						if(_self.picker) {
+							_self.picker.show(function (rs) {
+								vm.birthday = rs.text;
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						} else {
+							var optionsJson = this.getAttribute('data-options') || '{}';
+							var options = JSON.parse(optionsJson);
+							var id = this.getAttribute('id');
+							/*
+							 * 首次显示时实例化组件
+							 * 示例为了简洁，将 options 放在了按钮的 dom 上
+							 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+							 */
+							_self.picker = new mui.DtPicker(options);
+							_self.picker.show(function(rs) {
+								/*
+								 * rs.value 拼合后的 value
+								 * rs.text 拼合后的 text
+								 * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+								 * rs.m 月，用法同年
+								 * rs.d 日，用法同年
+								 * rs.h 时，用法同年
+								 * rs.i 分（minutes 的第二个字母），用法同年
+								 */
+								vm.birthday = rs.text;
+								/* 
+								 * 返回 false 可以阻止选择框的关闭
+								 * return false;
+								 */
+								/*
+								 * 释放组件资源，释放后将将不能再操作组件
+								 * 通常情况下，不需要示放组件，new DtPicker(options) 后，可以一直使用。
+								 * 当前示例，因为内容较多，如不进行资原释放，在某些设备上会较慢。
+								 * 所以每次用完便立即调用 dispose 进行释放，下次用时再创建新实例。
+								 */
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						}
+				
+			})
+		
+		//-------------------------------
+		//更换头像
+		function getImage() {
+		            mui('#picture').popover('toggle');
+		            document.getElementById("cam").click();
+		           
+		}
+		function galleryImg() {
+			mui('#picture').popover('toggle');
+			document.getElementById("file").click();
+			//alert("xcc");
+		};
+		function readURL(input) {
+           if (input.files && input.files[0]) {
+           var reader = new FileReader();
+           reader.onload = function (e) {
+            document.getElementById("head-img1").src= e.target.result;
+           //alert(e.target.result)
+            vm.headimg = sur.substring(sur.indexOf(",") + 1);
+           }
+          reader.readAsDataURL(input.files[0]);
+            }
+        }
+		
+		function changeToop(){
+                 var file = document.getElementById("file");
+                 if(file.value==''){
+                  //设置默认图片
+                  defaultImg();
+                  }else{
+                        document.getElementById("head-img1").src = getFileUrl("file");
+                        setTimeout(function() {
+								   getbase64()
+							    }, 500);
+                     }
+        }
+		//获取input[file]图片的url Important
+        function getFileUrl(fileId) { 
+            var url; 
+            var file = document.getElementById(fileId);
+            var agent = navigator.userAgent;
+            if (agent.indexOf("MSIE")>=1) {
+              url = file.value; 
+            } else if(agent.indexOf("Firefox")>0) { 
+            url = window.URL.createObjectURL(file.files.item(0)); 
+            } else if(agent.indexOf("Chrome")>0) {
+            url = window.URL.createObjectURL(file.files.item(0)); 
+             } 
+             return url; 
+        } 
+        
+		function defaultImg() {
+			 document.getElementById("head-img1").src='../images/logo11.png';
+		}
+		
+		document.getElementById("head-img1").addEventListener('tap', function(e) {
+			e.stopPropagation();
+		});
+		/*-----------*/
+		var heads64='data:image/png;base64,'
+		function getbase64(){
+			alert('base64');
+			
+			   var url = document.getElementById("head-img1").src 
+                 convertImgToBase64(url, function(base64Img){
+                        vm.headimg=base64Img.substring(base64Img.indexOf(",") + 1);
+                       alert(vm.headimg);
+                       //vm.headimg=heads64+vm.headimg;
+                        //alert(vm.headimg);
+                    });             
+        }
+       //实现将项目的图片转化成base64
+       function convertImgToBase64(url, callback, outputFormat){
+           var canvas = document.createElement('CANVAS'),
+    　　           ctx = canvas.getContext('2d'),
+    　　           img = new Image;
+    　　           img.crossOrigin = 'Anonymous';
+    　　           img.onload = function(){
+        　　                canvas.height = img.height;
+        　　                canvas.width = img.width;
+        　　                ctx.drawImage(img,0,0);
+        　                　var dataURL = canvas.toDataURL(outputFormat || 'image/png');
+        　                　callback.call(this, dataURL);
+        　               　 canvas = null; 
+                    };
+    　　       img.src = url;
+         }
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<style>
+
+		</style>
+	</head>
+
+	<body style="background-color: white;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"  style="color:red;"></a>
+			<h1 class="mui-title">领券购</h1>
+		</header>
+	<div id="list"  class="mui-content mui-scroll-wrapper" style="background-color: white;">	
+		<div class="mui-scroll">
+		<!----商品列表----->
+		<ul  class="mui-table-view  mui-table-view-chevron" style="background-color: white;">
+		        <li @tap="quan_href(item.couponClickUrl)"  v-for="item in couponlist"  class="mui-table-view-cell  mui-row" style="border-bottom:1px solid #efeff4" > 
+		             
+		            <div class="mui-media-body mui-col-xs-5 mui-col-sm-5">
+						<img :src="item.pictUrl" style="width:99%;border-radius: 5px;">
+					</div>
+					<div class="mui-media-body mui-col-xs-7 mui-col-sm-7" style="padding-top: 10px;padding-left: 20px;">
+						<div class="mui-ellipsis-2 hdj-balck hdj-fsize2">{{item.title}} </div>
+						<p style="padding-top: 6px;"> 
+							<span class="hdj-fsize3 hdj-gray" style="text-decoration:line-through ">现价：{{item.zkFinalPrice}}</span>
+						</p>
+						<p style="padding-top: 5px;" class="hdj-fsize3">
+							卷后价：<span class="hdj-deepink hdj-fsize1">¥ {{item.zkFinalPrice-item.couponInfo}}</span>
+						</p>
+						
+						<p style="padding-top: 10px;padding-bottom: 10px;" class="hdj-fsize4" >
+							
+						<span style="text-align: center;border-radius: 3px 0px 0px 3px;color:white;padding:4px 6px; background-color:#e82469;border: 1px solid #E82469;">
+		                                                     卷
+						</span>
+						
+						<span style="text-align: center;padding:4px 10px; border-radius: 0px 3px 3px 0px;  background-color:white; color:#e82469;border: 1px solid #E82469;">
+		                       	{{item.couponInfo}}元
+		                </span>
+		                
+		                </p>
+
+					</div>
+		        </li>
+		            
+		</ul>
+	   </div>
+	</div>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/server.js"></script>
+	<script>
+	    mui.init({
+				swipeBack: false,
+				pullRefresh: {
+					container: '#list',
+					down: {
+						auto: true,
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+		var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					couponlist:[]
+					}
+				});
+		var count = 1;
+		var totalCount ;
+			function pullupRefresh() {
+				count++;
+				setTimeout(function() {
+					mui('#list').pullRefresh().endPullupToRefresh((count > totalCount)); //参数为true代表没有更多数据了。
+					callgoodslist(count*4);
+				}, 1000);
+			}		
+		function pulldownRefresh() {
+			if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+								plus.nativeUI.toast('似乎已断开与互联网的连接', {
+									verticalAlign: 'top'
+								});
+								return;
+							}
+	        callgoodslist(count*4);          
+		}
+	    //callgoodslist(count*4);
+		/*-------顶部分类按钮-跳转------------*/
+	    function callgoodslist(rw){
+	    	             var data ={page:1, rows:rw}; 
+						 var apiname="couponGoodsInfo/list"+".do";
+						 // console.log(JSON.stringify(data));
+						 //console.log(servername+apiname+"?sklId="+vm.tim.id+"&page=1&rows=4");
+						mui.getJSON('../json/couponlist.json', function(rsp) {
+							
+
+						             //console.log(JSON.stringify(rsp));
+						           mui('#list').pullRefresh().endPulldownToRefresh();
+						            if(rsp.rows&&rsp.rows.length > 0) {
+						            	vm.couponlist=rsp.rows;
+						            	totalCount=rsp.totalCount;
+						            }
+		                         });
+	    }
+	     /*-------进入商品详情---传递----mercId-----*/
+		function quan_href(item) {
+			localStorage.setItem("quanurl",item);
+			mui.openWindow("webview_embed.html");
+			/* var emview =preload("webview_embed.html");
+			    mui.fire(emview, 'emview_url', {
+				    emurl:item
+				});
+			setTimeout(function () {
+					emview.show("slide-in-right", 300);
+				},150);*/
+			}
+		/*function back(){
+			plus.webview.currentWebview().close();
+		};*/
+	
+	</script>
+	
+	</body>
+
+</html>

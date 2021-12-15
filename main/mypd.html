@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<style>
+			.mui-table-view.mui-grid-view .mui-table-view-cell {
+				font-size: 17px;
+				display: inline-block;
+				margin-right: -1px;
+				padding: 6px 0 0 10px;
+				text-align: center;
+				vertical-align: middle;
+				background: 0 0;
+			}
+			
+			.mui-card {
+				font-size: 14px;
+				position: relative;
+				overflow: hidden;
+				margin: 5px;
+				border-radius: 1px;
+				background-color: #fff;
+				background-clip: padding-box;
+				box-shadow: 1 1px 1px rgba(0, 0, 0, .2);
+			}
+			
+			.mui-table-view:before {
+				height: 0px;
+			}
+			
+			.mui-table-view:after {
+				height: 0px;
+			}
+			
+			.mui-table-view-cell:after {
+				height: 0px;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: #FDF7F7;">
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"  style="color:red;"></a>
+			<h1 class="mui-title">我的拼单</h1>
+		</header>
+		<div id="item1" class="mui-content mui-scroll-wrapper" style="background-color: #FDF7F7;">
+            <div class="mui-scroll">
+            <ul class="mui-table-view mui-table-view-chevron">
+            	
+			<div style="background-color: white; border-bottom: 1px solid gainsboro;" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-negative">
+				<!--<a  class="mui-control-item " href="#item1">全部拼单</a>-->
+				<a @tap="goto(1)" class="mui-control-item mui-active" href="#item1">拼单中</a>
+				<a @tap="goto(2)" class="mui-control-item" href="#item1">拼单成功</a>
+				<a @tap="goto(4)" class="mui-control-item" href="#item4">拼单失败</a>
+			</div>
+<!--
+			<div class="mui-slider-group">
+				<div id="item1" class="mui-slider-item mui-control-content mui-active">
+					<div class="mui-scroll-wrapper">-->
+						
+							<!---数据填充------>
+							<div v-for="item in orderList1" class="mui-table-view-cell hdj-shadow" style="background-color: white; margin: 10px;margin-bottom:20px;border-radius:8px; padding: 15px; padding-right: 0px;">
+								<div class="hdj-space-between">
+									<span class="hdj-balck hdj-fsize1">Mary{{item.mbPetname}}<!--{{item.mbId}}-->发起了拼单</span >
+                       <span style="padding-right: 15px;" class="hdj-fsize1"  v-bind:style="{color:convert_color(state),}">
+                           	{{convert_label(state)}}
+                       </span>
+								</div>
+								<div style="padding-top: 10px;display: none;">
+									<span class="hdj-gray2 hdj-fsize3">{{item.time}}小时前</span >
+                </div>
+                <div  class="hdj-flex" style="padding-top: 20px;">
+                	
+                	<div  class="mui-media-body mui-col-xs-3 mui-col-sm-3" >
+                         <div class="hdj-img-wrap1" style="background-color: white;">
+                              <img  src="../images/demo/sj23.jpg" class="hdj-img-cont" style="width: 90%;">
+                         </div>
+                         <span  v-if="state" class="hdj-imglabel-orange" >{{convert(state)}}</span>
+					</div>
+
+								<div  class="mui-media-body mui-col-xs-9 mui-col-sm-9" style="margin-left: 5px;">
+									<div class="mui-ellipsis hdj-balck hdj-fsize2" style="padding-right: 15px;">
+										{{item.gsiName}}
+									</div>
+									<p style="padding-top: 15px;">
+										<span class="hdj-red hdj-fsize2">
+                                  	   ¥6{{item.boActprice}}
+                                  </span>
+										<span class="hdj-balck hdj-fsize5" style="padding-left: 15px;">
+                                  	    {{item.gpoCompletenum}}/{{item.gpoNeednum}} 还差 6 人
+                                  </span>
+									</p>
+
+								</div>
+				</div>
+
+							<div class="hdj-space-between-end hdj-fsize2">
+								<span v-bind:style="{color:convert_gray(state),}" style="margin-left: 10px;font-size: 17px;">
+                         	<div v-if="state==1">余时:00:33:12</div>
+                       </span >
+                      
+                       <span v-if="state==1" @tap="open_invit(item)"  style="width: 120px; text-align:center; padding:6px;border-radius: 20px 0px 0px 20px;; color:white; background-color:#FF4C4A">
+                       	        邀请好友拼单
+                       </span>
+
+								<span v-if="state==2" @tap="see_order(item)" style=" width: 120px; text-align:center; padding:6px;border-radius: 20px 0px 0px 20px;; color:white; background-color:#FF4C4A">
+                        	查看详情
+                       </span>
+							</div>
+						</div>
+						<!------------------>
+			 </ul>		
+			</div>
+			<!--	</div>
+			</div>-->
+			<!----list-->
+		<!--</div>-->
+
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/server.js"></script>
+		<script>
+			function lzero(num){  
+				if((num+'').length < 2){  
+				    num = '0'+num;  
+				}  
+			    return num;  
+			}
+			function remainTime(str) {
+				console.info(str)
+				var iTime = str - new Date().getTime();
+			    var iRemain = iTime / 1000;
+			    var iDay = parseInt(iRemain / 86400);
+			    iRemain %= 86400;
+			    var iHour = parseInt(iRemain / 3600);
+			    iRemain %= 3600;
+			    var iMin = parseInt(iRemain / 60);
+			    iRemain %= 60;
+			    var iSec = parseInt(iRemain);
+			    console.info(iDay + "天" + iHour + "时" + iMin + "分" + iSec + "秒")
+				oTime = lzero(iHour) + ':' + lzero(iMin) + ':' + lzero(iSec); //最后拼接时间  
+				return oTime;
+			}
+			//-----------------------
+			var mview_detail =null;
+			var order_view =null;
+			
+			mui.init({
+				pullRefresh: {
+					container: '#item1',
+					down: {
+						style: 'circle',
+						color: '#ff4c4a',
+						offset: '60px',
+						auto: true,
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+
+				}
+			});
+			
+			/*mui.plusReady(function() {
+				mview_detail = preload("invitgsi.html");
+				order_view = preload("order_detail.html");
+				vm.mbId = plus.storage.getItem("mbId");
+				
+			});*/
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					mbId: '',
+					publicstr: '',
+					orderList1: [],
+					state: 1
+				}
+			});
+			vm.mbId = h5_mbinfo.mbId;
+			var count = 1;
+			var totalCount;
+
+			function pullupRefresh() {
+				count++;
+				setTimeout(function() {
+					mui('#item1').pullRefresh().endPullupToRefresh(noData); //参数为true代表没有更多数据了。
+					open_indexTypes(sn, count, 6);
+				}, 1000);
+			}
+
+			function pulldownRefresh() {
+				count = 1;
+				if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+					plus.nativeUI.toast('似乎已断开与互联网的连接', {
+						verticalAlign: 'top'
+					});
+					return;
+				}
+				open_indexTypes(sn, count, 6);
+				//vm.orderList=test;
+			}
+			var sn;
+			var noData = false;
+
+			function goto(n) {
+				sn = n;
+				vm.state = sn;
+				count = 1;
+				open_indexTypes(sn, count, 6);
+			}
+			/*-------61.	订单列表------------*/
+			function open_indexTypes(item, page, rows) {
+				if(page == 1) {
+					//mui('#item1').pullRefresh().enablePullupToRefresh();
+					noData = false;
+					vm.orderList1 = [];
+				}
+				var data = {
+					mbId: vm.mbId,
+					page: page,
+					rows: rows
+				};
+				if(!item) {
+					item = 1;
+				}
+				if(item) {
+					data.state = item;
+				}
+				console.info('请求参数:' + JSON.stringify(data))
+				var apiname = "orderApi/groupList" + ".do";
+				//console.log(servername+apiname+"?sklId="+vm.tim.id+"&page=1&rows=4");
+				mui.getJSON('../json/orderlist.json', function(rsp) {
+					console.log("订单列表" + JSON.stringify(rsp));
+					if(rsp.lastPage || rsp.rows.length <= 0) {
+						noData = true;
+					}
+					var len = vm.orderList1.length;
+					mui.each(rsp.rows, function(index, value) {
+						console.log(JSON.stringify(value));
+						vm.$set(vm.orderList1, len + index, value);
+					})
+					mui('#item1').pullRefresh().endPulldownToRefresh();
+				});
+			}
+			// --"查看订单"------------;
+			//order_view = preload("order_detail.html");
+			function see_order(item) {				
+				/*mui.fire(order_view, 'order_detail', {
+					orderinfo: {
+						id : item.odId
+					}
+				});
+				setTimeout(function() {
+					order_view.show("slide-in-right", 300);
+				}, 150);*/
+				var ord= {
+						id : item.odId
+					}
+				localStorage.setItem("orderinfo",JSON.stringify(ord));
+			    mui.openWindow('order_detail.html');
+				
+			}
+			/*-邀请好友拼单-------*/
+			//mview_detail = preload("invitgsi.html");
+			function open_invit(item) {
+				/*mui.fire(mview_detail, 'invit', {
+					orderinfo: item
+				});
+				setTimeout(function() {
+					mview_detail.show("slide-in-right", 300);
+				}, 150);*/
+				localStorage.setItem("invitgsiinfo",JSON.stringify(item));
+			    mui.openWindow("invitgsi.html");
+			};
+
+			function convert(item) {
+				var str = '';
+				if(item == 1) {
+					str = "拼单中"
+				};
+				if(item == 2) {
+					str = "拼单成功"
+				};
+				if(item == 3) {
+					str = "未开团"
+				};
+				if(item == 4) {
+					str = "拼团失败"
+				};
+				return str
+			};
+
+			function convert_label(item) {
+				//alert(item);
+				var str = '';
+				if(item == 1) {
+					str = "拼单中"
+				};
+				if(item == 2) {
+					str = "拼单成功"
+				};
+				return str
+			};
+
+			function convert_color(item) {
+				var str = '';
+				if(item == 0) {
+					str = "#f9a504"
+				};
+				if(item == 1) {
+					str = "green"
+				};
+				return str
+			};
+
+			function convert_gray(item) {
+				var str = '';
+				if(item == 0) {
+					str = "#a7a7a7"
+				};
+				if(item == 1) {
+					str = "#ff4c4a"
+				};
+				return str
+			};
+
+			function back() {
+				plus.webview.currentWebview().close();
+			};
+			/*var item2 = document.getElementById('item2');
+			var item3 = document.getElementById('item3');
+			document.getElementById('list').addEventListener('slide', function(e) {
+						if (e.detail.slideNumber === 1) {
+							if (item2.querySelector('.mui-loading')) {
+								setTimeout(function() {
+									item2.innerHTML =getdatalike(jsondata1);
+								}, 500);
+							}
+						} else if (e.detail.slideNumber === 2) {
+							if (item3.querySelector('.mui-loading')) {
+								setTimeout(function() {
+									item3.innerHTML =getdatalike(jsondata2);
+								}, 500);
+							}
+						} 
+						else if (e.detail.slideNumber === 3) {
+							if (item4.querySelector('.mui-loading')) {
+								setTimeout(function() {
+									item4.innerHTML =getdatalike(jsondata3);
+								}, 500);
+							}
+						} 
+					});*/
+		</script>
+
+	</body>
+
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+	</head>
+	<body>
+		<div class="mui-content">
+		    <div class="mui-table-view" style="margin-top: 3px;font-size: 16px; color: #333333;">
+					<li class="mui-table-view-cell" id="me.html" onclick="clicked(this.id)" style="padding: 15px;">
+						<a  class="mui-navigate-right">
+						<img id="headm" style="border-radius: 50%;" class="mui-media-object mui-pull-left" :src="faceUrl">
+						<div class="mui-media-body"  style="margin-left: 20px;">
+							昵称
+							<p class='mui-ellipsis' style="font-size: 14px; color: #959595;margin-top: 15px;">
+								获取关注商品
+								</p>
+						</div>
+						</a>
+					</li>
+		    </div>
+		    <ul class="mui-table-view" style="margin-top: 3px;font-size: 15px; color: #434343;"> 
+			<div  class="mui-row" style="padding: 10px;">
+				 <div class="mui-col-xs-6 mui-col-sm-6 " style="border-right: 1px solid gainsboro;">
+                      <li class="mui-table-view-cell " style="display: flex;justify-content: center;align-items: center;display: -webkit-flex;-webkit-justify-content: center;-webkit-align-items: center;"  id="mymoney.html" onclick="clicked(this.id)">
+                      
+						  <img style="width: 15vw;height: auto;" src="../images/money.png" >
+						 
+						  <span style="margin-left: 12px;">我的钱包</span>
+						
+                      </li>
+                </div>
+                <div class="mui-col-xs-6 mui-col-sm-6" >
+                      <li class="mui-table-view-cell" id="mydd.html" onclick="clicked(this.id)" style="display: -webkit-flex;-webkit-justify-content: center;-webkit-align-items: center;display: flex;justify-content: center;align-items: center;">
+                          <img style="width: 15vw;height: auto;" src="../images/dingd.png" >
+						 
+						  <span style="margin-left: 12px;" >全部订单</span>
+                      </li>
+                </div>	
+			</div>
+			</ul>
+		    <ul class="mui-table-view" style="padding: 5px; pmargin-top: 0px;font-size: 13px; color: #555555;">
+			<div class="mui-row">
+				 <div class="mui-col-xs-3 mui-col-sm-3">
+                       <li class="mui-table-view-cell" style="text-align: center;" @tap="goOrderList(1)">
+                           <img id="face" style="width: 10vw;height: auto;" src="../images/jy.png"  >
+						   <p style="color:black">待付款</p>
+                      </li>
+               </div>
+                 <div class="mui-col-xs-3 mui-col-sm-3">
+                      <li class="mui-table-view-cell" style="text-align: center;" @tap="goOrderList(2)">
+                          <img style="width: 10vw;height: auto;" src="../images/fahuo.png"  >
+						  <p style="color:black">待发货</p>
+                      </li>
+                </div>
+                <div class="mui-col-xs-3 mui-col-sm-3">
+                      <li class="mui-table-view-cell" style="text-align: center;" id="share.html" @tap="goOrderList(3)">
+                          <img style="width: 10vw;height: auto;" src="../images/fahuo.png"  >
+						  <p style="color:black">待收货</p>
+                      </li>
+                </div>
+                <div class="mui-col-xs-3 mui-col-sm-3">
+                      <li class="mui-table-view-cell" style="text-align: center;" id="pingjia.html" @tap="goOrderList(9)">
+                            <img style="width:10vw;height: auto;" src="../images/pj.png" >
+						    <p style="color:black">待评价</p>
+                      </li>
+                </div>
+                
+			</div>
+			</ul>
+			<ul class="mui-table-view" style="padding-top: 10px;padding-bottom: 8px; margin-top: 3px;font-size: 14px; color: #333333;">
+				
+			 <div  class="mui-row" >
+				 <div class="mui-col-xs-4 mui-col-sm-4">
+                      <div class="mui-table-view-cell" style="text-align: center;"  onclick="open_care(1)">
+                          <img style="padding: 0px;" class="mui-media-object" src="../images/spgz.png">
+                         
+						
+						  <p style="color:black">商品关注</p>
+                      </div>
+                </div>
+                <div  class="mui-col-xs-3 mui-col-sm-3">
+                      <li class="mui-table-view-cell" style="text-align: center;" onclick="open_care(2)">
+                          <img style="padding: 0px;" class="mui-media-object" src="../images/dpgz.png">
+                          <!--<span class="mui-badge mui-badge-red">4</span>-->
+						  <p style="color:black">店铺关注</p>
+                      </li>
+                </div>	
+                 <div v-if="0" class="mui-col-xs-4 mui-col-sm-4">
+                      <li class="mui-table-view-cell" style="text-align: center;" id="myfoot.html" onclick="clicked(this.id)">
+                          <img style="padding: 0px;" class="mui-media-object" src="../images/myfoot.png">
+						  <p style="color:black">我的足迹</p>
+                      </li>
+                </div>
+                <div class="mui-col-xs-4 mui-col-sm-4">
+                      <li class="mui-table-view-cell" style="text-align: center;" id="tuikuan.html" onclick="clicked(this.id)">
+                          <img style="padding: 0px;" class="mui-media-object" src="../images/kefu.png">
+						  <p style="color:black">退货售后</p>
+                      </li>
+                </div>
+			</div>
+				</ul>	
+			<ul class="mui-table-view" style="margin-top: 0px;font-size: 15px; color: #333333;">
+				<li class="mui-table-view-cell" id="myfriend.html" onclick="clicked(this.id)">
+					<div class="mui-navigate-right hdj-center" >
+							 <img style="width: 9%;" src="../images/logo6.png" >
+						     <span style="margin-left: 15px;">邀请好友APP下载红包</span>
+					</div>
+				</li>
+				<li class="mui-table-view-cell" id="mypd.html" onclick="clicked(this.id)">
+					<!--<a class="mui-navigate-right">
+						<span class="mui-icon mui-icon-mic" style="border-radius: 8px; color: white;background-color: burlywood;"></span>
+						我的拼单
+					</a>-->
+					<div class="mui-navigate-right hdj-center"  >
+							 <img style="width: 9%;" src="../images/logo5.png" >
+						     <span style="margin-left: 15px;">我的拼单</span>
+					</div>
+				</li>
+				<li class="mui-table-view-cell" id="myqd.html" onclick="clicked(this.id)">
+					<!--<a class="mui-navigate-right">
+						<span class="mui-icon mui-icon-camera" style="border-radius: 8px; color: white;background-color: tomato;"></span>
+						我的抢单
+					</a>-->
+					<div class="mui-navigate-right  hdj-center" >
+							 <img style="width: 9vw;" src="../images/logo4.png">
+						     <span style="margin-left: 15px;">我的抢单</span>
+					</div>
+				</li>
+				<li class="mui-table-view-cell" id="coupon.html" onclick="clicked(this.id)">
+					<!--<a class="mui-navigate-right" >
+						<span class="mui-icon mui-icon-more" style="border-radius: 8px; color: white;background-color: green;"></span>
+						我的优惠卷
+					</a>-->
+					<div class="mui-navigate-right hdj-center"  >
+							 <img style="width: 9vw;" src="../images/logo3.png" >
+						     <span style="margin-left: 15px;">我的优惠卷</span>
+					</div>
+				</li>
+				<li  v-if="0" class="mui-table-view-cell" id="score.html" onclick="clicked(this.id)">
+					<!--<a class="mui-navigate-right" >
+						<span class="mui-icon mui-icon-star" style="border-radius: 8px; color: white;background-color: darkseagreen;"></span>
+						我的积分
+					</a>-->
+					<div class="mui-navigate-right hdj-center"  >
+							 <img style="width: 9vw;" src="../images/logo7.png" >
+						     <span style="margin-left: 15px;">我的积分</span>
+					</div>
+				</li>
+				<li class="mui-table-view-cell" id="../plus/maps_map.html" onclick="clicked(this.id)">
+					<!--<a class="mui-navigate-right" >
+						<span class="mui-icon mui-icon-star" style="border-radius: 8px; color: white;background-color: mediumseagreen;"></span>
+						附近洗车机
+					</a>-->
+					<div class="mui-navigate-right hdj-center"  >
+							 <img style="width: 9vw;" src="../images/logo0.png" >
+						     <span style="margin-left: 15px;">附近洗车机</span>
+					</div>
+				</li>
+				<li class="mui-table-view-cell" id="listaddres.html" onclick="clicked(this.id)">
+					<!--<a class="mui-navigate-right">
+						<span class="mui-icon mui-icon-navigate" style="border-radius: 8px; color: white;background-color: #4B8BF4;"></span>
+						我的收货地址
+					</a>-->
+					<div class="mui-navigate-right hdj-center"  >
+							 <img style="width: 9vw;" src="../images/logo9.png" >
+						     <span style="margin-left: 15px;">我的收货地址</span>
+					</div>
+				</li>
+				<li v-if="0" class="mui-table-view-cell"  >
+					<!--官方客户服务id="im-chat.html" onclick="clicked(this.id)"
+					<span class="mui-badge mui-badge-inverted">QQ:3444445566</span>-->
+					<div id="im-chat.html" onclick="clicked(this.id)"  class="mui-navigate hdj-center" >
+							 <img style="width: 9vw;" src="../images/logo8.png" >
+						     <span style="margin-left: 15px;">官方客户服务</span>
+					</div>
+					<!--<p class="mui-badge mui-badge-inverted">QQ:3444445566</p>-->
+				</li>
+			</ul>
+		</div>
+		
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/server.js"></script>
+	<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		var lauchFlag;
+		var careview = null;
+		var myddw = null;
+		
+		mui.init({
+			swipeBack: true, //启用右滑关闭功能
+		});
+		mui.plusReady(function() {
+			//预加载详情页
+			myddw = preload("mydd.html");
+			careview = preload("mycare.html");
+			
+			initData();
+		});
+		var vm = new Vue({
+			el: '.mui-content',
+			data: {
+				petName : '',
+				lauchFlag : '',
+				mbId : '',
+				faceUrl : ''
+			}
+		});
+		//document.addEventListener('updateData', function() {
+			initData();
+		//});
+		//myddw = preload("mydd.html");
+		function goOrderList(state){
+			vm.lauchFlag = localStorage.getItem("lauchFlag");
+			if(vm.lauchFlag != "true") {
+				mui.openWindow("../login/login.html");
+				return;
+			} 
+			//myddw = preload("mydd.html");
+			console.info('点击选择'+state);
+			
+			localStorage.setItem("order_state", state); 
+			mui.openWindow("mydd.html");
+			/*mui.fire(myddw, "order_state", {
+					state : state
+			});
+			setTimeout(function() {
+				myddw.show("slide-in-right", 300);
+			}, 150);*/
+			
+		}
+		function initData(){
+			var mbId;
+			//vm.lauchFlag = localStorage.getItem("lauchFlag");
+			if(localStorage.getItem("lauchFlag")){
+				vm.lauchFlag = localStorage.getItem("lauchFlag");
+				vm.petName = h5_mbinfo.petName;	
+				mbId =h5_mbinfo.mbId;
+				
+				var apiname = 'memberApi/face.do';
+			    vm.faceUrl = servername+apiname + '?mbId='+mbId;
+				
+				vm.faceUrl ='../images/mm.jpg';
+			}else{
+				vm.petName = '未登录';
+				vm.faceUrl ='../images/wode.png';
+			}
+					
+			
+		}
+		function open_care(item) {
+			//var careview = preload("mycare.html");
+			console.log("打开关注--->" + item);
+			if(vm.lauchFlag != "true") {
+				mui.openWindow("../login/login.html");
+				return;
+			} 
+			localStorage.setItem("mycare", item);
+			mui.openWindow("mycare.html");
+			/*mui.fire(careview, 'mycare', {
+				care: item
+			});
+			setTimeout(function() {
+				careview.show("slide-in-right", 300);
+			}, 150);*/
+		}
+
+		/*function open_care2(item) {
+			var careview = preload("mycare2.html");
+			console.log("打开关注2--->" + item);
+			mui.fire(careview, 'mycare', {
+				care: item
+			});
+			setTimeout(function() {
+				careview.show("slide-in-right", 300);
+			}, 150);
+		}*/
+
+		function clicked(ids) {
+			vm.lauchFlag =localStorage.getItem("lauchFlag");
+			if(vm.lauchFlag != "true") {
+				mui.openWindow("../login/login.html");
+			} else {
+				var  win = mui.openWindow({
+					url: ids,
+					id: ids
+				});
+				if(ids == 'listaddres.html'){
+					mui.fire(win, "choiseAddress", {chosiseModel:false});
+				}
+				
+			}
+		}; 
+	</script>
+</html>

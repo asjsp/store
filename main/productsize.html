@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<!--<link rel="stylesheet" type="text/css" href="../css/app.css" />-->
+		<style>
+			.mui-table-view.mui-grid-view .mui-table-view-cell {
+    font-size: 17px;
+    display: inline-block;
+    margin-right: -1px;
+    padding: 6px 0 0 10px;
+    text-align: center;
+    vertical-align: middle;
+    background: 0 0;
+}
+			.mui-card {
+    font-size: 14px;
+    position: relative;
+    overflow: hidden;
+    margin: 5px;
+    border-radius: 1px;
+    background-color: #fff;
+    background-clip: padding-box;
+    box-shadow: 1 1px 1px rgba(0,0,0,.2);
+}
+		</style>
+	</head>
+
+	<body >
+		<!--<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="back()" style="color:red;"></a>
+			<h1 class="mui-title">订单详情</h1>
+		</header>-->
+	<div class="mui-content " >	
+		
+		   <!-- <div style="padding:20px;padding-bottom: 1px; margin-bottom: 5px;background-color: white;display: flex;justify-content: space-between;align-items: center;">
+		        <div>
+		    	   <div style="display: flex;align-items: center;"> <img style="width: 5vw;margin-right: 15px;" src="../images/logo11.png">收货人：名字<span style="margin-left: 25px;">1388888</span></div>  
+	               <p style="display: flex;align-items: center;margin-top: 10px;"><img style="margin-right: 15px;width: 5vw;" src="../images/logo12.png">北京市海淀区</p>
+		        </div>
+		        <a href="listaddres.html" style="color: gray;"><span class="mui-icon mui-icon-arrowright"></span></a>
+		    </div>-->
+		    
+		    <div  id="item1"></div>
+		   <!-- <div style="padding:20px; margin-bottom: 5px;background-color: white;">
+		    	  <div style="display: flex;justify-content: space-between;"><span>配送方式</span><span>默认快递</span></div>  
+		    	  <p style="display: flex;justify-content: space-between;"><span>优惠卷</span><span>满50减10元</span></p> 
+		    	  <p style="display: flex;justify-content: space-between;"><span>积分抵扣</span><span>满50减10元</span></p> 
+		    	  <p style="display: flex;justify-content: space-between;"><span>快递运费</span><span>满50减10元</span></p> 
+		    	  <div style="padding: 10px; text-align:right;border-top: 1px solid gainsboro;">结算：<span  style="color: red;font-size:medium;">¥66.00</span></div>
+	        </div>-->
+	         <div style="padding:20px;padding-top: 0; background-color: white;">
+		    	<p style="color: black;">颜色 </p> 
+		    	 <p >
+		    	 	<button class="mui-btn ">粉色</button>
+		    	 	<button class="mui-btn mui-btn-red">蓝色</button>
+		    	 </p> 
+		    	 <p style="color: black;"> 尺码 </p>
+		    	 <p >
+		    	 	<button class="mui-btn ">S</button>
+		    	 	<button class="mui-btn mui-btn-red">M</button>
+		    	 	<button class="mui-btn ">L</button>
+		    	 	<button class="mui-btn ">XL</button>
+		    	 </p>
+		    	 <p style="color: black;">数量 </p>
+		    	 
+		    	 <div class="mui-numbox" data-numbox-step='1' data-numbox-min='0' data-numbox-max='10'>
+		    	     <button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+		    	     <input class="mui-input-numbox" type="number" />
+		    	     <button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+		    	 </div>
+		    	 
+	        </div>
+	        <div style="margin-bottom: 5px;background-color: white;margin-top: 1px;">
+		    	
+		    	 <div style="display: flex;justify-content: center;padding: 10px;display: -webkit-flex;-webkit-justify-content: center;">
+		    	 	<!--<span>合计：<span  style="color: red;font-size:medium;">¥66.00</span></span>-->
+		    	 	<button class="mui-btn mui-btn-red" onclick="back()">确认</button>
+		    	 </div>  
+		    	
+	        </div>
+	        
+		    
+	</div>
+	<script src="../js/mui.min.js"></script>
+		<script>
+		 var jsondataend=[
+            {"imgurl":"t2","titles":"冬装新款潮大衣外套中长款毛冬装新款潮大衣外套中长款毛","pricenow":"20","pricelast":"290","priceme":"20","pesonnumb":"库存 40","presonimgarray":"店铺名2","buttonlabel":"查看订单详情","color":"red"},
+           
+        ];
+       
+		function madepindanlike(imgurl,titles,pricenow,pricelast,priceme,pesonnumb,presonimgarray,buttonlabel,color){
+			/*-------------------*/
+            var pesonimgs="";
+          /*  for (y in presonimgarray) {
+                var mus=presonimgarray[y];
+                pesonimgs+='<img style="border-radius: 50%;width: 5vw;height: auto;" class="mui-media-object " src="../images/'+mus+'.jpg">';
+            }*/
+			/*-----------------------*/
+            var pricedm="";
+            var colorlabel="";
+             var colorlabelp="";
+            if(color=="orange"){
+            	colorlabel="退款中";
+            	colorlabelp="拼单成功";
+            }
+             if(color=="red"){
+            	colorlabel="退款失败";
+            	colorlabelp="抢单成功";
+            }
+              if(color=="green"){
+            	colorlabel="退款成功";
+            	colorlabelp="抢单成功";
+            }
+           /* if(color=="orange"){
+                pricedm='<span class="mui-pull-left" style="color: '+color+';font-size:medium;">¥'+pricenow+
+					    '</span><span class="mui-pull-right">'+pesonimgs+'</span></p>';
+
+            }*/
+           //if(color=="red"){
+                pricedm=
+                     '<div  class="mui-ellipsis-2" >'+titles+'</div>'+     
+                     '<div style="color:red">¥'+pricenow+'</div>'+
+                     '<p >'+pesonnumb+'</p>';
+                        
+           // }
+            var htmlstr=
+                '<div  style="display:flex;align-items: flex-start; padding:20px;padding-bottom:5px; background-color: white;"> '+
+                         '<img  src="../images/'+imgurl+'.jpg" style="width:30vw;height:auto">'+
+                         '<div style="margin-left: 8px;" >'+
+                                  pricedm+
+                          '</div>'+
+                '</div>';
+            return htmlstr;
+        }
+		function getdatalike(jsondata) {
+            var strs="";
+            for (x in jsondata) {
+                var imgurl=jsondata[x].imgurl;
+                var titles=jsondata[x].titles;
+                var pricenow=jsondata[x].pricenow;
+                var pricelast=jsondata[x].pricelast;
+                var priceme=jsondata[x].priceme;
+                var pesonnumb=jsondata[x].pesonnumb;
+                var presonimgarray=jsondata[x].presonimgarray;
+                var buttonlabel=jsondata[x].buttonlabel;
+                var color=jsondata[x].color;
+                strs+=madepindanlike(imgurl,titles,pricenow,pricelast,priceme,pesonnumb,presonimgarray,buttonlabel,color);
+
+            }
+            //alert(strs);
+            return strs;
+
+        }
+			  var  cnxhs = document.getElementById("item1");/*---------------分类*/
+        cnxhs.innerHTML=getdatalike(jsondataend);
+	</script>
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		function back(){
+			plus.webview.currentWebview().close();
+		};
+		/*var item2 = document.getElementById('item2');
+		var item3 = document.getElementById('item3');
+		document.getElementById('slider').addEventListener('slide', function(e) {
+					if (e.detail.slideNumber === 1) {
+						if (item2.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								item2.innerHTML =getdatalike(jsondata1);
+							}, 500);
+						}
+					} else if (e.detail.slideNumber === 2) {
+						if (item3.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								item3.innerHTML =getdatalike(jsondata2);
+							}, 500);
+						}
+					} 
+					else if (e.detail.slideNumber === 3) {
+						if (item4.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								item4.innerHTML =getdatalike(jsondata3);
+							}, 500);
+						}
+					} 
+					else if (e.detail.slideNumber === 4) {
+						if (item4.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								item4.innerHTML =getdatalike(jsondata3);
+							}, 500);
+						}
+					} 
+				});*/
+	</script>
+	
+	</body>
+
+</html>

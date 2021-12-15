@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<!--<link rel="stylesheet" type="text/css" href="../css/app.css" />-->
+		<style>
+
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color: white;">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="back()" style="color:red;"></a>
+			<h1 class="mui-title">我的订单</h1>
+		</header>
+		<div id="item1"  class="mui-content mui-scroll-wrapper hdj-balck  hdj-fsize5">
+			<!-----你喜欢------------------>
+			<div class="mui-scroll">
+			<ul class="mui-table-view mui-table-view-chevron" style="background-color: gainsboro;">
+			<!--<div id="slider" class="mui-slider" >-->
+			<div style="background-color: white;" class="mui-bar-nav mui-segmented-control mui-segmented-control-inverted mui-segmented-control-negative">
+				<a @tap="goto()" class="mui-control-item" :class="{'mui-active':!state}" href="#item1">全部</a>
+				<a @tap="goto(1)" class="mui-control-item" :class="{'mui-active':state==1}" href="#item1">待付款</a>
+				<a @tap="goto(2)" class="mui-control-item" :class="{'mui-active':state==2}" href="#item1">待发货</a>
+				<a @tap="goto(3)" class="mui-control-item" :class="{'mui-active':state==3}" href="#item1">待收货</a>
+				<a @tap="goto(9)" class="mui-control-item" :class="{'mui-active':state==9}" href="#item1">待评价</a>
+				<a @tap="goto(8)" class="mui-control-item" :class="{'mui-active':state==8}" href="#item1">待分享</a>
+			</div>
+			<!-- <div  class="mui-slider-progress-bar mui-col-xs-3"></div>-->
+		<!--	<div class="mui-slider-group">
+				<div id="item1" class="mui-slider-item mui-control-content mui-active">-->
+					<!--<div  class=" mui-scroll-wrapper">-->
+						
+							<!---数据填充------>
+							<!--<ul class="mui-table-view mui-table-view-chevron">-->
+							<div   v-for="item in orderList1" v-if='item.boState==state' class="hdj-balck hdj-fsize2" style="background-color: white; margin-top: 6px;padding: 15px;">
+								<div @tap="goDetail(item)" style="margin-bottom: 10px;" class="hdj-space-between">
+									<span class="hdj-balck hdj-fsize5">{{item.mercName}}</span >
+									<span class="hdj-red hdj-fsize5"  style="text-align:right;">{{item.stateName}}</span>
+								</div>
+								<div @tap="goDetail(item)" class="hdj-flex ">
+									<div class="mui-media-body mui-col-xs-3 mui-col-sm-3" style="border: 0px solid olive;">
+										<div class="hdj-img-wrap1" style="background-color: white;">
+											<img src="../images/demo/v1.jpg" class="hdj-img-cont" style="width: 90%;">
+										</div>
+										<span :class="[item.boType==2?'hdj-imglabel-red':'hdj-imglabel-orange']" >{{convert(item)}}</span>
+									</div>
+									<div class="mui-media-body mui-col-xs-9 mui-col-sm-9" style="margin-left: 5px;">
+										<div class="hdj-space-between">
+											<span class="mui-ellipsis hdj-fsize3" style="width: 70%;">{{item.gsiName}}</span>
+											<span class="hdj-fsize1">¥ {{item.boOrderprice}}</span>
+										</div>
+										<p class="hdj-fsize3 hdj-space-between" style="margin-bottom: 0;">
+											<span>{{item.giContent}}</span>
+											<span style="text-decoration:line-through">¥ {{item.gsiMarketprice}}</span>
+										</p>
+										<p class="hdj-fsize4" style=" text-align:right">X 1</p>
+										<p class="hdj-gray hdj-fsize5" style="text-align:right">
+											结算：<span class="hdj-red hdj-fsize0">¥ {{item.boActprice}}</span>
+										</p>
+									</div>
+								</div>
+								<div class="hdj-space-between">
+									<span></span>
+									<!--order_pay-->
+									<!--<span @tap="del_order(item.id)" class="mui-icon mui-icon-trash" style="width: 20px;"></span >-->
+									<div class="hdj-fsize5 ">
+										<span @tap="order_pay(item)" class="mui-btn " :class="{'mui-hidden':!item.canPay}">
+		                     	   	去支付
+		                     	   </span>
+										<span @tap="see_where(item)" class="mui-btn" :class="{'mui-hidden':!item.canLogistics }" style="margin-right: 10px;color: #aeaeae;">
+		                     	  		查看物流
+		                     	  	</span>
+										<span @tap="res_goods(item)" class="mui-btn mui-btn-red hdj-redbg" :class="{'mui-hidden':!item.canConfirm}" style="color: white;">
+		                          		确认收货
+		                          	</span>
+										<span @tap="share(item)" class="mui-btn" :class="{'mui-hidden':!item.canShare}">
+		                          		去分享
+		                          	</span>
+										<span @tap="add_pj(item)" class="mui-btn" :class="{'mui-hidden':!item.canEvaluate }">
+		                     	  		评论订单
+		                     	  </span>
+									</div>
+								</div>
+							</div><!--ul-->
+							
+			 </ul>
+			</div>
+					<!--</div>-->
+				<!--</div>
+			</div>-->
+		<!--</div>-->
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/server.js"></script>
+		<script>
+			//-----------------------
+			var openw = null;
+			var order_view =  null;
+			var mview_detail =  null;
+			var swview_detail =  null;
+			var fbview_detail =  null;
+			
+			mui.init({
+				pullRefresh: {
+					container: '#item1',
+					down: {
+						/*style: 'circle',
+						color: '#ff4c4a',
+						offset: '60px',*/
+						auto: false,
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+
+				}
+			});
+			//mui.plusReady(function() {
+				
+				/*openw = preload("pay_order.html");
+				order_view = preload("order_detail.html");
+				mview_detail = preload("invit.html");
+				swview_detail = preload("seewhere.html");
+				fbview_detail = preload("feedback.html");
+				
+				vm.mbId = h5_mbinfo.mbId;*/
+				//var lauchFlag = plus.storage.getItem("lauchFlag");
+			//});
+			
+			
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					mbId: '',
+					publicstr: '',
+					orderList1: [
+						
+					],
+					state : null
+				}
+			});
+			//document.addEventListener('order_state', function(event) {
+				vm.mbId = h5_mbinfo.mbId;
+				if(localStorage.getItem("order_state")){
+					  vm.state = localStorage.getItem("order_state");
+				      goto(vm.state);
+				      console.info('跳转选择:'+vm.state)
+				}
+				
+				mui.each(vm.orderList1, function(index, value) {
+					setBtState(value, 1);
+					//vm.$set(vm.orderList1, len + index, value);
+				})
+			//});
+			var count = 1;
+			var totalCount;
+
+			function pullupRefresh() {
+				count++;
+				setTimeout(function() {
+					mui('#item1').pullRefresh().endPullupToRefresh(noData); //参数为true代表没有更多数据了。
+					open_indexTypes(sn, count, 6);
+				}, 1000);
+			}
+
+			function pulldownRefresh() {
+				count = 1;
+				if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+					plus.nativeUI.toast('似乎已断开与互联网的连接', {
+						verticalAlign: 'top'
+					});
+					return;
+				}
+				open_indexTypes(sn, count, 6);
+				//vm.orderList=test;
+			}
+			var sn;
+			var noData = false;
+
+			function goto(n) {
+				sn = n;
+				vm.state = sn;
+				count = 1;
+				open_indexTypes(sn, count, 6);
+			}
+			/*-------61.	订单列表------------*/
+			function open_indexTypes(item, page, rows) {
+				if(page == 1) {
+					//mui('#item1').pullRefresh().enablePullupToRefresh();
+					noData = false;
+					vm.orderList1 = [];
+				}
+				var data = {
+					mbId: vm.mbId,
+					page: page,
+					rows: rows
+				};
+				if(item) {
+					data.boState = item;
+				}
+				//console.info('请求参数:' + JSON.stringify(data))
+				var apiname = "orderApi/list" + ".do";
+				//console.log(servername+apiname+"?sklId="+vm.tim.id+"&page=1&rows=4");
+				mui.getJSON('../json/orderlist.json', function(rsp) {
+					 console.log("订单列表" + JSON.stringify(rsp));
+					if(rsp.lastPage || rsp.rows.length <= 0) {
+						noData = true;
+					}
+					var len = vm.orderList1.length;
+					mui.each(rsp.rows, function(index, value) {
+						setBtState(value, sn);
+						vm.$set(vm.orderList1, len + index, value);
+					}) 
+				mui('#item1').pullRefresh().endPulldownToRefresh();
+				});
+			}
+
+			function setBtState(value, state) { //改变按钮状态
+				if(value.boState == 1) {
+					value.canPay = true;
+					value.stateName = '待付款';
+				} else if(value.boState == 2) {
+					if(value.boSendready == 1) {
+						value.stateName = '待发货';
+					} else {
+						value.stateName = '待分享';
+						value.canShare = true;
+					}
+				} else if(value.boState == 3) {
+					value.stateName = '商家发货';
+					value.canLogistics = true;
+					value.canConfirm = true;
+				} else if(value.boState == 4) {
+					value.stateName = '确认收货';
+					value.canLogistics = true;
+					if(value.boEvaluated == 0) {
+						value.canEvaluate = true;
+					}
+				} else if(value.boState == 5) {
+					value.stateName = '交易关闭'
+				} else if(value.boState == 6) {
+					value.stateName = '退款中'
+				} else if(value.boState == 7) {
+					value.stateName = '退款完成'
+				}
+				if(state == 8) {
+					console.info('贷分享的状态')
+					value.stateName = '待分享'
+					value.canShare = true;
+				}
+				if(state == 9 && value.boEvaluated == 0) {
+					value.canEvaluate = true;
+				}
+
+			}
+
+			function del_order(item) {
+				alert("删除订单");
+				console.log("订单id:" + item);
+			}
+			//openw = preload("pay_order.html");
+
+			function order_pay(item) {
+				console.info(JSON.stringify(item))
+				var pdata= {
+					mercName: item.mercName,
+					gsiId: item.gsiId,
+					gsiName: item.gsiName,
+					gsiPrice: item.boOrderprice,
+					gsiMarketprice: item.gsiMarketprice,
+					gsarContent: item.giContent,
+					odId: item.id,
+					totalMoney: item.boActprice,
+					freigMoney: 0
+				};
+				localStorage.setItem("pay_detail",JSON.stringify(pdata));
+			    mui.openWindow('pay_order.html');
+				return true;
+			}
+			//order_view = preload("order_detail.html");
+			function goDetail(item){
+				console.log("查看订单" + item.id);
+				
+				localStorage.setItem("orderinfo",JSON.stringify(item));
+			    mui.openWindow('order_detail.html');
+				/*mui.fire(order_view, 'order_detail', {
+					orderinfo: item
+				});
+				setTimeout(function() {
+					order_view.show("slide-in-right", 300);
+				}, 150);*/
+			}
+			//mview_detail = preload("invit.html");
+			function share(item){		
+				var data = {
+					odId: item.id
+				}
+				var apiname = "orderApi/groupByOdId" + ".do";
+				console.log(servername + apiname + "?" + JSON.stringify(data));
+				mui.post(servername + apiname, data, function(rsp) {
+					console.info('团订单:'+JSON.stringify(rsp))
+						/*mui.fire(mview_detail, 'invitp', {
+							orderinfo: rsp
+						});
+						setTimeout(function() {
+							mview_detail.show("slide-in-right", 300);
+						}, 150);*/
+						localStorage.setItem("invitinfo",JSON.stringify(rsp));
+			            mui.openWindow("invit.html");
+						
+				}, 'json');
+				
+			}
+			//swview_detail = preload("seewhere.html");
+			function see_where(item) {
+				// alert("查看物流");
+				console.log("查看物流订单id:" + item);
+				localStorage.setItem("pid",item.id);
+			    mui.openWindow("seewhere.html");
+				
+				/*mui.fire(swview_detail, 'sw_detail', {
+					pid: item.id
+				});
+				setTimeout(function() {
+					swview_detail.show("slide-in-right", 300);
+				}, 150);*/
+			}
+
+			function evl_order(item) {
+				console.log('评价商品');
+			}
+
+			function res_goods(item) {
+				var  btnArray=["确认","取消"];
+				mui.confirm('确认收货', '惠当家', btnArray, function(v) {
+					if(v.index == 0) {
+						console.info('确认收货' + JSON.stringify(item));
+						var data = {
+							mbId: vm.mbId,
+							odId: item.id
+						}
+						var apiname = "orderApi/comfirm" + ".do";
+						console.log(servername + apiname + "?" + JSON.stringify(data));
+						mui.post(servername + apiname, data, function(rsp) {
+							if(rsp.code == 0) {
+								item.canConfirm = false;
+								mui.toast(rsp.msg);
+							} else {
+								mui.toast(rsp.msg);
+							}
+
+						}, 'json');
+					}
+				})
+			}
+
+			function open_pj(item) {
+				//alert(item);
+				//var pjview_detail = preload("pingjia.html");
+				console.log("商品id:" + item);
+				//触发子窗口变更新闻详情
+				mui.fire(pjview_detail, 'pj_detail', {
+					pid: item
+				});
+				setTimeout(function() {
+					pjview_detail.show("slide-in-right", 300);
+				}, 150);
+			};
+			//pjview_detail = preload("feedback.html");
+
+			function add_pj(item) {
+				//alert(item);
+				console.log("商品id:" + item);
+				//触发子窗口变更新闻详情
+				/*mui.fire(fbview_detail, 'feedback', {
+					orderinfo: item
+				});
+				setTimeout(function() {
+					fbview_detail.show("slide-in-right", 300);
+				}, 150);*/
+				localStorage.setItem("orderinfo",JSON.stringify(item));
+			    mui.openWindow('feedback.html');
+			};
+
+			function convert(item) {
+				var str = '';
+				if(item.boType == 1) {
+					if(item.boSendready == 1) {
+						str = "拼单成功";
+					} else {
+						str = "正在拼单";
+					}
+				};
+				if(item.boType == 2) {
+					str = "抢单成功"
+				};
+				return str
+			};
+			function back() {
+				mui.back();
+			};
+			function activedom(dome, ind) {
+				var c = dome.children;
+				//console.log(dome.className+"--"+c.length)
+				for(i = 0; i < c.length; i++) {
+					//  console.log(c[i].className+"--"+i);
+					//console.log(c[i].nodeName+"--"+c[i].innerHTML) ;
+					c[i].classList.remove("mui-active");
+					// console.log(c[i].className+"--"+i);
+				};
+				c[ind].classList.add("mui-active");
+				//console.log(c[ind].className+"--"+ind)
+			}
+		</script>
+
+	</body>
+
+</html>

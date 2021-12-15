@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<style>
+			#topPopover {
+				position: fixed;
+			}
+			
+			.mui-popover-arrow {
+				display: none;
+			}
+			
+			.mui-popover {
+				border-radius: 0;
+				width: 100%;
+				left: 0%;
+				right: 0%;
+				margin: 0 auto;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: white;">
+
+		<!--右上角弹出菜单-->
+		<div id="topPopover" class="mui-popover">
+					<ul class="mui-action-menu mui-table-view mui-grid-view" id="selist" style="padding: 8px;">
+						<a @tap="goto(index)" v-for="(item, index) in indexTypes" class="mui-control-item">
+							<button type="button" class="mui-btn mui-btn-outlined" :class="{'mui-btn-red':index==state}" style="margin: 2vw;">
+							{{item.bgName}}
+						</button>
+						</a>
+					</ul>
+		</div>
+
+		<div id="list" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<ul class="mui-table-view ">
+					<!--商品列表-->
+					<!--<li @tap="open_goods(tm)" v-for="tm in goodsList" class="mui-table-view-cell  mui-media mui-col-xs-6 mui-col-sm-6 ">
+						<div class="mui-card" style="padding: 0; margin: 1px;">
+							<img :src="getserverimg(tm.id,6)" style=" width:100%;height:auto; border-radius: 0px;padding:0vw">
+							<div style="padding: 10px;  border-top:1px solid gainsboro">
+
+								<p :id="tm.timeId" style="width: 70%;margin: auto; font-size:16px; border-radius: 20px;padding:2px; border:1px solid #fe5858;color:#ff2d2d">
+									{{converthour(tm.time)}}
+								</p>
+								<p :id="tm.priceId" style="font-size: 15px; color: #fc3d41;padding: 5px;">
+									¥{{tm.gsiNowprice}}</br>
+								</p>
+								<p style="width: 70%;margin: auto; background-color: #FE5858; font-size:14px;border-radius: 5px;padding:5px;color:white">
+									马上抢
+								</p>
+							</div>
+						</div>
+					</li>-->
+					<li @tap="open_goods(item)" v-for="item in goodsList" class="mui-table-view-cell mui-row" style="border-bottom:1px solid #efeff4">
+						<div class="mui-media-body mui-col-xs-5 mui-col-sm-5">
+							<div class="hdj-img-wrap1" style="border-radius: 5px;">
+								<img :src="getserverimg(item.id,6)" class="hdj-img-cont" style="border-radius: 5px;">
+							</div>
+
+						</div>
+						<div class="mui-media-body mui-col-xs-7 mui-col-sm-7" style="padding-left: 20px;padding-top: 0px;">
+							<div class="mui-ellipsis-2 hdj-balck hdj-fsize5">{{item.gsiName}}</div>
+							<p style="padding-top: 5px;">
+								<span class="hdj-orange2 hdj-fsize0">¥{{item.gsiPrice}}</span>
+								<span class="hdj-fsize3 hdj-gray3" style="margin-left: 10px;text-decoration:line-through">¥{{item.gsiMarketprice}}</span>
+							</p>
+							<p style="padding-top: 5px;">
+								<span class="mui-pull-left hdj-img-wrap-head">
+                         		     <img  :src="getserverimg(gp.mbId,0)" v-for="gp in item.group" class="hdj-head-small" >
+                            </span>
+								<span class="hdj-gray3 hdj-fsize4" style="margin-left:7px;">{{item.groupCount}}人正在拼单</span>
+							</p>
+							<p style="padding-top: 5px;">
+								<span class="mui-btn mui-btn-yellow hdj-orangebg hdj-fsize5" style="width: 100px;">
+							  去拼单
+						   </span>
+							</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/server.js"></script>
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: '#list',
+					down: {
+						style: 'circle',
+						color: '#FF4B4A',
+						offset: '60px',
+						auto: false,
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			var vm = new Vue({
+				el: '.mui-content',
+				data: {
+					restTimeList: [],
+					goodsList: [],
+					ids : ''
+				}
+			});
+
+			var vt = new Vue({
+				el: '#topPopover',
+				data: {
+					state: 0,
+					indexTypes: [
+						{"id":"40289fe46026e7d0016026eedc07000a","bgState":1,"bgName":"女装"},
+						{"id":"40289fe46026e7d0016026eedc07000a","bgState":1,"bgName":"电脑"},
+						{"id":"40289fe46026e7d0016026eedc07000a","bgState":1,"bgName":"食品"},
+						{"id":"40289fe46026e7d0016026eedc07000a","bgState":1,"bgName":"手机"},
+						{"id":"40289fe46026e7d0016026eedc07000a","bgState":1,"bgName":"家装"},
+						{"id":"40289fe46026e7d0016026eedc07000a","bgState":1,"bgName":"健康"},
+					]
+				}
+			});
+
+			var count = 1;
+			var totalCount;
+			var noData = false;
+			/*--------------------------------------*/
+			function pullupRefresh() {
+				count++;
+				setTimeout(function() {
+					mui('#list').pullRefresh().endPullupToRefresh(noData); //参数为true代表没有更多数据了。
+					open_indexTypes(vt.indexTypes[vt.state], count);
+				}, 1000);
+			}
+
+			function pulldownRefresh() {
+				count = 1;
+				if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+					plus.nativeUI.toast('似乎已断开与互联网的连接', {
+						verticalAlign: 'top'
+					});
+					return;
+				}
+				open_indexTypes(vt.indexTypes[vt.state], count );
+			}
+			function open_indexTypes(item, rw) { // alert(item.name+"--"+item.id);
+				
+				var data = {
+					gstId: item.id,
+					gsiType: 1,
+					page: rw,
+					rows: 6
+				};
+				var apiname = "goodsInfoApi/pageList" + ".do";
+				//console.log(servername+apiname+"?id="+item.id+"&page=1&rows=4&gsiType=2");
+				mui.getJSON("../json/goodslist.json", function(rsp) {
+					console.info('加载之后:'+JSON.stringify(rsp))
+					
+					var len = vm.goodsList.length;
+					mui.each(rsp.rows, function(index, value) {
+						value.timeId = 'time_'+value.id;
+						value.priceId = 'price_'+value.id;					
+						vm.$set(vm.goodsList, len + index, value);
+					})
+					console.info('容器内剩余:'+JSON.stringify(vm.goodsList))
+					vm.ids = convert(vm.goodsList);
+					mui('#list').pullRefresh().endPulldownToRefresh();
+				});
+			}
+			function convert(arr) {
+				var x = 0;
+				var str = ''
+				for(x in arr) {
+					str += arr[x].id + ","
+				}
+				return str;
+			}
+
+			/*--------处理头部导航事件-*/
+			/*-父页面导入-分类刷新数据-*/
+			function ref(n) {	
+				vm.restTimeList = [];
+				vm.goodsList = [];
+				vt.state = n;
+				vt.indexTypes = JSON.parse(localStorage.getItem('indexTypes'));
+				console.info('state:' + vt.state)
+				console.info('index:' + JSON.stringify(vt.indexTypes))
+				pulldownRefresh();
+			};
+			function pop() {
+				mui('#topPopover').popover('toggle');
+			}
+			function goto(n) {
+				//mui('#topPopover').popover('toggle');
+				vt.state = n;
+				parent.backgoto(n);
+				pulldownRefresh();
+			}
+			/*-------顶部分类按钮-跳转------------*/
+			function convert(arr) {
+				var x = 0;
+				var str = ''
+				for(x in arr) {
+					str += arr[x].id + ","
+				}
+				return str;
+			}
+			/*---------80.	拍卖列表获取拍卖剩余时间--------------*/
+			/*-------进入商品详情---传递----mercId-----*/
+			/*function open_goods(item) {
+				var pdview_detail = preload("productdetail.html");
+				console.log("--->导出货品id" + item.id);
+				console.log("列表商品基本信息" + JSON.stringify(item));
+				mui.fire(pdview_detail, 'goods_info', {
+					goodsinfo: item
+				});
+				setTimeout(function() {
+					pdview_detail.show("slide-in-right", 300);
+				}, 150);
+			}*/
+
+			function back() {
+				plus.webview.currentWebview().close();
+			};
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/hdj.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			[v-cloak] {
+			    display: none;
+			}
+			.title {
+				margin: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+			
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+				margin: 0;
+				padding: 1px 5px;
+				vertical-align: top;
+				border-right: 1px solid #eee;
+				border-bottom: 1px solid #eee;
+			}
+			
+			#topPopover {
+				position: fixed;
+			}
+			
+			.mui-popover-arrow {
+				display: none;
+			}
+			
+			.mui-popover {
+				border-radius: 0;
+				width: 100%;
+				left: 0%;
+				right: 0%;
+				margin: 0 auto;
+			}
+			
+			.mui-table-view:before {
+				height: 0px;
+			}
+			
+			.mui-table-view:after {
+				height: 0px;
+			}
+			
+			.mui-table-view-cell:after {
+				height: 0px;
+			}
+			
+			.mui-slider-indicator .mui-active.mui-indicator {
+				background: #FF4C4A;
+			}
+			
+			.mui-slider-indicator .mui-indicator {
+				display: inline-block;
+				width: 6px;
+				height: 6px;
+				margin: 1px 6px;
+				cursor: pointer;
+				border-radius: 50%;
+				background: rgba(255, 255, 255, 0.5);
+				/* -webkit-box-shadow: 0 0 1px 1px rgba(130,130,130,.7);
+    box-shadow: 0 0 1px 1px rgba(130,130,130,.7);*/
+			}
+			.red {
+				background-color: red;
+			}
+			
+			.orange {
+				background-color: orange;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: white;">
+		<!--<div id='nav'>-->
+		<!--<div style="display: flex;background-color: white;" >
+					<div  style="width: 90vw;" class="mui-scroll-wrapper mui-segmented-control mui-segmented-control-inverted mui-segmented-control-negative">
+						<div class="mui-scroll" >
+							<a @tap="open_indexTypes(index)" :class="{'mui-active':index==0}" v-for="(item, index) in indexTypes" class="mui-control-item">
+								{{item.name}}
+							</a>
+						</div>
+					</div>
+ 
+					<a href="#topPopover" class="mui-action-menu" style=" border-left: 1px solid gainsboro;align-self: center;color: gray;">
+						<span class="mui-icon mui-icon-arrowdown" style="margin-left: 5px;"></span>
+					</a>
+		</div>-->
+
+		<div id="topPopover" class="mui-popover" style="height: auto;">
+			<ul class="mui-table-view mui-grid-view" style="padding: 8px;">
+				<a @tap="open_indexTypes(index)" v-for="(item, index) in indexTypes" class="mui-control-item">
+					<button type="button" class="mui-btn mui-btn-outlined" style="margin: 5px;">{{item.name}}</button>
+				</a>
+			</ul>
+		</div>
+		<!--</div>-->
+		<div id="list" class="mui-content mui-scroll-wrapper" style="background-color: white;" v-cloak>
+			<div class="mui-scroll">
+
+				<!--<a  id="red" href="#picture">test</a>-->
+
+				<!--<div class="mui-slider ">-->
+
+				<!--</div>-->
+				<!---------------->
+				<div class="mui-slider" style="margin-top: 0px;">
+					<div class="mui-slider-group">
+						<div @tap="open_banners(item)" v-for="item in banners" class="mui-slider-item">
+							<!-- <img :src="getserverimg(item.id,1)"> -->
+							<img src="../images/demo/a1.jpg" />
+						</div>
+					</div>
+					<div class="mui-slider-indicator">
+						<div v-for="(x,index) in banners" class="mui-indicator" :class="{'mui-active':(index==0)}">
+
+						</div>
+					</div>
+				</div>
+
+				<!--------------------------------------------------分类产品---------------------------------------------------------------------->
+				<div style="margin-top: 15px;margin-bottom: 15px;">
+					<!--<div class="mui-slider-group ">-->
+					<!-- 第一张 -->
+					<div class="mui-slider-item">
+						
+					<div id="fenlei" style="display: flex; display: -webkit-flex; -webkit-flex-wrap: wrap;flex-wrap: wrap; background-color: white;  -webkit-align-items: center; align-items: center;">
+                        <div v-for="item in fenlei" @tap="clicked(item.hrefs)"   style="text-align:center; width:25vw; background-color: white;border:">
+                            	<img style="width:10vw;height:auto;padding: 0px;"  :src='item.imgsrc'>
+					            <p style="font-size:13px;color:#333333">{{item.title}}</p>
+					    </div>
+                               
+						</div>
+					</div>
+					<!-- 第二张 -->
+					<!-- <div class="mui-slider-item mui-hidden">
+			         <div id="fenleim" style="display: flex; display: -webkit-flex; -webkit-flex-wrap: wrap;
+ flex-wrap: wrap; background-color: white;  -webkit-align-items: center; align-items: center;"></div>
+			    </div>-->
+					<!--</div>-->
+					<!-- <div class="mui-slider-indicator">
+			    <div class="mui-indicator mui-active"></div>
+			    <div class="mui-indicator"></div>
+			  </div>-->
+				</div>
+
+				<!----------------------------------------------------------------------------------------->
+				<ul class="mui-table-view" style="border-top: 2px solid gainsboro;border-bottom: 2px solid gainsboro;">
+					<li class="mui-table-view-cell" style="padding: 10px" @tap="clicked('listview.html')">
+						<div style="border-left: 2px solid red;margin-left: 15px;">
+							<p style="padding-left: 10px;" v-for="item in news">
+								<span style="font-size: 11px;padding:2px 6px;border:1px solid orangered; border-radius: 5px; background-color:white; color:#ff5e2d">
+									{{item.type==1?'最热':'公告'}}
+								</span>
+								<span style="padding:6px;color: black;font-size: 13px;">{{item.name}}</span>
+							</p>
+							<!--<p style="padding-left: 10px;margin-top: 10px;">
+								<span style="font-size: 11px;padding:2px 6px;border:1px solid orangered; border-radius: 5px; background-color:white; color:#ff5e2d">头条</span>
+								<span style="padding:6px;color: black;font-size: 13px;">导购员不会告诉你</span>
+							</p>-->
+						</div>
+					</li>
+				</ul>
+				<!--------------热门品牌------------>
+				<ul class="mui-table-view hdj-center-jus" style="">
+
+					<img src="../images/fire.png" class="hdj-logo1" style="width: 14px;height: auto;">
+					<span class="hdj-balck hdj-fsize2">热门品牌</span>
+
+				</ul>
+				<ul id="rmpp" class="mui-table-view mui-grid-view mui-grid-9" style="background-color: white;">
+					<li @tap="open_hotbrand(item)" v-for="item in hotBrand" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+						<img class="mui-media-object" :src="item.id">
+					</li>
+				</ul>
+				<div style="padding: 5px 20px;padding-top: 15px;">
+					<img src="../images/hdjj.png" style="width: 100%;margin: 0px;">
+				</div>
+				<!--<div style="box-shadow: 3px 1px 2px 0px rgba(0, 0, 0, 0.2); margin: 4vw;border: 0px solid red;display: -webkit-flex;  -webkit-justify-content: space-between;-webkit-align-items: center;display: flex;justify-content: space-between; align-items: center;border-radius: 0px 20px 20px 0px">
+				<span style="text-align:center;padding:5px;width:30vw;color:white;background: linear-gradient(to right, #ff8d22, #fe4334);border-radius: 0px 20px 20px 20px;">
+		            		惠当家<span style="margin-left: 9px;" class="mui-icon mui-icon-home"></span>
+				</span>
+				<a style="color: orangered;">优惠好物 选惠大家</a>
+				<span class="mui-icon mui-icon-arrowright"></span>
+			</div>-->
+				<!------惠当家-------->
+				<ul id="hdj" class="mui-table-view mui-grid-view mui-grid-9" style="background-color: white;">
+					<li @tap="open_huidaj(item)" v-for="(item,index ) in huidj" class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
+
+						<div class="hdj-center">
+							<div style="width: 50%; display: inline-block;">
+								<img style="width: 90%;padding-top: 10px;border: 0px solid red;" :src="item.urls2">
+							</div>
+
+							<div style="width: 30%;display: inline-block;margin: 0;padding: 0;">
+								<span v-if="!index" style="border-radius: 3px; padding-left: 4px;padding-right: 4px;padding-top: 2px;padding-bottom: 2px; text-align: center;font-size: 12px;color: white;background-color: #FF4B4A;">
+		                	      {{sklBegintime}}00:22:06
+		                        </span>
+							</div>
+						</div>
+
+						<img style="width: 90%;border: 0px solid red;padding: 4px;" :src="item.urls1">
+
+					</li>
+				</ul>
+				<!-------拼单  抢单 领券--模块------------->
+				<!---拼单专区--->
+				<ul class="mui-table-view ">
+					<li class="mui-table-view-cell" style="background-color: #fffbf2;text-align: center;padding: 0px;">
+						<div class="hdj-center-jus">
+							<img src="../images/hand1.png" class="hdj-logo1">
+							<span class="hdj-orange1 hdj-fsize1">拼单专区</span>
+						</div>
+						<span class="hdj-balck hdj-fsize3" style="padding-bottom: 2px;">一起拼单，优惠多多</span>
+					</li>
+					<li @tap="open_goods(item)" v-for="item in pins" class="mui-table-view-cell mui-row" style="border-bottom:1px solid #efeff4">
+						<div class="mui-media-body mui-col-xs-5 mui-col-sm-5">
+							<div class="hdj-img-wrap1" style="border-radius: 5px;">
+								<img src="../images/demo/t3.jpg" class="hdj-img-cont" style="border-radius: 5px;">
+							</div>
+
+						</div>
+						<div class="mui-media-body mui-col-xs-7 mui-col-sm-7" style="padding-left: 20px;padding-top: 0px;">
+							<div class="mui-ellipsis-2 hdj-balck hdj-fsize5">{{item.gsiName}}</div>
+							<p style="padding-top: 5px;">
+								<span class="hdj-orange2 hdj-fsize0">¥{{item.gsiPrice}}</span>
+								<span class="hdj-fsize3 hdj-gray3" style="margin-left: 10px;text-decoration:line-through">¥{{item.gsiMarketprice}}</span>
+							</p>
+							<p style="padding-top: 5px;">
+								<span class="mui-pull-left hdj-img-wrap-head">
+                         		     <img  src="../images/demo/mm.jpg" v-for="gp in item.group" class="hdj-head-small" >
+                            </span>
+								<span class="hdj-gray3 hdj-fsize4" style="margin-left:7px;">{{item.groupCount}}人正在拼单</span>
+							</p>
+							<p style="padding-top: 5px;">
+								<span class="mui-btn mui-btn-yellow hdj-orangebg hdj-fsize5" style="width: 100px;">
+							  去拼单
+						   </span>
+							</p>
+						</div>
+					</li>
+					<li @tap="clicked('sdpd.html')" class="mui-table-view-cell  hdj-fsize5 hdj-center-jus">
+						<span class="mui-icon mui-icon-more" style="background-color: orange;color: white;border-radius: 50%;"></span>
+						<span class="hdj-balck" style="margin-left: 10px;">点击查看更多</span>
+					</li>
+				</ul>
+				<!--抢单专区-->
+				<ul class="mui-table-view ">
+					<li class="mui-table-view-cell" style="background-color: #fff1f1;text-align: center;padding-top: 0px;">
+						<div class="hdj-center-jus">
+							<img src="../images/hand.png" class="hdj-logo1">
+							<span class="hdj-red hdj-fsize1">抢单专区</span>
+						</div>
+						<span class="hdj-balck hdj-fsize3" style="margin-top: -2px;">超低价格，谁抢到归谁</span>
+					</li>
+					<li @tap="open_goodsq(item)" v-for="item in rifle" class="mui-table-view-cell mui-row" style="border-bottom:1px solid #efeff4">
+						<div class="mui-media-body mui-col-xs-5 mui-col-sm-5">
+							<div class="hdj-img-wrap1" style="border-radius: 5px;">
+								<img src="../images/demo/t2.jpg" class="hdj-img-cont" style="border-radius: 5px;">
+							</div>
+						</div>
+						<div class="mui-media-body mui-col-xs-7 mui-col-sm-7" style="padding-left: 20px;padding-top: 0px;">
+							<div class="mui-ellipsis-2 hdj-balck hdj-fsize5">{{item.gsiName}}</div>
+							<div>
+								<span class="hdj-red hdj-fsize1" :id="item.priceId">¥{{item.gsiNowprice}}</span>
+								<span class="hdj-gray3 hdj-fsize4" style="margin-left: 10px;">市场价：{{item.gsiMarketprice}}</span>
+							</div>
+
+							<div :id="item.eleId" class="mui-btn mui-btn-red mui-btn-outlined hdj-fsize2" style="width:28vw;padding: 2px; margin-top: 10px;border-radius: 20px;">
+								<!-- {{item.remain}} -->
+								00:10:09
+							</div>
+							<div class="mui-btn mui-btn-red" style="width: 30vw;margin-top: 15px;background-color: #ff4040;">
+								去抢单
+							</div>
+
+						</div>
+					</li>
+
+					<li @tap="clicked('sdqd.html')" class="mui-table-view-cell hdj-fsize5 hdj-center-jus">
+
+						<span class="mui-icon mui-icon-more" style="background-color: red;color: white;border-radius: 50%;"></span>
+						<span class="hdj-balck" style="margin-left: 10px;">点击查看更多</span>
+
+					</li>
+
+				</ul>
+				<!--领券-->
+				<ul class="mui-table-view ">
+					<li class="mui-table-view-cell" style="background-color: #feedf3;text-align: center;padding: 0px;">
+						<div class="hdj-center-jus">
+							<img src="../images/lj.png" class="hdj-logo1">
+							<span class="hdj-deepink hdj-fsize1">领券购</span>
+						</div>
+						<div class="hdj-balck hdj-fsize4" style="padding-bottom: 2px;">先领券，再购物，更有积分赠送，双重好礼送不停</div>
+					</li>
+					<li @tap="quan_href(item.couponClickUrl)" v-for="item in quan" class="mui-table-view-cell  mui-row" style="border-bottom:1px solid #efeff4">
+						<div class="mui-media-body mui-col-xs-5 mui-col-sm-5">
+							<div class="hdj-img-wrap1" style="border-radius: 5px;">
+								<img :src="item.pictUrl" class="hdj-img-cont" style="border-radius: 5px;">
+							</div>
+						</div>
+						<div class="mui-media-body mui-col-xs-7 mui-col-sm-7" style="padding-top: 0px;padding-left: 20px;">
+							<div class="mui-ellipsis-2 hdj-balck hdj-fsize5">{{item.title}} </div>
+							<p style="padding-top: 6px;">
+								<span class="hdj-fsize3 hdj-gray3" style="text-decoration:line-through ">现价：{{item.zkFinalPrice}}</span>
+							</p>
+							<p style="padding-top: 5px;" class="hdj-gray3 hdj-fsize3">
+								卷后价：<span class="hdj-deepink hdj-fsize1">¥ {{item.zkFinalPrice-item.couponInfo}}</span>
+							</p>
+
+							<p style="padding-top: 10px;padding-bottom: 10px;" class="hdj-fsize4">
+
+								<span style="text-align: center;border-radius: 3px 0px 0px 3px;color:white;padding:4px 6px; background-color:#e82469;border: 1px solid #E82469;">
+		                                                     卷
+						</span>
+
+								<span style="text-align: center;padding:4px 6px; border-radius: 0px 3px 3px 0px;  background-color:white; color:#e82469;border: 1px solid #E82469;">
+		                       	{{item.couponInfo}}元
+		                </span>
+
+							</p>
+
+						</div>
+					</li>
+
+					<li @tap="clicked('couponlist.html')" class="mui-table-view-cell hdj-fsize5 hdj-center-jus">
+
+						<span class="mui-icon mui-icon-more" style="background-color: deeppink;color: white;border-radius: 50%;"></span>
+						<span class="hdj-balck" style="margin-left: 10px;">点击查看更多</span>
+
+					</li>
+				</ul>
+				<!---我来当家---时尚潮流--买遍全球  好店---模块---------->
+				<div id="sscl">
+					<div v-for="item in homeAdvs">
+						<div class="hdj-imglabel-advs" :class="[item.name=='潮流酷玩'?'hdj-imglabel-advs1':'hdj-imglabel-advs']">
+							{{item.name}}
+						</div>
+						<!-- <img :src="getserverimg(item.id,2)"  style="position: relative; bottom: -4vw; z-index: 2;width:30vw;margin-left:6px; ">
+		         <span style="position: relative;left: -25%;bottom: -6px;z-index: 3; text-align:center;color:white;"> {{item.name}} </span> 
+		    -->
+						<div class="mui-slider">
+							<div class="mui-slider-group ">
+								<div class="mui-slider-item">
+									<img src="../images/demo/a2.jpg">
+								</div>
+							</div>
+						</div>
+						<ul class="mui-table-view mui-grid-view mui-grid-9" style="background-color: white;">
+							<li @tap="open_homeAdvs(bm)" v-for="bm in item.details" class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
+								<div style="text-align: left;margin:5px;margin-top: 10px;">
+									<h5 :class="[bm.hadTitle=='极有家'?'hdj-orange':'hdj-black']" class="hdj-fsize2 hdj-balck">{{bm.hadTitle}}</h5>
+									<h5 class="hdj-fsize3 hdj-gray3" style="margin-top: 2px;">{{bm.subTitle}}</h5>
+								</div>
+								<div class="mui-grid-view">
+									<img style="width: 99%;padding: 3px;" src="../images/qw2.png">
+									<!-- <img style="width: 45%;padding: 5px;"  :src="getserverimg(bm.id,4)">-->
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="hdj-center-jus" style="background-color: white;margin-top: 10px;">
+					<span class="hdj-line"></span>
+					<span class="hdj-center">
+					   <img src="../images/bt3.png" class="hdj-logo1">
+				       <span class="hdj-balck hdj-fsize1">猜你喜欢</span>
+					</span>
+					<span class="hdj-line"></span>
+				</div>
+				<!--喜欢-->
+				<div id="cnxh" class="mui-table-view mui-grid-view " style="background-color: white;">
+					<!--商品关注列表-->
+					<li @tap="open_goods(item)" v-for="item in loves" class="mui-table-view-cell mui-col-xs-6 mui-col-sm-6 ">
+						<div style="border: 1px solid gainsboro;">
+							<div class="hdj-img-wrap2">
+								<p class="hdj-imglabel-p"  :class="[item.gsiType==1?'orange':'red']">{{item.gsiType==1?"拼":"抢"}}</p>
+								<img src="../images/demo/t3.jpg" class="hdj-img-cont">
+							</div>
+							<div style="padding-left: 7px;padding-right: 10px; padding-top: 5px; padding-bottom: 20px;">
+								<div class="mui-ellipsis hdj-balck hdj-fsize2">{{item.gsiName}}</div>
+								<p style="padding:10px 0px">
+									<span class="mui-pull-left hdj-red hdj-fsize1">
+									<!--{{item.gsiType}}--><span class="hdj-fsize6">¥ </span>{{item.gsiPrice}}
+									</span>
+									<!--<span >市场价¥{{item.gsiMarketprice}}</span>-->
+									<span class="mui-pull-right hdj-img-wrap-head">
+                         		       <img  src="../images/demo/mm.jpg" v-for="gp in item.group"  class="hdj-head-small" >
+                         	     </span>
+								</p>
+							</div>
+						</div>
+					</li>
+					<!--商品关注列表-->
+				</div>
+				<!--------->
+			</div>
+		</div>
+
+		<!--<div id="picture" class="mui-popover mui-popover-action mui-popover-bottom" >
+			<div style="width: 100vw;display: flex;justify-content: center;align-items: center;">
+			<div style="width: 90vw;border-radius: 20px;background-color: white;border: 1px solid gainsboro;">
+        	
+        	<img  src="../images/hongb.png" style="border-radius: 20px 20px 0px 0px; width: 100%;padding: 60px;background-color: #FF4B4A;">
+        	
+        	<a href="#picture">
+        	<div  style="text-align: center;color: white;margin: 6vw; background-color: #FF4B4A;padding: 15px;border-radius: 50px;">
+			    确定
+		     </div>	
+		     </a>
+             </div>
+			</div>
+		</div>-->
+	</body>
+	<!--<script src="../js/navdata.js"></script>-->
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/server.js"></script>
+	<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+
+	<script>
+		//--------------数据层--------
+		var fenlei = [{
+				"imgsrc": "../images/sd.png",
+				"title": "限时拼杀",
+				"hrefs": "xsms.html"
+			},
+			{
+				"imgsrc": "../images/pd.png",
+				"title": "闪电拼单",
+				"hrefs": "sdpd.html"
+			},
+			/* {
+				"imgsrc": "../images/qd.png",
+				"title": "闪电抢单",
+				"hrefs": "sdqd.html"
+			}, */
+			{
+				"imgsrc": "../images/scfl.png",
+				"title": "领券购",
+				"hrefs": "couponlist.html"
+			},
+			/* {
+				"imgsrc": "../images/mpzk.png",
+				"title": "名品折扣",
+				"hrefs": "mpzk.html"
+			}, */
+			{
+				"imgsrc": "../images/yxht.png",
+				"title": "优选海淘",
+				"hrefs": "yxht.html"
+			},
+			/* {
+				"imgsrc": "../images/hbqd.png",
+				"title": "红包签到",
+				"hrefs": "#picture"
+			}, */
+			/* {
+				"imgsrc": "../images/zlmd.png",
+				"title": "助力免单",
+				"hrefs": ""
+			},
+			{
+				"imgsrc": "../images/czzx.png",
+				"title": "充值中心",
+				"hrefs": "czzx.html"
+			},
+			{
+				"imgsrc": "../images/jywm.png",
+				"title": "教育网盟",
+				"hrefs": ""
+			}, */
+
+		];
+		/*---------------------优惠当家--------------------------------*/
+		var jsondata4 = [{
+				"hadTitle": "抢拼团 ",
+				"titles2": " ",
+				"urls1": "../images/qw1.png",
+				"urls2": "../images/qv1.png",
+				"color": "red ",
+				"hrefs": "xsms.html"
+			},
+			{
+				"hadTitle": "有好货 ",
+				"titles2": " ",
+				"urls1": "../images/qw2.png",
+				"urls2": "../images/qv2.png",
+				"color": "orange ",
+				"hrefs": "cdj.html"
+			},
+			{
+				"hadTitle": "超值购买 ",
+				"titles2": " ",
+				"urls1": "../images/qw3.png",
+				"urls2": "../images/qv3.png",
+				"color": "blue",
+				"hrefs": "cdj.html"
+			},
+			{
+				"hadTitle": "0元抽奖",
+				"titles2": " ",
+				"urls1": "../images/qw4.png",
+				"urls2": "../images/qv4.png",
+				"color": "purple",
+				"hrefs": "cdj.html"
+			},
+		];
+	</script>
+	<script>
+		//--------------数据组装------
+		function madefenlei(tbs, pad, rad, xs, sm, wcolor, wd) {
+			var bs = '0px solid gray ';
+			var strs = "";
+			var sarry = tbs;
+			var y;
+			for(y in sarry) {
+				var hrefs = sarry[y].hrefs;
+				var tys = sarry[y].title;
+				var urs = sarry[y].imgsrc;
+				urs = '"' + '../images/' + urs + '"';
+				strs += '<div id="' + hrefs + '" onclick="clicked(this.id)"   style="text-align:center; width:20vw; background-color: white;border:' + bs + '">' +
+
+					'<img style="width:10vw;height:auto; border-radius: ' + rad + '%; padding: ' + pad + 'px;"  src=' + urs + '>' +
+					'<p style="font-size:13px;color:#333333">' + tys + '</p>' +
+
+					'</div>';
+			}
+			//alert(strs);
+			return strs;
+		}
+	</script>
+	<script>
+		var dpview_detail=null;
+		var adview=null;
+		var emview = null;
+		/*---------页面跳转----------*/
+		mui.init({
+
+			pullRefresh: {
+				container: '#list',
+				down: {
+					auto: true,
+					callback: pulldownRefresh
+				}
+				/*,
+				up: {
+					contentrefresh: '正在加载...',
+					callback: pullupRefresh
+				}*/
+			}
+		});
+		
+		
+		mui.plusReady(function() {
+					//vm.mbId = plus.storage.getItem("mbId");
+					
+					dpview_detail = plus.webview.getWebviewById("dianpu");
+					adview =plus.webview.getWebviewById("adview");
+					emview = plus.webview.getWebviewById("webview_embed");
+					
+				});
+		/*--------*/
+		document.addEventListener('pop', function(event) {
+			mui('#topPopover').popover('toggle');
+		});
+		//pulldownRefresh();
+		function pulldownRefresh() {
+			if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
+				plus.nativeUI.toast('似乎已断开与互联网的连接', {
+					verticalAlign: 'top'
+				});
+				return;
+			}
+			//------------------------获取主页信息---------------------------
+			//  console.log(servername+"homePageApi/index.do");
+			mui.getJSON("../json/home.json", function(rsp) {
+				mui('.mui-content').pullRefresh().endPulldownToRefresh(); //refresh completed
+				//console.log(JSON.stringify(rsp));
+				/*-------顶部分类按钮-------------*/
+				vt.indexTypes = rsp.indexTypes;
+				//console.log(JSON.stringify(rsp.banners));
+				vh.banners = rsp.banners;
+
+				//console.log(JSON.stringify(rsp.hotBrand));	
+				vh.hotBrand = rsp.hotBrand;
+				vh.news = rsp.news;
+				//vh.huidaj=jsondata4;
+				//--------------拼单--抢单---
+				//pdmodel(rsp.pins,rsp.rifle);
+				//-----------领券----------------
+				//console.log(JSON.stringify(rsp.quan));
+				//console.log(JSON.stringify(rsp.rifle));
+				//console.log(JSON.stringify(rsp.homenavs));
+				vh.pins = rsp.pins;
+				var rifle = rsp.rifle;
+				mui.each(rifle, function(index, item) {
+					item.eleId = 'rifle_' + item.id;
+					item.priceId = 'price_' + item.id;					
+				})
+				vh.rifle = rifle;
+
+				//getrestTimeList(); /*抢单数据转换*/
+				//				
+				vh.quan = rsp.quan;
+				//homeAdvsmodel(rsp.homeAdvs);
+				vh.homeAdvs = rsp.homeAdvs;
+				//console.log(JSON.stringify(vh.homeAdvs[0]));
+				//console.log("标题"+getserverimg(vh.homeAdvs[0].id,2));
+				//console.log("背景"+getserverimg(vh.homeAdvs[0].id,3));
+				/*--------------猜你喜欢---------------------------------*/
+				//console.log(JSON.stringify(rsp.loves));
+				vh.loves = rsp.loves;
+
+				setTimeout(homeinits, 100);
+
+			});
+
+		}
+		//setInterval(getrestTimeList,1000);/*刷新*/
+		/*首页初始化*/
+		function homeinits() {
+			mui(".mui-slider").slider();
+			vh.seen = true;
+			/*--导航按钮第一页------分类*/
+			/*var fenleis = document.getElementById("fenlei");
+			fenleis.innerHTML = madefenlei(fenlei, 0, 0, 0, 0);*/
+
+			//getCurrentsecondkill();
+		}
+		/** ----上拉加载具体业务实现---*/
+		var count = 0;
+
+		function pullupRefresh() {
+			setTimeout(function() {
+				mui('.mui-content').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
+				//sscls.innerHTML=html.join('');
+				//cnxhs.innerHTML=getdatalike(jsondataend);
+			}, 1000);
+		}
+		//41.	获取现在进行的秒杀  
+		function getCurrentsecondkill() {
+			mui.getJSON(servername + "secondkillApi/getCurrent.do", function(rsp) {
+				//console.log(JSON.stringify(rsp));
+				if(rsp) {
+					vh.sklBegintime = rsp.sklBegintime;
+				}
+			});
+		}
+		/*-------首页内容-------------*/
+		var vh = new Vue({
+			el: '.mui-content',
+			data: {
+
+				indexTypes: [], //-------顶部分类导航-----
+				banners: [], //-------横幅广告banner列表-
+				hotBrand: [], //----------热门品牌-
+				news: [],
+				huidj: jsondata4, //----------惠当家-
+				pins: [], //-------拼单---
+				rifle: [], //-------抢单--
+				restTimeList: [], //-----时间刷新--抢单--
+				quan: [], //-------领券---
+				homeAdvs: [], //-------潮流酷玩广告等等-
+				loves: [], //--------loves
+				sklBegintime: '',
+				seen: false
+			},
+		});
+		var vt = new Vue({
+			el: '#topPopover',
+			data: {
+				indexTypes: [], //-------顶部分类导航-----
+			},
+		});
+		/*----------------------*/
+		/*-----------分类导航按钮---限时拼杀 闪电拼单等-------------------------*/
+
+		// var  fenleism = document.getElementById("fenleim");/*---导航按钮第二页------分类*/
+		// fenleism.innerHTML=madefenlei("fenleim",0,0,0,0);
+		/*-------顶部分类按钮-跳转------------*/
+		function open_indexTypes(item) {
+			localStorage.setItem("index",item);
+			mui.openWindow("sdpd_shouye.html");
+			/*var sdpdview_detail = preload("sdpd.html");
+			mui.fire(sdpdview_detail, 'sdpd', {
+				index: item
+			});
+			setTimeout(function() {
+				sdpdview_detail.show("slide-in-right", 300);
+			}, 150);*/
+			
+			//mui('#topPopover').popover('toggle');
+		}
+
+		function pop(item) {
+			// console.log(item.name+"--"+item.id);
+			mui('#topPopover').popover('toggle');
+			/* var data ={parentId: item.id};
+	              var apiname="foregroundApi/findByParentId"+".do";
+                  mui.post(servername+apiname,data, function(rsp) {
+     	           console.log(JSON.stringify(rsp));
+		             },'json');*/
+		}
+		/*-------首页banner列表-跳转-------mercId-----*/
+		function open_banners(item) {
+			console.log("图像href:" + item.href);
+			console.log("图像url:" + getserverimg(item.id, 1));
+			localStorage.setItem("bannerurl",item.href);
+			mui.openWindow("webview_embed_banner.html");
+		}
+		/*-------热门品牌-跳转-------mercId-----*/
+		function open_hotbrand(item) {
+			console.log("店铺id" + "<br>" + item.mercId);
+			//var dpview_detail = preload("dianpu.html");
+			/*mui.fire(dpview_detail, 'dp_detail', {
+				dpid: item.mercId
+			});
+			setTimeout(function() {
+				dpview_detail.show("slide-in-right", 300);
+			}, 150);*/
+			localStorage.setItem("mercid",item.id);
+			mui.openWindow("dianpu.html");
+		}
+
+		function quan_href(item) {
+			//alert(item);
+			localStorage.setItem("quanurl",item);
+			mui.openWindow("webview_embed.html");
+			/*mui.fire(emview, 'emview_url', {
+				emurl: item
+			});
+			setTimeout(function() {
+				emview.show("slide-in-right", 300);
+			}, 150);*/
+		}
+
+		function open_huidaj(item) {
+			console.log(item.hrefs);
+			mui.openWindow(item.hrefs);
+		}
+		
+
+		function open_homeAdvs(item) {
+			console.log("--->导出homeAdvs货品id" + item.id + "--" + item.hadTitle);
+			/*mui.fire(adview, 'adview', {
+				goodsinfo: item
+			});
+			setTimeout(function() {
+				adview.show("slide-in-right", 300);
+			}, 150);*/
+			localStorage.setItem("goods_info",JSON.stringify(item));
+			mui.openWindow("adview.html");
+		}
+		/*-------进入商品详情---传递----mercId-----*/
+		function open_goods(item) {
+			//var pdview_detail = preload("productdetail.html");
+			//alert("--->导出货品id" + item.id);
+			console.log("列表商品基本信息" + JSON.stringify(item));
+			localStorage.setItem("goods_info",JSON.stringify(item));
+	        setTimeout(function() {
+				mui.openWindow('productdetail.html');
+			}, 150);
+			
+			/*mui.fire(pdview_detail, 'goods_info', {
+				goodsinfo: item
+			});
+			setTimeout(function() {
+				pdview_detail.show("slide-in-right", 300);
+			}, 150);*/
+		}
+		/*---*/
+		function convert(arr) {
+			var x = 0;
+			var str = ''
+			for(x in arr) {
+				str += arr[x].id + ","
+			}
+			return str;
+		}
+
+		function PrefixInteger(num, n) {
+			return(Array(n).join(0) + num).slice(-n);
+		}
+
+		function formatSeconds(value) {
+			var theTime = parseInt(value); // 秒 
+			var theTime1 = 0; // 分 
+			var theTime2 = 0; // 小时 
+			// alert(theTime); 
+			if(theTime > 60) {
+				theTime1 = parseInt(theTime / 60);
+				theTime = parseInt(theTime % 60);
+				// alert(theTime1+"-"+theTime); 
+				if(theTime1 > 60) {
+					theTime2 = parseInt(theTime1 / 60);
+					theTime1 = parseInt(theTime1 % 60);
+				}
+			}
+			var result = "" + PrefixInteger(parseInt(theTime), 2);
+			result = "" + PrefixInteger(parseInt(theTime1), 2) + ":" + result;
+			result = "" + PrefixInteger(parseInt(theTime2), 2) + ":" + result;
+			return result;
+		}
+		/*---------80.	拍卖列表获取拍卖剩余时间--------------*/
+		function getrestTimeList() {
+			var strid = convert(vh.rifle);
+			var data = {
+				gsiIds: strid
+			};
+			var apiname = "offerApi/restTimeList" + ".do";
+			mui.getJSON(servername + apiname, data, function(rsp) {
+				if(rsp && rsp.length > 0) {
+					mui.each(rsp, function(index, item) {
+						mui.each(vh.rifle, function(index, ri) {
+							if(ri.id == item.id) {
+								ri.remain = formatSeconds((item.time == 0) ? ri.gsideadsecound : item.time);
+								ri.gsiCurrentperiods = item.gsiCurrentperiods;
+								var elem = document.getElementById('rifle_' + ri.id);
+								elem.innerHTML = ri.remain;
+								var elem2 = document.getElementById('price_'+ri.id);
+								elem2.innerHTML = item.gsiNowprice;
+								return false;
+							}
+						})
+					})
+				}
+			});
+		};
+		//qdview_detail = preload("productdetailoffer.html");
+		function open_goodsq(item) {
+			console.log("--->导出货品id" + item.id); 
+			localStorage.setItem("gsiId",item.id);
+			localStorage.setItem("gsiCurrentperiods",item.gsiCurrentperiods);
+					
+			mui.openWindow('productdetailoffer.html');
+			//qdview_detail = preload("productdetailoffer.html");
+			//console.log("列表商品基本信息"+JSON.stringify(item));
+			// pdview_detail =  preload("productdetail.html");
+			/*mui.fire(qdview_detail, 'goods_info', {
+				gsiId: item.id,
+				gsiCurrentperiods: item.gsiCurrentperiods
+			});
+			setTimeout(function() {
+				qdview_detail.show("slide-in-right", 300);
+			}, 150);*/
+		}
+		/*------打开新页面----------*/
+		function clicked(id) {
+			/*--拼单跳转---*/
+			localStorage.removeItem("index");
+			
+             //alert(id);
+			if(id == "") {
+				return false;
+			}
+			if(id == "#picture") {
+				console.log(id);
+				floatWebview();
+			} else {
+				console.info(id);
+				mui.openWindow({
+					url: id,
+					id: id,
+					/*show:{
+      autoShow:false
+    }*/
+				});
+			}
+
+		};
+		//---------------------------
+		var floatw = null;
+
+		function floatWebview() {
+		
+		parent.parent.redbag();
+
+			/*if(floatw) { // 避免快速多次点击创建多个窗口
+				return;
+			}
+			floatw = plus.webview.create("redbag.html", "redbag.html", {
+				width: '86%',
+				height: '56%',
+				margin: "auto",
+				bottom: '20%',
+				background: "rgba(0,0,0,0.8)",
+				scrollIndicator: 'none',
+				scalable: false,
+				popGesture: 'none'
+			});
+			floatw.addEventListener("loaded", function() {
+				floatw.show('fade-in', 300);
+				floatw = null;
+			}, false);*/
+		}
+	</script>
+
+</html>

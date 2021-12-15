@@ -1,0 +1,484 @@
+html,body {
+   
+     color: #333333;
+     font-size: 15px;
+}
+
+/*垂直居中*/
+.hdj-center{
+	display: flex;
+	display: -webkit-flex;
+	-webkit-align-items: center;
+	align-items: center;
+}
+/*垂直居中*/
+.hdj-flex{
+	display: flex;
+	display: -webkit-flex;
+	
+}
+.hdj-grid{
+	display: flex;
+	display: -webkit-flex;
+	flex-wrap: wrap;
+	-webkit-flex-wrap: wrap;
+}
+/*水平-垂直居中*/
+.hdj-center-jus{
+	display: flex;
+	display: -webkit-flex;
+	-webkit-align-items: center;
+	align-items: center;
+	justify-content: center;
+	-webkit-justify-content: center;
+}
+/*两侧分布*/
+.hdj-space-between{
+	display:flex;
+	justify-content: space-between; 
+	align-items: center;
+	
+	display: -webkit-flex;
+	-webkit-align-items: center;
+	-webkit-justify-content: space-between;"
+}
+/*两侧分布-底部对其*/
+.hdj-space-between-end{
+	display:flex;
+	justify-content: space-between; 
+	align-items: flex-end;
+	
+	display: -webkit-flex;
+	-webkit-align-items: flex-end;
+	-webkit-justify-content: space-between;"
+}
+.hdj-space-hbetween{
+	display:flex;
+	justify-content: space-between; 
+	display: -webkit-flex;
+	-webkit-justify-content: space-between;"
+}
+/*--------平均分布---*/
+.hdj-space-around{
+	display: -webkit-flex;
+	-webkit-align-items:center;
+	-webkit-justify-content: space-around;
+	
+	display:flex;
+	justify-content: space-around; 
+	align-items: center;
+}
+/*自定义颜色字体*/
+.hdj-balck{
+   color: #333333;
+}
+.hdj-red{
+   color: #ff4c4a;
+}
+.hdj-white{
+   color: white;
+}
+.hdj-pink{
+   color: #ff9393;
+}
+.hdj-white{
+   color: white;
+}
+/*-------按钮背景---*/
+.hdj-redbg{
+  background-color: #fe5858;
+}
+.hdj-gray{
+   color: #aeaeae;
+}
+.hdj-gray1{
+   color: #a2a2a2;
+}
+.hdj-gray2{
+   color: #bababa;
+}
+.hdj-gray3{
+   color: #777777;
+}
+.hdj-gray4{
+   color: #a5a5a5;
+}
+.hdj-orange{
+   color: #ff8109;
+}
+/*------首页拼单-标题---*/
+.hdj-orange1{
+   color: #ff7f02;
+}
+/*------首页拼单--价格--*/
+.hdj-orange2{
+   color: #ff8315;
+}
+
+/*---首页拼单---按钮--*/
+.hdj-orangebg{
+  background-color: #ff9702;
+}
+
+.hdj-deepink{
+   color: #e82469;
+}
+.hdj-fsize0{
+  font-size: 18px;
+}
+.hdj-fsize1{
+  font-size: 16px;
+}
+.hdj-fsize2{
+  font-size: 15px;
+}
+.hdj-fsize3{
+  font-size: 13px;
+}
+.hdj-fsize4{
+  font-size: 12px;
+}
+/*-------------*/
+.hdj-fsize5{
+  font-size: 14px;
+}
+.hdj-fsize6{
+  font-size: 11px;
+}
+.hdj-fsizea{
+  font-size: 23px;
+}
+/*----拼单------头像*/
+.hdj-head{
+ 
+ border-radius: 50%;
+ width: 30px;
+ height:30px;
+ border: 1px solid #EEEEEE;
+}
+/*---首页拼单小-------头像*/
+.hdj-head-small{
+ 
+ border-radius: 50%;
+ width: 22px;
+ height:22px;
+ border: 1px solid #EEEEEE;
+}
+/*---拼单-----大-头像-------头像*/
+.hdj-head1{
+  
+ border-radius: 50%;
+ width: 44px;
+ height: auto;
+ border: 1px solid white;
+}
+.hdj-head2{
+  
+ border-radius: 50%;
+ width: 44px;
+ height: auto;
+ border: 1px dashed #a5a5a5;
+ margin: 12px;
+}
+.hdj-head3{
+ border-radius: 50%;
+ width: 60px;
+ height: 60px;
+ border: 1px solid white;
+ margin: auto;
+ background-color: gray;
+}
+/*按钮-----------*/
+.hdj-btn1{
+ width: 100px;
+ text-align: center; 
+ border-radius:20px;
+ background-color: #fe5858;
+ color: white;
+ font-size: 13px;
+ padding: 6px;
+}
+.hdj-btn-red-outlined{
+width:90px;
+color: #fe5858;
+text-align: center;
+border-radius:15px; 
+border: 1px solid #fe5858; 
+font-size: 13px;
+padding:3px
+}
+/*----红色 左边框---------*/
+.hdj-left{
+ border-left: 3px solid #fe5858; 
+ padding-left: 10px;
+ 
+}
+/*----店铺--------*/
+.hdj-dp{
+ margin: 1px;
+	margin-top: 1px;
+	margin-bottom: 0px;
+	padding: 10px;
+ border: 1px solid #e5e5e5;
+ background-color: #FFFFFF;
+}
+.hdj-dp1{
+	background-color: #fcf7f7;
+	margin: 20px;
+	margin-top: 10px;
+	margin-bottom: 0px;
+	padding: 10px;
+	border: 1px solid #ffcdcd
+}
+
+/*图像容器-订单详情-商品图-*/
+.hdj-img-wrap{
+	width: 60px;
+	height: 60px;
+	overflow: hidden;
+}
+.hdj-img-wrap1{
+	width: 100%;
+	overflow: hidden;
+	background-color: whitesmoke;
+	
+	position:relative;
+	height:0;
+	padding-bottom: 100%;/*已知图像的宽高比例---*/
+	
+}
+.hdj-img-cont{
+	width: 100%;
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+}
+/*闪电拼单商品列表图像容器*/
+.hdj-img-wrap2{
+	width: 100%;
+	overflow: hidden;
+	background-color: whitesmoke;
+	
+	position:relative;
+	height:0;
+	padding-bottom: 100%;/*已知图像的宽高比例---*/
+	border-bottom: 1px solid #efefef;
+}
+.hdj-img-wrap-big{
+	width: 90px;
+	height: 90px;
+	border: 1px solid #d2d2d2;
+	padding: 5px;
+	overflow: hidden;
+}
+/*图像容器-拼单头像*/
+.hdj-img-wrap-head{
+	width:50%;
+	height: 25px; 
+	overflow: hidden;
+}
+/*图像标签-删除*/
+.hdj-imglabel-del{
+	position:absolute;
+	top:0px;
+	bottom:0;
+	left:calc(100%-20px);
+	right:0px;
+	
+	z-index: 2;
+	
+	color:white;
+	text-align: center;
+	
+	width: 20px;
+	height: 20px;
+	font-size: 12px;
+	background-color: #fe5858;
+	border-radius: 50%;
+	padding-bottom: 10px;
+	
+}
+/*图像标签-抢单成功*/
+.hdj-imglabel-red{
+	position: relative;
+	z-index: 2;
+	border:2px solid  #fe5858; 
+	color:#fe5858;
+	right: -28%;
+	top: -20px;
+	padding: 2px;
+	width: 70%;
+	height: 20px;
+	font-size: 12px;
+	
+}
+/*图像标签-拼单成功*/
+.hdj-imglabel-orange{
+	position: relative;
+	z-index: 2;
+	border:2px solid  #f9a504; 
+	color:#f9a504;
+	right: -28%;
+	top: -20px;
+	padding: 2px;
+	width: 70%;
+	height: 20px;
+	font-size: 12px;
+	
+}
+/*图像标签-首页 潮流酷玩标签--*/
+.hdj-imglabel-advs{
+	position: relative;
+	bottom: -11px;
+	z-index: 2; 
+	margin-left:6px;
+	text-align:center;
+	padding:5px;
+	width:30vw;
+	color:white;
+	background: linear-gradient(to right, #ff8d22, #fe4334);
+	border-radius: 0px 20px 20px 20px;
+	font-size: 16px;
+	
+}
+.hdj-imglabel-advs1{
+	position: relative;
+	bottom: -11px;
+	z-index: 2; 
+	margin-left:6px;
+	text-align:center;
+	padding:5px;
+	width:30vw;
+	color:white;
+	background: linear-gradient(to right, #18baff,#2780ff);
+	border-radius: 0px 20px 20px 20px;
+	font-size: 16px;
+	
+}
+/*图像标签-首页 你喜欢 拼 抢-*/
+.hdj-imglabel-p{
+	position: relative;
+	z-index: 2;
+	color:white; 
+	border-radius: 0px 0px 0px 35px; 
+	text-align:center; 
+	background-color:orange;
+	left: 85%;
+	font-size: 11px;
+	padding:0px;
+	width:15%;
+	height:40px"
+	
+	}
+.hdj-small{
+	margin-right: 5px;
+	border-radius: 2px; 
+	font-size: 15px;
+	color: #3f3d49;
+	background-color: white;"
+}
+.hdj-share{
+	width:24px;
+	margin-top: 10px;
+	margin-right: 10px;
+}
+/*详情页底部按钮*/
+.hdj-btnv{
+	width:auto;
+	height: 20px;
+	margin: 0px;
+	padding: 0px;
+	margin-bottom: -6px;
+}
+.hdj-btnf{
+	margin: 0px;
+	padding: 0px;
+	color: #333333;
+	font-size: 11px;
+}
+/*---------index.html--------bar*/
+.hdj-btnhome{
+	width:auto;
+	height: 21px;
+	margin: 0px;
+	padding: 0px;
+	margin-bottom: -4px;
+}
+.hdj-btnfh{
+	margin: 0px;
+	padding: 0px;
+	color: #333333;
+	font-size: 11px;
+}
+.hdj-btnfh-active{
+	margin: 0px;
+	padding: 0px;
+	color: #FF4C4A;
+	font-size: 11px;
+}
+/*------------------*/
+
+.hdj-btnr{
+	background-color: #Fe5858;
+	color: white;
+	font-size: 15px;
+}
+.hdj-btnr2{
+	font-size: 15px;
+	background-color: #ffb0b0;
+	color: white;
+}
+/*首页 --home--------*/
+/*----你喜欢 标题--图标-----*/
+.hdj-logo1{
+	width: 20px;
+	margin: 9px;
+}
+/*-水平线*/
+.hdj-line{
+	width: 20vw;  
+	border-top: 1px solid #c8c8c8;
+}
+.hdj-shadow{
+	box-shadow: 3px 3px 3px 3px #f0e0e0;
+}
+.hdj-shadow2{
+	box-shadow: 0px 0px 8px 0px rgba(0,0,0,.3);
+}
+.hdj-clsbtn{
+	position: relative;
+	z-index: 1; 
+	top:-15px;
+	left: 91%;  
+	border: 2px solid whitesmoke;
+	color:white; 
+	border-radius: 25px; 
+	text-align:center; 
+	background-color:#fe5858;
+	padding:2px;
+	padding-top: 3px;
+	width:35px;
+	height:35px;
+	font-size: 20px;
+	
+}
+.hdj-clsbtn2{
+	position: relative;
+	z-index: 1; 
+	bottom:-15px;
+	left: 47%;  
+	border: 2px solid whitesmoke;
+	color:white; 
+	border-radius: 25px; 
+	text-align:center; 
+	background-color:#fe5858;
+	padding:2px;
+	padding-top: 3px;
+	width:35px;
+	height:35px;
+	font-size: 20px;
+	
+}
+
